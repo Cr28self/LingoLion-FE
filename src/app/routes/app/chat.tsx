@@ -2,10 +2,11 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ReceiveMsgBox, SendMsgBox } from "@/features/chat/components/MsgBox";
+import useChatScroll from "@/features/chat/hooks/use-chat-scroll";
 import { Send } from "lucide-react";
 
 // React 훅 import
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 // 채팅 페이지 컴포넌트
@@ -14,6 +15,7 @@ const ChatRoute = () => {
 
   // ReactRouter에서 loader 사용해서 react-query 캐시에 저장 vs loader 사용 안하고 바로 react-query에서 모든걸 다 하기
   const { chatId } = useParams();
+  const chatContainerRef = useChatScroll();
 
   // 메시지 입력 상태 관리
   const [sendMsg, setSendMsg] = useState("");
@@ -23,7 +25,11 @@ const ChatRoute = () => {
       {/* 현재 채팅방 ID 표시 */}
 
       {/* 메시지 표시 영역 */}
-      <div id="Msg Area" className="flex-1  overflow-y-auto space-y-2 mb-4">
+      <div
+        id="Msg Area"
+        className="flex-1  overflow-y-auto space-y-2 mb-4"
+        ref={chatContainerRef}
+      >
         {/* 수신 메시지 박스 */}
         <ReceiveMsgBox />
         <ReceiveMsgBox />
@@ -51,10 +57,15 @@ const ChatRoute = () => {
         <SendMsgBox />
         <SendMsgBox />
         <SendMsgBox />
+        <SendMsgBox />
+        <SendMsgBox />
+        <SendMsgBox />
+        <SendMsgBox />
+        <SendMsgBox />
       </div>
 
       {/* 메시지 입력 영역 */}
-      <div id="Input Area" className="flex mt-4 flex-shrink-0">
+      <div id="Input Area" className="flex mt-4 flex-shrink-0 space-x-4">
         <Input
           type="text"
           value={sendMsg}
