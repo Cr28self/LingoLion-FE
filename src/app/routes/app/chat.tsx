@@ -33,6 +33,8 @@ const ChatRoute = () => {
         {/* 수신 메시지 박스 */}
         <ReceiveMsgBox />
         <ReceiveMsgBox />
+        <ReceiveMsgBox />
+        <ReceiveMsgBox />
 
         {/* 발신 메시지 박스 */}
 
