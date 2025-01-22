@@ -19,21 +19,42 @@ const ChatRoute = () => {
   const [sendMsg, setSendMsg] = useState("");
 
   return (
-    <div className="flex min-h-screen flex-col bg-white border border-gray-200 rounded-lg p-4">
+    <div className="flex h-screen flex-col bg-white border border-gray-200 rounded-lg p-4">
       {/* 현재 채팅방 ID 표시 */}
-      {chatId}
 
       {/* 메시지 표시 영역 */}
-      <div id="Msg Area">
+      <div id="Msg Area" className="flex-1  overflow-y-auto space-y-2 mb-4">
         {/* 수신 메시지 박스 */}
+        <ReceiveMsgBox />
         <ReceiveMsgBox />
 
         {/* 발신 메시지 박스 */}
+
+        <SendMsgBox />
+        <SendMsgBox />
+        <SendMsgBox />
+        <SendMsgBox />
+        <SendMsgBox />
+        <SendMsgBox />
+        <SendMsgBox />
+        <SendMsgBox />
+        <SendMsgBox />
+        <SendMsgBox />
+        <SendMsgBox />
+        <SendMsgBox />
+        <SendMsgBox />
+        <SendMsgBox />
+        <SendMsgBox />
+        <SendMsgBox />
+        <SendMsgBox />
+        <SendMsgBox />
+        <SendMsgBox />
+        <SendMsgBox />
         <SendMsgBox />
       </div>
 
       {/* 메시지 입력 영역 */}
-      <div id="Input Area" className="flex mt-4">
+      <div id="Input Area" className="flex mt-4 flex-shrink-0">
         <Input
           type="text"
           value={sendMsg}
