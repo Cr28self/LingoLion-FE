@@ -18,6 +18,7 @@ import { steps } from "@/features/senario-builder/constants";
 
 // ---------- 메인 컴포넌트 ----------
 export default function SenarioBuilderRoute() {
+  // ! This is CodeRabit Test Code  so this code line will be removed in the future
   // useReducer로 상태 관리
   const [state, dispatch] = useReducer(scenarioReducer, initialState);
   const { currentStep, formData } = state;
