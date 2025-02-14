@@ -5,6 +5,7 @@ import NotFoundRoute from "./routes/not-found";
 import ChatRoute from "./routes/app/chat";
 import AppLayout from "@/components/layout/app-layout";
 import DashboardRoute from "./routes/app/dashboard";
+import SenarioBuilderRoute from "./routes/app/senario-builder";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: "/c/:chatId",
     element: <ChatRoute />,
+  },
+  {
+    path: "/scenario/new",
+    element: <SenarioBuilderRoute />,
   },
   {
     path: "*",
