@@ -9,8 +9,6 @@ export const initialState: ScenarioState = {
   currentStep: 1,
   formData: {
     place: "",
-    situation: "",
-    background: "",
     role: { assistant: "", user: "" },
     goal: "",
   },

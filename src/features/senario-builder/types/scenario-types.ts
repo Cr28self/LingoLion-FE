@@ -4,8 +4,7 @@ export interface ScenarioState {
   currentStep: number;
   formData: {
     place: string;
-    situation: string;
-    background: string;
+
     role: RoleType;
     goal: string;
   };
