@@ -92,7 +92,7 @@ const DashboardRoute = () => {
               채팅방 목록
             </h2>
             <Button>
-              <Link to="/scenario/new">시나리오 생성</Link>
+              <Link to="/situation/new">시나리오 생성</Link>
             </Button>
           </div>
 

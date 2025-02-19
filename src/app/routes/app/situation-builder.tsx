@@ -9,7 +9,7 @@ import {
   getUserRoleRecommendations,
   getAssistantRoleRecommendations,
 } from "@/features/senario-builder/dummy/dummy";
-import SenarioInput from "@/features/senario-builder/components/Senario-Input";
+import SituationInput from "@/features/senario-builder/components/Situation-Input";
 import {
   initialState,
   scenarioReducer,
@@ -17,7 +17,7 @@ import {
 import { steps } from "@/features/senario-builder/constants";
 
 // ---------- 메인 컴포넌트 ----------
-export default function SenarioBuilderRoute() {
+export default function SituationRoute() {
   // ! This is CodeRabit Test Code  so this code line will be removed in the future
   // useReducer로 상태 관리
   const [state, dispatch] = useReducer(scenarioReducer, initialState);
@@ -89,7 +89,7 @@ export default function SenarioBuilderRoute() {
           text-center bg-white/80 border-b border-orange-300 shadow-sm
         "
       >
-        시나리오 빌더
+        상황 생성
       </header>
 
       <div className="px-2.5 h-full flex flex-col">
@@ -122,7 +122,7 @@ export default function SenarioBuilderRoute() {
           {currentStepInfo.key !== "role" && (
             <div className="flex flex-col items-center mt-6">
               {/* 입력 */}
-              <SenarioInput
+              <SituationInput
                 value={
                   formData[
                     currentStepInfo.key as keyof typeof formData

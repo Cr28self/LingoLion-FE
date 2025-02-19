@@ -1,4 +1,4 @@
-const SenarioInput = ({
+const SituationInput = ({
   value,
   onChange,
   placeholder,
@@ -30,4 +30,4 @@ const SenarioInput = ({
   );
 };
 
-export default SenarioInput;
+export default SituationInput;

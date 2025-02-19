@@ -15,16 +15,7 @@ export function getRecommendations(stepKey: string, formData: any): string[] {
         "레스토랑",
         "관광 안내소",
       ];
-    case "situation":
-      if (formData.place.includes("공항")) {
-        return ["수하물 분실", "탑승 수속 문의", "연착 안내"];
-      }
-      if (formData.place.includes("호텔")) {
-        return ["체크인 지연", "룸 서비스 요청", "예약 확인"];
-      }
-      return ["문제 해결 필요", "정보 요청", "예약 변경"];
-    case "background":
-      return ["여행 중", "비즈니스 출장", "현지 문화 체험"];
+
     case "goal":
       return ["문제 해결", "정보 획득", "관계 형성", "예약 변경"];
     default:

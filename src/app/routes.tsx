@@ -5,7 +5,8 @@ import NotFoundRoute from "./routes/not-found";
 import ChatRoute from "./routes/app/chat";
 import AppLayout from "@/components/layout/app-layout";
 import DashboardRoute from "./routes/app/dashboard";
-import SenarioBuilderRoute from "./routes/app/senario-builder";
+import SituationRoute from "./routes/app/situation-builder";
+import RegisterRoute from "./routes/auth/register";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
     element: <LoginRoute />,
   },
   {
+    path: "/auth/register",
+    element: <RegisterRoute />,
+  },
+  {
     path: "/dashboard",
     element: <DashboardRoute />,
   },
@@ -31,8 +36,8 @@ const router = createBrowserRouter([
     element: <ChatRoute />,
   },
   {
-    path: "/scenario/new",
-    element: <SenarioBuilderRoute />,
+    path: "/situation/new",
+    element: <SituationRoute />,
   },
   {
     path: "*",
