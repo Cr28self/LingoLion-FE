@@ -1,9 +1,12 @@
 // UI 컴포넌트 및 아이콘 import
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { ReceiveMsgBox, SendMsgBox } from "@/features/chat/components/MsgBox";
-import useChatScroll from "@/features/chat/hooks/use-chat-scroll";
-import { TChatMsg } from "@/features/chat/types/types";
+import {
+  ReceiveMsgBox,
+  SendMsgBox,
+} from "@/features/conversation/components/MsgBox";
+import useConversationScroll from "@/features/conversation/hooks/use-conversation-scroll";
+import { TConvMsg } from "@/features/conversation/types/types";
 import { Send } from "lucide-react";
 
 // React 훅 import
@@ -11,18 +14,18 @@ import { MutableRefObject, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // 채팅 페이지 컴포넌트
-const ChatRoute = () => {
+const ConversationRoute = () => {
   // URL 파라미터에서 chatId 추출
 
   const navigate = useNavigate();
-  // const { chatId } = useParams(); // TODO: 채팅방 ID 추후 구현시 사용
+  // const { conversationId } = useParams(); // TODO: 채팅방 ID 추후 구현시 사용
 
   // 메시지 입력 상태 관리
   const [sendMsg, setSendMsg] = useState("");
 
   // ! ReceiveMsg, SendMsg 임시로 구현
-  const [allMsg, setAllMsg] = useState<TChatMsg[]>([]);
-  const chatContainerRef = useChatScroll([allMsg]); // 의존성 배열 추가
+  const [allMsg, setAllMsg] = useState<TConvMsg[]>([]);
+  const convContainerRef = useConversationScroll([allMsg]); // 의존성 배열 추가
 
   const [isComposing, setIsComposing] = useState(false); // 추가된 부분
 
@@ -87,7 +90,7 @@ const ChatRoute = () => {
       <div
         id="Msg Area"
         className="flex-1  overflow-y-auto space-y-2 mb-4"
-        ref={chatContainerRef}
+        ref={convContainerRef}
       >
         {allMsg.map((elem, idx) => {
           if (elem.role === "AI") {
@@ -136,4 +139,4 @@ const ChatRoute = () => {
   );
 };
 
-export default ChatRoute;
+export default ConversationRoute;

@@ -3,18 +3,18 @@ import { Button } from "@/components/ui/button";
 import {
   StepLayout,
   StepBlock,
-} from "@/features/senario-builder/components/Step";
+} from "@/features/situation-builder/components/Step";
 import {
   getRecommendations,
   getUserRoleRecommendations,
   getAssistantRoleRecommendations,
-} from "@/features/senario-builder/dummy/dummy";
-import SituationInput from "@/features/senario-builder/components/Situation-Input";
+} from "@/features/situation-builder/dummy/dummy";
+import SituationInput from "@/features/situation-builder/components/Situation-Input";
 import {
   initialState,
   scenarioReducer,
-} from "@/features/senario-builder/reducer/senario-reducer";
-import { steps } from "@/features/senario-builder/constants";
+} from "@/features/situation-builder/reducer/situation-reducer";
+import { steps } from "@/features/situation-builder/constants";
 
 // ---------- 메인 컴포넌트 ----------
 export default function SituationRoute() {

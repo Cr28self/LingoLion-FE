@@ -1,6 +1,6 @@
 import { Entity } from "@/types/api";
 
-export type TChatMsg = Entity<{
+export type TConvMsg = Entity<{
   role: "AI" | "USER";
   msg: string;
 }>;

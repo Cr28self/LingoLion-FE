@@ -2,7 +2,7 @@
 
 import { steps } from "../constants";
 
-import { ScenarioAction, ScenarioState } from "../types/scenario-types";
+import { ScenarioAction, ScenarioState } from "../types/situation-types";
 
 // ---------- 초기값 설정 ----------
 export const initialState: ScenarioState = {

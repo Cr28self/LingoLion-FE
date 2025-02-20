@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
-const useChatScroll = (deps: React.DependencyList) => {
+const useConversationScroll = (deps: React.DependencyList) => {
   const chatContainerRef = useRef<HTMLDivElement | null>(
     null
   ) as React.MutableRefObject<HTMLDivElement>;
@@ -28,4 +28,4 @@ const useChatScroll = (deps: React.DependencyList) => {
   return chatContainerRef;
 };
 
-export default useChatScroll;
+export default useConversationScroll;
