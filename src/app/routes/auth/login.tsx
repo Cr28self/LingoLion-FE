@@ -15,8 +15,7 @@ export default function LoginRoute() {
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
         {/* 제목 */}
         <div className="mb-6 text-center">
-          <h1 className="text-3xl font-bold text-orange-500">Welcome Back</h1>
-          <p className="text-gray-600 mt-2">Please sign in to continue</p>
+          <h1 className="text-3xl font-bold text-orange-500">Welcome</h1>
         </div>
 
         {/* 로그인 폼 */}
@@ -48,7 +47,7 @@ export default function LoginRoute() {
             type="submit"
             className="w-full py-2 rounded-lg text-white font-semibold bg-orange-500 hover:bg-orange-400 transition-colors"
           >
-            Sign In
+            로그인
           </button>
         </form>
 
@@ -59,7 +58,7 @@ export default function LoginRoute() {
             to="/auth/register"
             className="font-semibold text-orange-500 hover:text-orange-400 transition-colors"
           >
-            Sign Up
+            회원 가입
           </Link>
         </div>
       </div>

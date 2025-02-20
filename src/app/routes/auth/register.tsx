@@ -16,8 +16,7 @@ export default function RegisterRoute() {
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
         {/* 제목 */}
         <div className="mb-6 text-center">
-          <h1 className="text-3xl font-bold text-orange-500">Create Account</h1>
-          <p className="text-gray-600 mt-2">Join our community today</p>
+          <h1 className="text-3xl font-bold text-orange-500">계정 생성</h1>
         </div>
 
         {/* 회원가입 폼 */}
@@ -60,7 +59,7 @@ export default function RegisterRoute() {
             type="submit"
             className="w-full py-2 rounded-lg text-white font-semibold bg-orange-500 hover:bg-orange-400 transition-colors"
           >
-            Sign Up
+            회원 가입
           </button>
         </form>
 
@@ -71,7 +70,7 @@ export default function RegisterRoute() {
             to="/auth/login"
             className="font-semibold text-orange-500 hover:text-orange-400 transition-colors"
           >
-            Login
+            로그인
           </Link>
         </div>
       </div>
