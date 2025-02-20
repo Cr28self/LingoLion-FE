@@ -2,11 +2,13 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LandingRoute from "./routes/landing";
 import LoginRoute from "./routes/auth/login";
 import NotFoundRoute from "./routes/not-found";
-import ChatRoute from "./routes/app/chat";
+
 import AppLayout from "@/components/layout/app-layout";
 import DashboardRoute from "./routes/app/dashboard";
 import SituationRoute from "./routes/app/situation-builder";
 import RegisterRoute from "./routes/auth/register";
+import AuthLayout from "@/components/layout/auth-layout";
+import ConversationRoute from "./routes/app/conversation";
 
 const router = createBrowserRouter([
   {
@@ -20,20 +22,27 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/auth/login",
-    element: <LoginRoute />,
+    path: "/auth",
+    element: <AuthLayout />,
+    children: [
+      {
+        path: "login",
+        element: <LoginRoute />,
+      },
+      {
+        path: "register",
+        element: <RegisterRoute />,
+      },
+    ],
   },
-  {
-    path: "/auth/register",
-    element: <RegisterRoute />,
-  },
+
   {
     path: "/dashboard",
     element: <DashboardRoute />,
   },
   {
-    path: "/c/:chatId",
-    element: <ChatRoute />,
+    path: "/c/:conversationId",
+    element: <ConversationRoute />,
   },
   {
     path: "/situation/new",
