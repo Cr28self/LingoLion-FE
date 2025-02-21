@@ -1,65 +1,22 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import AuthLayout from "@/components/layout/auth-layout";
+import LoginForm from "@/features/auth/components/login-form";
+import { ErrorBoundary } from "react-error-boundary";
 
-export default function LoginRoute() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export const LoginRoute = () => {
+  // onSuccess 리다이렉트 함수
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // 로그인 로직 구현
-  };
+  //
+
+  // 헤더의 Authorization 에다가 : Basic "email:password" --> 인코딩한 문자열 ( 헤더에다가 담아서 보내줌 )  ---- 로그인할때
+  // 회원가입할때는 body에다가 email, password, name 보내줌
+  //  JWT 는   Bearer JWT토큰
+  // 쿠키 값 원하는때 보내줄수 있는지 유무 알아보기
 
   return (
-    <>
-      {/* 제목 */}
-      <div className="mb-6 text-center">
-        <h1 className="text-3xl font-bold text-orange-500">Welcome</h1>
-      </div>
-
+    <AuthLayout title="로그인">
       {/* 로그인 폼 */}
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-2">Email</label>
-          <input
-            type="email"
-            className="w-full px-3 py-2 border border-orange-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
 
-        <div className="mb-6">
-          <label className="block text-gray-700 mb-2">Password</label>
-          <input
-            type="password"
-            className="w-full px-3 py-2 border border-orange-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-
-        {/* 로그인 버튼 */}
-        <button
-          type="submit"
-          className="w-full py-2 rounded-lg text-white font-semibold bg-orange-500 hover:bg-orange-400 transition-colors"
-        >
-          로그인
-        </button>
-      </form>
-
-      {/* 회원가입 링크 */}
-      <div className="mt-4 text-center">
-        <span className="text-gray-600">Don't have an account? </span>
-        <Link
-          to="/auth/register"
-          className="font-semibold text-orange-500 hover:text-orange-400 transition-colors"
-        >
-          회원 가입
-        </Link>
-      </div>
-    </>
+      <LoginForm />
+    </AuthLayout>
   );
-}
+};

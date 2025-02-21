@@ -1,7 +1,8 @@
+import AuthLayout from "@/components/layout/auth-layout";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function RegisterRoute() {
+export const RegisterRoute = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -12,12 +13,7 @@ export default function RegisterRoute() {
   };
 
   return (
-    <>
-      {/* 제목 */}
-      <div className="mb-6 text-center">
-        <h1 className="text-3xl font-bold text-orange-500">계정 생성</h1>
-      </div>
-
+    <AuthLayout title="회원 가입">
       {/* 회원가입 폼 */}
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
@@ -72,6 +68,6 @@ export default function RegisterRoute() {
           로그인
         </Link>
       </div>
-    </>
+    </AuthLayout>
   );
-}
+};
