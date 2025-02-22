@@ -70,7 +70,7 @@ const LoginForm = () => {
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>6자리 이상 입력</FormDescription>
+                {/* <FormDescription></FormDescription> */}
                 <FormMessage />
               </FormItem>
             )}

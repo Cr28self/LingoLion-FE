@@ -10,7 +10,7 @@ export const loginFn = async ({
 }: z.infer<typeof loginSchema>): Promise<{ accessToken: string }> => {
   // 헤더의 Authorization 에다가 : Basic "email:password" --> 인코딩한 문자열 ( 헤더에다가 담아서 보내줌 )  ---- 로그인할때
   const response = await apiClient.post(
-    "/api/auth/login",
+    "/auth/login",
     {},
     {
       headers: {
@@ -27,7 +27,10 @@ export const registerFn = async ({
   email,
   password,
   name,
-}: z.infer<typeof registerSchema>) => {
+}: Omit<z.infer<typeof registerSchema>, "confirmPassword">): Promise<{
+  accessToken: string;
+  refreshToken: string;
+}> => {
   const response = await apiClient.post("/auth/join", {
     email,
     password,
