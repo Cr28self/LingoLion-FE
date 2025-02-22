@@ -8,6 +8,8 @@ export const useLogin = () => {
     onSuccess: (data) => {
       // access token을 context에 저장
       // dashboard로 redirect
+
+      console.log("데이터!!!!!", data);
     },
     onError: (error) => {
       // error toast

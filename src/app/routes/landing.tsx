@@ -76,7 +76,7 @@ const LandingRoute = () => {
   return (
     <ErrorBoundary fallback={<div>에러가 발생했습니다.</div>}>
       <div className="bg-gray-50 min-h-screen">
-        <ErrComponent />
+        {/* <ErrComponent /> */}
         <Header />
         Landing Route
       </div>
