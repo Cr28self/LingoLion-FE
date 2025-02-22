@@ -1,7 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-
 import { loginFn, registerFn } from "./api";
-import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import { LoginErrorResponse, RegisterErrorResponse } from "./types";
 import { useNavigate } from "react-router-dom";
@@ -14,13 +12,13 @@ export const useLogin = () => {
       // dashboard로 redirect
 
       console.log("데이터!!!!!", data);
-      toast.success("로그인 성공");
+      //   toast.success("로그인 성공");
     },
     onError: (error: AxiosError<LoginErrorResponse>) => {
       // error toast
 
       console.error(error);
-      toast.error(error.response?.data.message);
+      //   toast.error(error.response?.data.message);
     },
   });
 
@@ -37,7 +35,7 @@ export const useRegister = () => {
       navigate("/auth/login");
     },
     onError: (error: AxiosError<RegisterErrorResponse>) => {
-      toast.error(error.response?.data.message);
+      //   toast.error(error.response?.data.message);
     },
   });
 

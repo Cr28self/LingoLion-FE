@@ -1,6 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
-import { ToastContainer } from "react-toastify";
 
 const queryClient = new QueryClient();
 function GlobalAppErrorFallback({ error }) {
@@ -15,15 +14,7 @@ function GlobalAppErrorFallback({ error }) {
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <ErrorBoundary FallbackComponent={GlobalAppErrorFallback}>
-      <QueryClientProvider client={queryClient}>
-        {children}
-
-        <ToastContainer
-          position="bottom-center"
-          autoClose={3000}
-          hideProgressBar={true}
-        />
-      </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </ErrorBoundary>
   );
 };
