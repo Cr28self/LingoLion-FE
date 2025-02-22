@@ -1,6 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 
 import { loginFn, registerFn } from "./api";
+import { toast } from "react-toastify";
+import { AxiosError } from "axios";
+import { LoginErrorResponse } from "./types";
 
 export const useLogin = () => {
   const { mutate } = useMutation({
@@ -11,10 +14,11 @@ export const useLogin = () => {
 
       console.log("데이터!!!!!", data);
     },
-    onError: (error) => {
+    onError: (error: AxiosError<LoginErrorResponse>) => {
       // error toast
-      console.log("야스");
+
       console.error(error);
+      toast.error(error.response?.data.message);
     },
   });
 
