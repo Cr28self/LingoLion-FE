@@ -27,16 +27,26 @@ export const registerFn = async ({
   email,
   password,
   name,
-}: Omit<z.infer<typeof registerSchema>, "confirmPassword">): Promise<{
-  accessToken: string;
-  refreshToken: string;
-}> => {
+}: Omit<
+  z.infer<typeof registerSchema>,
+  "confirmPassword"
+>): Promise<string> => {
   const response = await apiClient.post("/auth/join", {
     email,
     password,
     name,
   });
 
+  return response.data;
+};
+
+// ! 로그아웃 함수
+export const logoutFn = async (): Promise<void> => {
+  const response = await apiClient.post(
+    "/auth/logout",
+    {},
+    { withCredentials: true }
+  );
   return response.data;
 };
 
