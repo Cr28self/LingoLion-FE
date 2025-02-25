@@ -10,3 +10,9 @@ export interface RegisterErrorResponse {
   message: string;
   statusCode: number;
 }
+
+export interface UnAuthorizedResponse {
+  message: string;
+  error?: string;
+  statusCode: number;
+}

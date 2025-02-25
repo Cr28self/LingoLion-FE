@@ -39,3 +39,13 @@ export const registerFn = async ({
 
   return response.data;
 };
+
+export const refreshTokenFn = async (): Promise<{ accessToken: string }> => {
+  const response = await apiClient.post(
+    "/auth/refresh",
+    {},
+    { withCredentials: true }
+  );
+
+  return response.data;
+};
