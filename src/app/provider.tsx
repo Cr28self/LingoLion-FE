@@ -1,3 +1,4 @@
+import { AuthProvider } from "@/lib/auth/authContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
 
@@ -14,7 +15,9 @@ function GlobalAppErrorFallback({ error }) {
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <ErrorBoundary FallbackComponent={GlobalAppErrorFallback}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>{children}</AuthProvider>
+      </QueryClientProvider>
     </ErrorBoundary>
   );
 };

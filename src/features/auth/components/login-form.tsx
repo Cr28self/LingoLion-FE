@@ -15,11 +15,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { loginSchema } from "@/lib/auth/schema";
 import { useLogin } from "@/lib/auth/hooks";
+import { useAuth } from "@/lib/auth/authContext";
 
 // TODO : 일단 지금은 useState를 사용해서 email, password를 관리하고, 나중에 react-hook-form, zod 사용해서 리팩토링
 
 const LoginForm = () => {
   const { mutate: login } = useLogin();
+  const { isAuthenticated } = useAuth();
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),

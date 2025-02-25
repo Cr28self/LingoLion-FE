@@ -1,6 +1,5 @@
 import AuthLayout from "@/components/layout/auth-layout";
 import LoginForm from "@/features/auth/components/login-form";
-import { ErrorBoundary } from "react-error-boundary";
 
 export const LoginRoute = () => {
   // onSuccess 리다이렉트 함수
