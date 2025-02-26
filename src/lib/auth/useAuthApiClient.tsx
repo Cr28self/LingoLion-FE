@@ -37,7 +37,7 @@ export function useAuthApiClient(): AxiosInstance {
     );
 
     // ✅ 응답 인터셉터: accessToken 만료 시 자동으로 refreshToken 사용
-    axios.interceptors.response.use(
+    axiosInstance.interceptors.response.use(
       (response) => {
         return response;
       },
@@ -55,22 +55,17 @@ export function useAuthApiClient(): AxiosInstance {
             // 🔥 이전 요청 재시도
             //  error.config에는 기존 요청의 메서드(GET, POST 등), URL, 헤더 등 모든 정보가 포함되어 있음.
             if (error.config) {
-              error.config.headers[
-                "Authorization"
-              ] = `Bearer ${newAccessToken}`;
-
-              // 이전과 동일한 요청을 보냄
-              // axiosInstance(error.config)를 반환하면, 해당 요청이 다시 보내짐 ( axiosInstance.request.use 다시 실행됨 )
-              // 	Axios는 모든 요청이 실행될 때 instance.request.use에서 설정된 인터셉터를 거친 후 요청을 보냄.
+              error.config.headers["Authorization"] = `Bearer ${newAccessToken}`;
               return axiosInstance(error.config);
             }
           } catch (error) {
             // refreshToken 갱신 실패 → 로그아웃 처리
             setIsAuthenticated(false);
-
             return Promise.reject(error);
           }
         }
+        // 401이 아닌 에러를 그대로 전달
+        return Promise.reject(error);
       }
     );
 
