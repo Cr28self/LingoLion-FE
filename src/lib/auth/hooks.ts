@@ -4,6 +4,7 @@ import { AxiosError } from "axios";
 import { LoginErrorResponse, RegisterErrorResponse } from "./types";
 import { useNavigate } from "react-router-dom";
 
+// ! 로그인 hook
 export const useLogin = () => {
   const { mutate } = useMutation({
     mutationFn: loginFn,
@@ -25,6 +26,7 @@ export const useLogin = () => {
   return { mutate };
 };
 
+// ! 회원가입 hook
 export const useRegister = () => {
   const navigate = useNavigate();
   const { mutate } = useMutation({
