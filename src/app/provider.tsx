@@ -4,10 +4,15 @@ import { ErrorBoundary } from "react-error-boundary";
 
 const queryClient = new QueryClient();
 function GlobalAppErrorFallback({ error }) {
+  const isDev = process.env.NODE_ENV === 'development';
   return (
-    <div>
-      <h2>앱에서 알 수 없는 오류가 발생했습니다!</h2>
-      <p>{error.message}</p>
+    <div className="error-container">
+      <h2>죄송합니다. 문제가 발생했습니다.</h2>
+      <p>잠시 후 다시 시도해주세요.</p>
+      {isDev && <p className="error-details">{error.message}</p>}
+      <button onClick={() => window.location.reload()}>
+        새로고침
+      </button>
     </div>
   );
 }
