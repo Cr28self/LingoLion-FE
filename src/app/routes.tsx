@@ -40,7 +40,7 @@ const router = createBrowserRouter([
     },
   },
   {
-    path: "auth/login",
+    path: "/auth/login",
     errorElement: <GlobalRouteError />,
     lazy: async () => {
       const { LoginRoute } = await import("./routes/auth/login");
