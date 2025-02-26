@@ -5,6 +5,7 @@ const createEnv = () => {
   // Zod를 사용한 환경 변수 스키마 정의
   const EnvSchema = z.object({
     API_URL: z.string(), // 필수 API URL 환경 변수
+    API_DOMAIN_URL: z.string(), // 필수 API 대상 URL 환경 변수
   });
 
   // Vite 환경 변수 처리 및 변환

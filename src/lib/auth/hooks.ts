@@ -3,6 +3,8 @@ import { loginFn, registerFn } from "./api";
 import { AxiosError } from "axios";
 import { LoginErrorResponse, RegisterErrorResponse } from "./types";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./authContext";
+import { toast } from "sonner";
 
 // ! 로그인 hook
 export const useLogin = () => {
@@ -36,7 +38,9 @@ export const useRegister = () => {
       navigate("/auth/login");
     },
     onError: (error: AxiosError<RegisterErrorResponse>) => {
-      toast.error(error.response?.data.message || "회원가입 중 오류가 발생했습니다.");
+      toast.error(
+        error.response?.data.message || "회원가입 중 오류가 발생했습니다."
+      );
     },
   });
 
