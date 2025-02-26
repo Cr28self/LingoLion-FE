@@ -1,19 +1,29 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LandingRoute from "./routes/landing";
-import LoginRoute from "./routes/auth/login";
 import NotFoundRoute from "./routes/not-found";
 
 import AppLayout from "@/components/layout/app-layout";
 import DashboardRoute from "./routes/app/dashboard";
 import SituationRoute from "./routes/app/situation-builder";
-import RegisterRoute from "./routes/auth/register";
-import AuthLayout from "@/components/layout/auth-layout";
+// import RegisterRoute from "./routes/auth/register";
 import ConversationRoute from "./routes/app/conversation";
 
+const GlobalRouteError = () => {
+  return (
+    <div>
+      <h1>404</h1>
+    </div>
+  );
+};
+
+// 원래는 lazy 컴포넌트 불러올때 Suspense로 감싸야함내부적으로 Suspense를 자동으로 처리하므로 <Suspense>를 수동으로 감쌀 필요가 없습니다.
+// ! 페이지에서 발생하는 에러 --> react-route의 errorElement로 처리
+// ! 컴포넌트 내부에서 발생하는 에러 --> ErrorBoundary로 처리
 const router = createBrowserRouter([
   {
     path: "/",
     element: <AppLayout />,
+    errorElement: <GlobalRouteError />,
     children: [
       {
         path: "",
@@ -22,18 +32,20 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/auth",
-    element: <AuthLayout />,
-    children: [
-      {
-        path: "login",
-        element: <LoginRoute />,
-      },
-      {
-        path: "register",
-        element: <RegisterRoute />,
-      },
-    ],
+    path: "/auth/register",
+
+    lazy: async () => {
+      const { RegisterRoute } = await import("./routes/auth/register");
+      return { Component: RegisterRoute };
+    },
+  },
+  {
+    path: "/auth/login",
+    errorElement: <GlobalRouteError />,
+    lazy: async () => {
+      const { LoginRoute } = await import("./routes/auth/login");
+      return { Component: LoginRoute };
+    },
   },
 
   {
@@ -55,7 +67,11 @@ const router = createBrowserRouter([
 ]);
 
 const AppRouter = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+    </>
+  );
 };
 
 export default AppRouter;

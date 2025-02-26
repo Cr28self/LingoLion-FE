@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Menu } from "lucide-react";
 import { Link } from "react-router-dom";
+import { ErrorBoundary } from "react-error-boundary";
+
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -66,12 +68,19 @@ function Header() {
   );
 }
 
+const ErrComponent = () => {
+  throw new Error("ErrorBoundary Test");
+};
+
 const LandingRoute = () => {
   return (
-    <div className="bg-gray-50 min-h-screen">
-      <Header />
-      Landing Route
-    </div>
+    <ErrorBoundary fallback={<div>에러가 발생했습니다.</div>}>
+      <div className="bg-gray-50 min-h-screen">
+        {/* <ErrComponent /> */}
+        <Header />
+        Landing Route
+      </div>
+    </ErrorBoundary>
   );
 };
 
