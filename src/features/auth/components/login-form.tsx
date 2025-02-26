@@ -21,8 +21,6 @@ import { useAuth } from "@/lib/auth/authContext";
 
 const LoginForm = () => {
   const { mutate: login } = useLogin();
-  const { isAuthenticated } = useAuth();
-
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
