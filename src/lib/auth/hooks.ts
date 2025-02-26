@@ -6,20 +6,20 @@ import { useNavigate } from "react-router-dom";
 
 // ! 로그인 hook
 export const useLogin = () => {
+  const navigate = useNavigate();
+  const { updateAccessToken } = useAuth();
   const { mutate } = useMutation({
     mutationFn: loginFn,
     onSuccess: (data) => {
       // access token을 context에 저장
       // dashboard로 redirect
-
-      console.log("데이터!!!!!", data);
-      //   toast.success("로그인 성공");
+      updateAccessToken(data.accessToken);
+      toast.success("로그인 성공");
+      navigate("/dashboard");
     },
     onError: (error: AxiosError<LoginErrorResponse>) => {
       // error toast
-
-      console.error(error);
-      //   toast.error(error.response?.data.message);
+      toast.error(error.response?.data.message || "로그인 실패");
     },
   });
 
