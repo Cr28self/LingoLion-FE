@@ -19,6 +19,7 @@ const ErrorFallback = ({
   );
 };
 
+// ! 사용자 인증 페이지 레이아웃
 const AuthLayout = ({ title, children }: AuthLayoutProps) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-orange-100">
