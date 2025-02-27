@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import ChatRoomCard from "@/features/dashboard/components/ChatRoomCard";
 import DashboardSidebar from "@/features/dashboard/components/Dashboard-Sidebar";
+import SituationSetupModal from "@/features/dashboard/components/SituationSetupModal";
 import { TChatRoomCard } from "@/features/dashboard/types/types";
 import { useLogout } from "@/lib/auth/hooks";
 import React, { useState } from "react";
@@ -97,9 +98,8 @@ const DashboardRoute = () => {
             <h2 className="text-xl font-semibold text-gray-800 mb-4">
               채팅방 목록
             </h2>
-            <Button>
-              <Link to="/app/situation/new">시나리오 생성</Link>
-            </Button>
+
+            <SituationSetupModal />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

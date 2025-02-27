@@ -15,6 +15,7 @@ import {
   scenarioReducer,
 } from "@/features/situation-builder/reducer/situation-reducer";
 import { steps } from "@/features/situation-builder/constants";
+import { useLocation } from "react-router-dom";
 
 // ---------- 메인 컴포넌트 ----------
 export default function SituationRoute() {
@@ -22,6 +23,9 @@ export default function SituationRoute() {
   // useReducer로 상태 관리
   const [state, dispatch] = useReducer(scenarioReducer, initialState);
   const { currentStep, formData } = state;
+  const location = useLocation();
+  const { setupData } = location.state || {}; // state에서 데이터 가져오기
+  console.log("setupData: ", setupData);
 
   const currentStepInfo = steps.find((step) => step.id === currentStep)!;
   const isFirstStep = currentStep === 1;
