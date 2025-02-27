@@ -7,6 +7,8 @@ import DashboardRoute from "./routes/app/dashboard";
 import SituationRoute from "./routes/app/situation-builder";
 // import RegisterRoute from "./routes/auth/register";
 import ConversationRoute from "./routes/app/conversation";
+import PublicLayout from "@/components/layout/PublicLayout";
+import PrivateLayout from "@/components/layout/PrivateLayout";
 
 const GlobalRouteError = () => {
   return (
@@ -20,46 +22,91 @@ const GlobalRouteError = () => {
 // ! 페이지에서 발생하는 에러 --> react-route의 errorElement로 처리
 // ! 컴포넌트 내부에서 발생하는 에러 --> ErrorBoundary로 처리
 const router = createBrowserRouter([
+  // ===========================
+  // !1) Public Routes (비로그인 전용)
+  // ===========================
   {
     path: "/",
-    element: <AppLayout />,
+    element: <PublicLayout />,
     errorElement: <GlobalRouteError />,
     children: [
       {
         path: "",
-        element: <LandingRoute />,
+        element: <AppLayout />, // 공통 레이아웃 (헤더/푸터 포함)
+        children: [
+          { index: true, element: <LandingRoute /> }, // 기본 랜딩 페이지
+        ],
+      },
+      {
+        path: "/auth/register",
+
+        lazy: async () => {
+          const { RegisterRoute } = await import("./routes/auth/register");
+          return { Component: RegisterRoute };
+        },
+      },
+      {
+        path: "/auth/login",
+        errorElement: <GlobalRouteError />,
+        lazy: async () => {
+          const { LoginRoute } = await import("./routes/auth/login");
+          return { Component: LoginRoute };
+        },
       },
     ],
   },
-  {
-    path: "/auth/register",
 
-    lazy: async () => {
-      const { RegisterRoute } = await import("./routes/auth/register");
-      return { Component: RegisterRoute };
-    },
-  },
+  // ===========================
+  // !2) Private Routes (로그인 사용자)
+  // ===========================
   {
-    path: "/auth/login",
+    path: "/app",
+    element: <PrivateLayout />,
     errorElement: <GlobalRouteError />,
-    lazy: async () => {
-      const { LoginRoute } = await import("./routes/auth/login");
-      return { Component: LoginRoute };
-    },
+    children: [
+      {
+        path: "dashboard",
+        element: <DashboardRoute />,
+      },
+      {
+        path: "c/:conversationId",
+        element: <ConversationRoute />,
+      },
+      {
+        path: "situation/new",
+        element: <SituationRoute />,
+      },
+      // {
+      //   path: "/situation/new",
+      //   element: <SituationRoute />,
+      // },
+    ],
+
+    // children: [
+    //   {
+    //     path: "dashboard",
+    //     element: <DashboardLayout />,
+    //     children: [{ index: true, element: <DashboardPage /> }], // "/app/dashboard"
+    //   },
+    //   {
+    //     path: "recommand",
+    //     element: <RecommandLayout />,
+    //     children: [{ index: true, element: <RecommandMainPage /> }], // "/app/recommand"
+    //   },
+    //   {
+    //     path: "conversation",
+    //     element: <ConversationLayout />,
+    //     children: [
+    //       { index: true, element: <ConversationMainPage /> }, // "/app/conversation"
+    //       { path: ":id", element: <ConversationMainPage /> }, // "/app/conversation/:id"
+    //     ],
+    //   },
+    // ],
   },
 
-  {
-    path: "/dashboard",
-    element: <DashboardRoute />,
-  },
-  {
-    path: "/c/:conversationId",
-    element: <ConversationRoute />,
-  },
-  {
-    path: "/situation/new",
-    element: <SituationRoute />,
-  },
+  // ===========================
+  // 3) 기타
+  // ===========================
   {
     path: "*",
     element: <NotFoundRoute />,
