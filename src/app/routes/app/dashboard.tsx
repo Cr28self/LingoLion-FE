@@ -55,9 +55,9 @@ const DashboardRoute = () => {
               <p className="text-xs text-orange-200">cr28self@gmail.com</p>
             </div>
           </div>
-          <button className="w-full mt-4 px-4 py-2 text-sm text-orange-600 bg-white hover:bg-orange-50 rounded-lg transition-colors">
+          <Button className="w-full mt-4 px-4 py-2 text-sm text-orange-600 bg-white hover:bg-orange-50 rounded-lg transition-colors">
             Logout
-          </button>
+          </Button>
         </div>
       </DashboardSidebar>
 
@@ -92,7 +92,7 @@ const DashboardRoute = () => {
               채팅방 목록
             </h2>
             <Button>
-              <Link to="/situation/new">시나리오 생성</Link>
+              <Link to="/app/situation/new">시나리오 생성</Link>
             </Button>
           </div>
 

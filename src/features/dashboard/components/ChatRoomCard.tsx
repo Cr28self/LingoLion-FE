@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const ChatRoomCard = ({ chatId, title, icon, time }: TChatRoomCard) => {
   return (
-    <Link to={`/c/${chatId}`}>
+    <Link to={`/app/c/${chatId}`}>
       <div
         key={title}
         className="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow cursor-pointer"

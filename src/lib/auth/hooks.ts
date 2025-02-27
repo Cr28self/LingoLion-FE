@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { loginFn, registerFn } from "./api";
+import { loginFn, logoutFn, registerFn } from "./api";
 import { AxiosError } from "axios";
 import { LoginErrorResponse, RegisterErrorResponse } from "./types";
 import { useNavigate } from "react-router-dom";
@@ -17,7 +17,7 @@ export const useLogin = () => {
       // dashboard로 redirect
       updateAccessToken(data.accessToken);
       toast.success("로그인 성공");
-      navigate("/dashboard");
+      navigate("/app/dashboard");
     },
     onError: (error: AxiosError<LoginErrorResponse>) => {
       // error toast
