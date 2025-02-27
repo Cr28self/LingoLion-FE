@@ -2,6 +2,7 @@
 import { z } from "zod";
 import { loginSchema, registerSchema } from "./schema";
 import { apiClient } from "../api-client";
+import { AxiosInstance } from "axios";
 
 // ! 로그인 함수
 export const loginFn = async ({
@@ -41,7 +42,7 @@ export const registerFn = async ({
 };
 
 // ! 로그아웃 함수
-export const logoutFn = async (): Promise<void> => {
+export const logoutFn = async (apiClient: AxiosInstance): Promise<void> => {
   const response = await apiClient.post(
     "/auth/logout",
     {},

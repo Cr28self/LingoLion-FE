@@ -2,10 +2,12 @@ import { Button } from "@/components/ui/button";
 import ChatRoomCard from "@/features/dashboard/components/ChatRoomCard";
 import DashboardSidebar from "@/features/dashboard/components/Dashboard-Sidebar";
 import { TChatRoomCard } from "@/features/dashboard/types/types";
+import { useLogout } from "@/lib/auth/hooks";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const DashboardRoute = () => {
+  const { logout, isLoggingOut } = useLogout();
   // !나중에 API로부터 받아온 데이터로 대체
   const [chatRoomList, setChatRoomList] = useState<TChatRoomCard[] | null>([
     { chatId: "1", title: "공항 안내 데스크", icon: "👤", time: "2h ago" },
@@ -55,7 +57,11 @@ const DashboardRoute = () => {
               <p className="text-xs text-orange-200">cr28self@gmail.com</p>
             </div>
           </div>
-          <Button className="w-full mt-4 px-4 py-2 text-sm text-orange-600 bg-white hover:bg-orange-50 rounded-lg transition-colors">
+          <Button
+            className="w-full mt-4 px-4 py-2 text-sm text-orange-600 bg-white hover:bg-orange-50 rounded-lg transition-colors"
+            onClick={() => logout()}
+            disabled={isLoggingOut}
+          >
             Logout
           </Button>
         </div>

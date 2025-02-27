@@ -9,6 +9,7 @@ type AuthContextType = {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   getAccessToken: () => string | null;
   updateAccessToken: (token: string) => void;
+  resetAuthentication: () => void;
 };
 
 //  useContext(AuthContext)가 최초 호출될 때 기본적으로 반환하는 값
@@ -19,6 +20,7 @@ const AuthContext = createContext<AuthContextType>({
   setIsAuthenticated: () => {},
   getAccessToken: () => null,
   updateAccessToken: () => {},
+  resetAuthentication: () => {},
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -36,6 +38,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     accessTokenRef.current = token;
 
     setIsAuthenticated(true);
+  };
+
+  // ! 로그아웃 시, AuthContext 초기화
+  const resetAuthentication = () => {
+    // 1) 토큰 제거
+    accessTokenRef.current = null;
+    // 2) 인증 상태 false
+    setIsAuthenticated(false);
   };
 
   const { mutate, isPending } = useMutation({
@@ -65,6 +75,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setIsAuthenticated,
         getAccessToken,
         updateAccessToken,
+        resetAuthentication,
       }}
     >
       {children}
