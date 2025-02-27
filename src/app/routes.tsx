@@ -81,27 +81,6 @@ const router = createBrowserRouter([
       //   element: <SituationRoute />,
       // },
     ],
-
-    // children: [
-    //   {
-    //     path: "dashboard",
-    //     element: <DashboardLayout />,
-    //     children: [{ index: true, element: <DashboardPage /> }], // "/app/dashboard"
-    //   },
-    //   {
-    //     path: "recommand",
-    //     element: <RecommandLayout />,
-    //     children: [{ index: true, element: <RecommandMainPage /> }], // "/app/recommand"
-    //   },
-    //   {
-    //     path: "conversation",
-    //     element: <ConversationLayout />,
-    //     children: [
-    //       { index: true, element: <ConversationMainPage /> }, // "/app/conversation"
-    //       { path: ":id", element: <ConversationMainPage /> }, // "/app/conversation/:id"
-    //     ],
-    //   },
-    // ],
   },
 
   // ===========================

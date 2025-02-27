@@ -15,8 +15,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { loginSchema } from "@/lib/auth/schema";
 import { useLogin } from "@/lib/auth/hooks";
-import { useAuth } from "@/lib/auth/authContext";
-import { env } from "@/config/env";
 
 // TODO : 일단 지금은 useState를 사용해서 email, password를 관리하고, 나중에 react-hook-form, zod 사용해서 리팩토링
 
@@ -30,7 +28,6 @@ const LoginForm = () => {
     },
   });
 
-  console.log(env.API_DOMAIN_URL);
   const onSubmit = ({ email, password }: z.infer<typeof loginSchema>) => {
     login({ email, password });
   };
