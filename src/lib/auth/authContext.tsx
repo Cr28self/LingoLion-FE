@@ -54,6 +54,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (data?.accessToken) {
         updateAccessToken(data.accessToken);
       }
+
       setIsCheckingAuth(false); // 토큰 갱신 끝났으니 false
     },
     onError: () => {
@@ -62,6 +63,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setIsCheckingAuth(false); // 토큰 갱신 끝났으니 false
     },
   });
+
   useEffect(() => {
     mutate();
   }, [mutate]);

@@ -5,7 +5,6 @@ import SituationSetupModal from "@/features/dashboard/components/SituationSetupM
 import { TChatRoomCard } from "@/features/dashboard/types/types";
 import { useLogout } from "@/lib/auth/hooks";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 
 const DashboardRoute = () => {
   const { logout, isLoggingOut } = useLogout();

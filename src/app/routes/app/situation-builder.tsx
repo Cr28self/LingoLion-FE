@@ -1,10 +1,6 @@
 import React, { useReducer } from "react";
 import { Button } from "@/components/ui/button";
 import {
-  StepLayout,
-  StepBlock,
-} from "@/features/situation-builder/components/Step";
-import {
   getRecommendations,
   getUserRoleRecommendations,
   getAssistantRoleRecommendations,
@@ -98,7 +94,7 @@ export default function SituationRoute() {
 
       <div className="px-2.5 h-full flex flex-col">
         {/* 스텝 진행도 */}
-        <StepLayout>
+        {/* <StepLayout>
           {steps.map((step) => (
             <StepBlock
               key={step.id}
@@ -107,47 +103,44 @@ export default function SituationRoute() {
               text={step.name}
             />
           ))}
-        </StepLayout>
+        </StepLayout> */}
 
         {/* 메인 컨텐츠 박스 */}
         <div
           className="
-            p-4 bg-white/90 mt-4 mb-4 h-3/4 
+            p-4 bg-white/90 mt-4 mb-4 
             flex flex-col justify-between 
             border border-orange-200 
             rounded-xl shadow-lg
           "
         >
-          <h2 className="text-3xl font-extrabold text-center mt-4 text-orange-700">
-            {currentStepInfo.name}
-          </h2>
+          {/* <h2 className="text-3xl font-extrabold text-center mt-4 text-orange-700">
+            Name
+          </h2> */}
 
-          {/* 1) 일반 스텝 (장소, 상황, 배경, 목표) */}
-          {currentStepInfo.key !== "role" && (
-            <div className="flex flex-col items-center mt-6">
-              {/* 입력 */}
-              <SituationInput
-                value={
-                  formData[
-                    currentStepInfo.key as keyof typeof formData
-                  ] as string
-                }
-                onChange={(e) =>
-                  handleChange(currentStepInfo.key, e.target.value)
-                }
-                placeholder={currentStepInfo.placeholder}
-              />
+          {/* 장소 상황 */}
+          <div className="flex flex-col items-center mt-6 w-full">
+            {/* 입력 */}
+            <SituationInput
+              value={
+                formData[currentStepInfo.key as keyof typeof formData] as string
+              }
+              onChange={(e) =>
+                handleChange(currentStepInfo.key, e.target.value)
+              }
+              placeholder={currentStepInfo.placeholder}
+            />
 
-              {/* 추천 태그 */}
-              <div className="flex flex-wrap gap-3 justify-center mt-6">
-                {getRecommendations(currentStepInfo.key, formData).map(
-                  (msg, index) => (
-                    <button
-                      key={index}
-                      onClick={() =>
-                        handleRecommendationClick(currentStepInfo.key, msg)
-                      }
-                      className="
+            {/* 추천 태그 */}
+            <div className="flex flex-wrap gap-3 justify-center mt-6">
+              {getRecommendations(currentStepInfo.key, formData).map(
+                (msg, index) => (
+                  <button
+                    key={index}
+                    onClick={() =>
+                      handleRecommendationClick(currentStepInfo.key, msg)
+                    }
+                    className="
                       bg-orange-50
                       text-orange-700
                       border border-orange-300
@@ -158,54 +151,51 @@ export default function SituationRoute() {
                       hover:scale-105
                       shadow-sm
                     "
-                    >
-                      {msg}
-                    </button>
-                  )
-                )}
-              </div>
+                  >
+                    {msg}
+                  </button>
+                )
+              )}
             </div>
-          )}
+          </div>
 
-          {/* 2) 역할 설정 스텝(role) */}
-          {currentStepInfo.key === "role" && (
-            <div className="flex flex-col items-center mt-6 gap-8">
-              {/* assistant */}
-              <div className="w-2/3">
-                <label className="block text-orange-700 font-semibold mb-2">
-                  상대방 (assistant)
-                </label>
-                <select
-                  className="
+          {/* 역할 상황 */}
+          <div className="flex flex-col items-center mt-6 gap-8">
+            {/* assistant */}
+            <div className="w-2/3">
+              <label className="block text-orange-700 font-semibold mb-2">
+                상대방 (assistant)
+              </label>
+              <select
+                className="
                     w-full border border-orange-200 rounded-md p-3 
                     text-orange-700 focus:outline-none focus:ring-2
                     focus:ring-orange-400
                   "
-                  value={formData.role.assistant}
-                  onChange={(e) =>
-                    handleRoleRecommendationClick("assistant", e.target.value)
-                  }
-                >
-                  <option value="">역할을 선택해주세요</option>
-                  {getAssistantRoleRecommendations(formData).map(
-                    (item, index) => (
-                      <option key={index} value={item}>
-                        {item}
-                      </option>
-                    )
-                  )}
-                </select>
+                value={formData.role.assistant}
+                onChange={(e) =>
+                  handleRoleRecommendationClick("assistant", e.target.value)
+                }
+              >
+                <option value="">역할을 선택해주세요</option>
+                {getAssistantRoleRecommendations(formData).map(
+                  (item, index) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  )
+                )}
+              </select>
 
-                {/* 추천 태그들 */}
-                <div className="flex flex-wrap gap-3 justify-start mt-4">
-                  {getAssistantRoleRecommendations(formData).map(
-                    (msg, index) => (
-                      <button
-                        key={index}
-                        onClick={() =>
-                          handleRoleRecommendationClick("assistant", msg)
-                        }
-                        className="
+              {/* 추천 태그들 */}
+              <div className="flex flex-wrap gap-3 justify-start mt-4">
+                {getAssistantRoleRecommendations(formData).map((msg, index) => (
+                  <button
+                    key={index}
+                    onClick={() =>
+                      handleRoleRecommendationClick("assistant", msg)
+                    }
+                    className="
                         bg-orange-50
                         text-orange-700
                         border border-orange-300
@@ -216,45 +206,44 @@ export default function SituationRoute() {
                         hover:scale-105
                         shadow-sm
                       "
-                      >
-                        {msg}
-                      </button>
-                    )
-                  )}
-                </div>
+                  >
+                    {msg}
+                  </button>
+                ))}
               </div>
+            </div>
 
-              {/* user */}
-              <div className="w-2/3">
-                <label className="block text-orange-700 font-semibold mb-2">
-                  나 (user)
-                </label>
-                <select
-                  className="
+            {/* user */}
+            <div className="w-2/3">
+              <label className="block text-orange-700 font-semibold mb-2">
+                나 (user)
+              </label>
+              <select
+                className="
                     w-full border border-orange-200 rounded-md p-3
                     text-orange-700 focus:outline-none focus:ring-2
                     focus:ring-orange-400
                   "
-                  value={formData.role.user}
-                  onChange={(e) =>
-                    handleRoleRecommendationClick("user", e.target.value)
-                  }
-                >
-                  <option value="">역할을 선택해주세요</option>
-                  {getUserRoleRecommendations(formData).map((item, index) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
+                value={formData.role.user}
+                onChange={(e) =>
+                  handleRoleRecommendationClick("user", e.target.value)
+                }
+              >
+                <option value="">역할을 선택해주세요</option>
+                {getUserRoleRecommendations(formData).map((item, index) => (
+                  <option key={index} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
 
-                {/* 추천 태그들 */}
-                <div className="flex flex-wrap gap-3 justify-start mt-4">
-                  {getUserRoleRecommendations(formData).map((msg, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handleRoleRecommendationClick("user", msg)}
-                      className="
+              {/* 추천 태그들 */}
+              <div className="flex flex-wrap gap-3 justify-start mt-4">
+                {getUserRoleRecommendations(formData).map((msg, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleRoleRecommendationClick("user", msg)}
+                    className="
                         bg-orange-50
                         text-orange-700
                         border border-orange-300
@@ -265,14 +254,13 @@ export default function SituationRoute() {
                         hover:scale-105
                         shadow-sm
                       "
-                    >
-                      {msg}
-                    </button>
-                  ))}
-                </div>
+                  >
+                    {msg}
+                  </button>
+                ))}
               </div>
             </div>
-          )}
+          </div>
 
           {/* 이전 / 다음 버튼 */}
           <div className="flex justify-between mt-8">
