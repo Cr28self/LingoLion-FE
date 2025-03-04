@@ -6,21 +6,9 @@ import {
   initialState,
   recommendFormReducer,
 } from "../reducer/recommendFormReducer";
+import { TAllList } from "../reducer/types";
 
-type TPlaceList = {
-  place: string;
-};
-type TAiRoleList = {
-  aiRole: string;
-};
-type TUserRoleList = {
-  userRole: string;
-};
-type TGoalList = {
-  goal: string;
-};
-
-type TAllList = TPlaceList & TAiRoleList & TUserRoleList & TGoalList;
+type TFormFieldName = keyof TAllList;
 
 const RecommendTag = ({
   msg,
@@ -59,25 +47,17 @@ const RecommendLayout = ({ children }: { children: React.ReactNode }) => {
 export const RecommendForm = ({ metaData }: { metaData?: string }) => {
   const { mutate } = useRecommendSituations();
 
-  const [state, dispatch] = useReducer(recommendFormReducer, initialState);
-
-  // !중앙 처리
-  const [formState, setFormState] = useState({
-    place: "",
-    userRole: "",
-    aiRole: "",
-    goal: "",
-  });
-  // 각 추천 현황들 state
-  const [recAllList, setRecAllList] = useState<TAllList[] | null>(null);
-  const [recPlaceList, setRecPlaceList] = useState<TPlaceList[] | null>(null);
-  const [recUserRoleList, setRecUserRoleList] = useState<
-    TUserRoleList[] | null
-  >(null);
-  const [recAiRoleList, setRecAiRoleList] = useState<TAiRoleList[] | null>(
-    null
-  );
-  const [recGoalList, setRecGoalList] = useState<TGoalList[] | null>(null);
+  const [
+    {
+      formState,
+      recAiRoleList,
+      recAllList,
+      recGoalList,
+      recPlaceList,
+      recUserRoleList,
+    },
+    dispatch,
+  ] = useReducer(recommendFormReducer, initialState);
 
   // 최초로 전체 추천 한번 했는지..
   const [isAllRec, setIsAllRec] = useState<boolean>(false);
@@ -85,14 +65,11 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
 
-    dispatch({ type: "SET_FORM_VALUE", name: name as keyof TAllList, value });
+    dispatch({ type: "SET_FORM_VALUE", name: name as TFormFieldName, value });
   }
 
   // 추천 태그 클릭 시 -> reducer 디스패치
-  function handleRecommendationClick(
-    name: "place" | "userRole" | "aiRole" | "goal",
-    value: string
-  ) {
+  function handleRecommendationClick(name: TFormFieldName, value: string) {
     dispatch({ type: "SET_FORM_VALUE", name, value });
   }
 
@@ -127,7 +104,11 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
               {
                 onSuccess: (result) => {
                   console.log("✅ 추천 장소 업데이트:", result);
-                  setRecPlaceList(result.data);
+
+                  dispatch({
+                    type: "SET_REC_PLACE_LIST",
+                    payload: result.data,
+                  });
                 },
               }
             )
@@ -160,7 +141,10 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
               {
                 onSuccess: (result) => {
                   console.log("✅ ai 역할 업데이트:", result);
-                  setRecAiRoleList(result.data);
+                  dispatch({
+                    type: "SET_REC_AIROLE_LIST",
+                    payload: result.data,
+                  });
                 },
               }
             )
@@ -195,7 +179,10 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
               {
                 onSuccess: (result) => {
                   console.log("✅ 사용자 역할 업데이트:", result);
-                  setRecUserRoleList(result.data);
+                  dispatch({
+                    type: "SET_REC_USERROLE_LIST",
+                    payload: result.data,
+                  });
                 },
               }
             )
@@ -230,7 +217,7 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
               {
                 onSuccess: (result) => {
                   console.log("✅ 목표 업데이트:", result.data);
-                  setRecGoalList(result.data);
+                  dispatch({ type: "SET_REC_GOAL_LIST", payload: result.data });
                 },
               }
             )

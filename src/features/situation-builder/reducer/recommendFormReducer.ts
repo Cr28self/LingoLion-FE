@@ -7,7 +7,7 @@ import {
 } from "./types";
 
 export type RecommendFormState = {
-  formData: {
+  formState: {
     place: string;
     userRole: string;
     aiRole: string;
@@ -30,7 +30,7 @@ export type recommendFormAction =
   | { type: "SET_REC_ALL_LIST"; payload: TAllList[] | null };
 
 export const initialState: RecommendFormState = {
-  formData: {
+  formState: {
     place: "",
     userRole: "",
     aiRole: "",
@@ -51,8 +51,8 @@ export function recommendFormReducer(
     case "SET_FORM_VALUE":
       return {
         ...state,
-        formData: {
-          ...state.formData,
+        formState: {
+          ...state.formState,
           [action.name]: action.value,
         },
       };
