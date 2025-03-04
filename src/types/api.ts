@@ -1,3 +1,5 @@
+// ! API에서 사용하는 타입들은 전부 여기다가 박아두기
+
 export type BaseEntity = {
   id: number;
   createdAt: Date;
@@ -15,3 +17,12 @@ export type ChatList = Entity<{
   msg: string;
   time: string;
 }>;
+
+export type TRecommend = {
+  type: "all" | "place" | "userRole" | "aiRole" | "goal";
+  metaData?: string;
+  place?: string;
+  userRole?: string;
+  aiRole?: string;
+  goal?: string;
+};

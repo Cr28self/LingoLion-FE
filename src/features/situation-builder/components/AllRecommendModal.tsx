@@ -9,20 +9,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@radix-ui/react-label";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
-const SituationSetupModal = () => {
-  const navigate = useNavigate();
+const AllRecommendModal = () => {
   const [input, setInput] = useState("");
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>
-          {/* <Link to="/app/situation/new">시나리오 생성</Link> */}
-          시나리오 생성
-        </Button>
+        <Button>전체 추천</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -46,7 +40,7 @@ const SituationSetupModal = () => {
           <Button
             type="button"
             onClick={() => {
-              navigate("/app/situation/new", { state: { metaData: input } });
+              console.log("hi");
             }}
           >
             제출
@@ -57,4 +51,4 @@ const SituationSetupModal = () => {
   );
 };
 
-export default SituationSetupModal;
+export default AllRecommendModal;
