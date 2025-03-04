@@ -98,21 +98,28 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
           placeholder={"장소를 입력해주세요"}
           title={"장소 (Place)"}
           name={"place"}
-          aiRecommend={() =>
-            mutate(
-              { type: "place", metaData, ...formState },
-              {
-                onSuccess: (result) => {
-                  console.log("✅ 추천 장소 업데이트:", result);
+          aiRecommend={() => {
+            return new Promise<void>((resolve, reject) => {
+              mutate(
+                { type: "place", metaData, ...formState },
+                {
+                  onSuccess: (result) => {
+                    console.log("✅ 추천 장소 업데이트:", result);
 
-                  dispatch({
-                    type: "SET_REC_PLACE_LIST",
-                    payload: result.data,
-                  });
-                },
-              }
-            )
-          }
+                    dispatch({
+                      type: "SET_REC_PLACE_LIST",
+                      payload: result.data,
+                    });
+
+                    resolve();
+                  },
+                  onError: (err) => {
+                    reject(err);
+                  },
+                }
+              );
+            });
+          }}
         >
           <RecommendLayout>
             {recPlaceList &&
@@ -136,18 +143,25 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
           title={"AI 역할 (assistant)"}
           name={"aiRole"}
           aiRecommend={() =>
-            mutate(
-              { type: "aiRole", metaData, ...formState },
-              {
-                onSuccess: (result) => {
-                  console.log("✅ ai 역할 업데이트:", result);
-                  dispatch({
-                    type: "SET_REC_AIROLE_LIST",
-                    payload: result.data,
-                  });
-                },
-              }
-            )
+            new Promise<void>((resolve, reject) => {
+              mutate(
+                { type: "aiRole", metaData, ...formState },
+                {
+                  onSuccess: (result) => {
+                    console.log("✅ ai 역할 업데이트:", result);
+                    dispatch({
+                      type: "SET_REC_AIROLE_LIST",
+                      payload: result.data,
+                    });
+
+                    resolve();
+                  },
+                  onError: (err) => {
+                    reject(err);
+                  },
+                }
+              );
+            })
           }
         >
           <RecommendLayout>
@@ -174,18 +188,25 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
           title={"사용자 역할 (user)"}
           name={"userRole"}
           aiRecommend={() =>
-            mutate(
-              { type: "userRole", metaData, ...formState },
-              {
-                onSuccess: (result) => {
-                  console.log("✅ 사용자 역할 업데이트:", result);
-                  dispatch({
-                    type: "SET_REC_USERROLE_LIST",
-                    payload: result.data,
-                  });
-                },
-              }
-            )
+            new Promise<void>((resolve, reject) => {
+              mutate(
+                { type: "userRole", metaData, ...formState },
+                {
+                  onSuccess: (result) => {
+                    console.log("✅ 사용자 역할 업데이트:", result);
+                    dispatch({
+                      type: "SET_REC_USERROLE_LIST",
+                      payload: result.data,
+                    });
+
+                    resolve();
+                  },
+                  onError: (err) => {
+                    reject(err);
+                  },
+                }
+              );
+            })
           }
         >
           <RecommendLayout>
@@ -212,15 +233,24 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
           title={"목표 (Goal)"}
           name={"goal"}
           aiRecommend={() =>
-            mutate(
-              { type: "goal", metaData, ...formState },
-              {
-                onSuccess: (result) => {
-                  console.log("✅ 목표 업데이트:", result.data);
-                  dispatch({ type: "SET_REC_GOAL_LIST", payload: result.data });
-                },
-              }
-            )
+            new Promise((resolve, reject) => {
+              mutate(
+                { type: "goal", metaData, ...formState },
+                {
+                  onSuccess: (result) => {
+                    console.log("✅ 목표 업데이트:", result.data);
+                    dispatch({
+                      type: "SET_REC_GOAL_LIST",
+                      payload: result.data,
+                    });
+                    resolve();
+                  },
+                  onError: (err) => {
+                    reject(err);
+                  },
+                }
+              );
+            })
           }
         >
           <RecommendLayout>

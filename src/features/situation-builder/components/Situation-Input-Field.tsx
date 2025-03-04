@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { WandSparkles } from "lucide-react";
+import { Loader2, WandSparkles } from "lucide-react";
+import { useState } from "react";
 
 const SituationInputField = ({
   value,
@@ -17,9 +18,22 @@ const SituationInputField = ({
   className?: string;
   title: string;
   name: string;
-  aiRecommend: () => void;
+  aiRecommend: () => Promise<void>;
   children: React.ReactNode;
 }) => {
+  const [loading, setLoading] = useState<boolean>(false);
+
+  async function handleClick() {
+    try {
+      setLoading(true);
+      await aiRecommend();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <div className="relative w-2/3">
       <label className="block text-orange-700 font-semibold mb-2">
@@ -43,8 +57,13 @@ const SituationInputField = ({
           `}
         />
 
-        <Button className="h-auto" onClick={aiRecommend}>
-          <WandSparkles className="h-12 w-12" />
+        <Button className="h-auto" onClick={handleClick} disabled={loading}>
+          {loading ? (
+            // lucide-react spinner
+            <Loader2 className="h-5 w-5 animate-spin" />
+          ) : (
+            <WandSparkles className="h-12 w-12" />
+          )}
         </Button>
       </div>
 
