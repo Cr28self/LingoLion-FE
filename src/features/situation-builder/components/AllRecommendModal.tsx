@@ -11,7 +11,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
-const AllRecommendModal = () => {
+type TAllRecommendModal = {
+  onRecommendAll: () => void;
+  isAllRec: boolean;
+};
+
+const AllRecommendModal = ({
+  onRecommendAll,
+  isAllRec,
+}: TAllRecommendModal) => {
   const [input, setInput] = useState("");
   return (
     <Dialog>
@@ -37,12 +45,7 @@ const AllRecommendModal = () => {
           </div>
         </div>
         <DialogFooter>
-          <Button
-            type="button"
-            onClick={() => {
-              console.log("hi");
-            }}
-          >
+          <Button type="button" onClick={onRecommendAll}>
             제출
           </Button>
         </DialogFooter>

@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import { useRecommendSituations } from "../api/recommend-situations";
 import SituationInputField from "./Situation-Input-Field";
 import AllRecommendModal from "./AllRecommendModal";
+import {
+  initialState,
+  recommendFormReducer,
+} from "../reducer/recommendFormReducer";
 
 type TPlaceList = {
   place: string;
@@ -16,7 +20,9 @@ type TGoalList = {
   goal: string;
 };
 
-export const RecommandTag = ({
+type TAllList = TPlaceList & TAiRoleList & TUserRoleList & TGoalList;
+
+const RecommendTag = ({
   msg,
   onClick,
 }: {
@@ -42,9 +48,18 @@ export const RecommandTag = ({
     </button>
   );
 };
+const RecommendLayout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="flex gap-3 justify-start mt-3 h-[50px] overflow-x-auto overflow-hidden whitespace-nowrap  py-1 pl-3">
+      {children}
+    </div>
+  );
+};
 
 export const RecommendForm = ({ metaData }: { metaData?: string }) => {
   const { mutate } = useRecommendSituations();
+
+  const [state, dispatch] = useReducer(recommendFormReducer, initialState);
 
   // !중앙 처리
   const [formState, setFormState] = useState({
@@ -54,6 +69,7 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
     goal: "",
   });
   // 각 추천 현황들 state
+  const [recAllList, setRecAllList] = useState<TAllList[] | null>(null);
   const [recPlaceList, setRecPlaceList] = useState<TPlaceList[] | null>(null);
   const [recUserRoleList, setRecUserRoleList] = useState<
     TUserRoleList[] | null
@@ -63,27 +79,39 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
   );
   const [recGoalList, setRecGoalList] = useState<TGoalList[] | null>(null);
 
+  // 최초로 전체 추천 한번 했는지..
+  const [isAllRec, setIsAllRec] = useState<boolean>(false);
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const { value, name } = e.target;
-    setFormState((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    const { name, value } = e.target;
+
+    dispatch({ type: "SET_FORM_VALUE", name: name as keyof TAllList, value });
   }
 
+  // 추천 태그 클릭 시 -> reducer 디스패치
   function handleRecommendationClick(
-    name: keyof typeof formState,
+    name: "place" | "userRole" | "aiRole" | "goal",
     value: string
   ) {
-    setFormState((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    dispatch({ type: "SET_FORM_VALUE", name, value });
   }
 
   return (
     <>
-      <AllRecommendModal />
+      {/* 전체 추천 로직 : 추천 정보 입력 모달 클릭 -> 클릭하자마자 바로 추천됨 */}
+      <AllRecommendModal
+        onRecommendAll={() =>
+          mutate(
+            { type: "all", metaData },
+            {
+              onSuccess: (result) => {
+                console.log("✅ 전체 출력", result.data);
+              },
+            }
+          )
+        }
+        isAllRec={isAllRec}
+      />
       {/* 장소 상황 */}
       <div className="flex flex-col items-center mt-6 w-full">
         {/* 추천 태그 */}
@@ -105,14 +133,16 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
             )
           }
         >
-          {recPlaceList &&
-            recPlaceList.map((data, index) => (
-              <RecommandTag
-                key={index}
-                onClick={() => handleRecommendationClick("place", data.place)}
-                msg={data.place}
-              />
-            ))}
+          <RecommendLayout>
+            {recPlaceList &&
+              recPlaceList.map((data, index) => (
+                <RecommendTag
+                  key={index}
+                  onClick={() => handleRecommendationClick("place", data.place)}
+                  msg={data.place}
+                />
+              ))}
+          </RecommendLayout>
         </SituationInputField>
       </div>
 
@@ -136,14 +166,18 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
             )
           }
         >
-          {recAiRoleList &&
-            recAiRoleList.map((data, index) => (
-              <RecommandTag
-                key={index}
-                onClick={() => handleRecommendationClick("aiRole", data.aiRole)}
-                msg={data.aiRole}
-              />
-            ))}
+          <RecommendLayout>
+            {recAiRoleList &&
+              recAiRoleList.map((data, index) => (
+                <RecommendTag
+                  key={index}
+                  onClick={() =>
+                    handleRecommendationClick("aiRole", data.aiRole)
+                  }
+                  msg={data.aiRole}
+                />
+              ))}
+          </RecommendLayout>
         </SituationInputField>
       </div>
 
@@ -167,16 +201,18 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
             )
           }
         >
-          {recUserRoleList &&
-            recUserRoleList.map((data, index) => (
-              <RecommandTag
-                key={index}
-                onClick={() =>
-                  handleRecommendationClick("userRole", data.userRole)
-                }
-                msg={data.userRole}
-              />
-            ))}
+          <RecommendLayout>
+            {recUserRoleList &&
+              recUserRoleList.map((data, index) => (
+                <RecommendTag
+                  key={index}
+                  onClick={() =>
+                    handleRecommendationClick("userRole", data.userRole)
+                  }
+                  msg={data.userRole}
+                />
+              ))}
+          </RecommendLayout>
         </SituationInputField>
       </div>
 
@@ -200,14 +236,16 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
             )
           }
         >
-          {recGoalList &&
-            recGoalList.map((data, index) => (
-              <RecommandTag
-                key={index}
-                onClick={() => handleRecommendationClick("goal", data.goal)}
-                msg={data.goal}
-              />
-            ))}
+          <RecommendLayout>
+            {recGoalList &&
+              recGoalList.map((data, index) => (
+                <RecommendTag
+                  key={index}
+                  onClick={() => handleRecommendationClick("goal", data.goal)}
+                  msg={data.goal}
+                />
+              ))}
+          </RecommendLayout>
         </SituationInputField>
       </div>
 

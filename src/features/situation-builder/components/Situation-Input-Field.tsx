@@ -49,9 +49,7 @@ const SituationInputField = ({
       </div>
 
       {/* 추천 태그 */}
-      <div className="flex gap-3 justify-start mt-3 h-[50px] overflow-x-auto overflow-hidden whitespace-nowrap min-w-[500px] py-1 pl-3">
-        {children}
-      </div>
+      {children}
     </div>
   );
 };
