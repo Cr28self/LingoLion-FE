@@ -7,6 +7,7 @@ import {
   recommendFormReducer,
 } from "../reducer/recommendFormReducer";
 import { TAllList } from "../reducer/types";
+import { Button } from "@/components/ui/button";
 
 type TFormFieldName = keyof TAllList;
 
@@ -76,19 +77,38 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
   return (
     <>
       {/* 전체 추천 로직 : 추천 정보 입력 모달 클릭 -> 클릭하자마자 바로 추천됨 */}
-      <AllRecommendModal
-        onRecommendAll={() =>
-          mutate(
-            { type: "all", metaData },
-            {
-              onSuccess: (result) => {
-                console.log("✅ 전체 출력", result.data);
-              },
-            }
-          )
-        }
-        isAllRec={isAllRec}
-      />
+      {isAllRec === false ? (
+        <Button
+          onClick={() =>
+            mutate(
+              { type: "all", metaData },
+              {
+                onSuccess: (result) => {
+                  setIsAllRec(true);
+                  console.log("✅ 전체 출력", result.data);
+                },
+              }
+            )
+          }
+        >
+          전체 추천
+        </Button>
+      ) : (
+        <AllRecommendModal
+          onRecommendAll={() =>
+            mutate(
+              { type: "all", metaData },
+              {
+                onSuccess: (result) => {
+                  console.log("✅ 전체 출력", result.data);
+                },
+              }
+            )
+          }
+          isAllRec={isAllRec}
+        />
+      )}
+
       {/* 장소 상황 */}
       <div className="flex flex-col items-center mt-6 w-full">
         {/* 추천 태그 */}
