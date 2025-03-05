@@ -34,6 +34,7 @@ const RecommendTag = ({
     shadow-sm
   "
       onClick={onClick}
+      type="button"
     >
       {msg}
     </button>
@@ -67,264 +68,279 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
 
   const [isAllRecLoading, setIsAllRecLoading] = useState<boolean>(false);
 
+  // ! Input 박스로 입력시 formState에 반영
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
 
     dispatch({ type: "SET_FORM_VALUE", name: name as TFormFieldName, value });
   }
 
-  // 추천 태그 클릭 시 -> reducer 디스패치
+  // ! 추천 항목 선택 시 formState에 반영
   function handleRecommendationClick(name: TFormFieldName, value: string) {
     dispatch({ type: "SET_FORM_VALUE", name, value });
   }
 
   return (
-    <>
-      {/* 전체 추천 로직 : 추천 정보 입력 모달 클릭 -> 클릭하자마자 바로 추천됨 */}
-      {isAllRec === false ? (
-        <Button
-          onClick={() => {
-            setIsAllRecLoading(true);
-            mutate(
-              { type: "all", metaData },
-              {
-                onSuccess: (result) => {
-                  setIsAllRec(true);
-                  dispatch({ type: "SET_REC_ALL_LIST", payload: result.data });
-                  toast.success("전체 추천이 완료되었습니다.");
-                  setIsAllRecLoading(false);
-                },
-              }
-            );
-          }}
-          disabled={isAllRecLoading}
-        >
-          {isAllRecLoading ? (
-            // lucide-react spinner
-            <Loader2 className="h-5 w-5 animate-spin" />
-          ) : (
-            <WandSparkles className="h-12 w-12" />
-          )}
-        </Button>
-      ) : (
-        <AllRecommendDrawer
-          initialData={recAllList}
-          isLoading={isAllRecLoading}
-          onRecommendAll={() => {
-            setIsAllRecLoading(true);
-            mutate(
-              { type: "all", metaData },
-              {
-                onSuccess: (result) => {
-                  dispatch({ type: "SET_REC_ALL_LIST", payload: result.data });
-                  setIsAllRecLoading(false);
-                },
-              }
-            );
-          }}
-          isAllRec={isAllRec}
-        />
-      )}
-
-      {/* 장소 상황 */}
-      <div className="flex flex-col items-center mt-6 w-full">
-        {/* 추천 태그 */}
-        <SituationInputField
-          value={formState.place}
-          onChange={(e) => handleChange(e)}
-          placeholder={"장소를 입력해주세요"}
-          title={"장소 (Place)"}
-          name={"place"}
-          aiRecommend={() => {
-            return new Promise<void>((resolve, reject) => {
+    <div className="relative">
+      <form className="relative">
+        {/* 전체 추천 버튼 - 문서 흐름을 차지하지 않도록 absolute 배치 */}
+        {!isAllRec && (
+          <Button
+            onClick={() => {
+              setIsAllRecLoading(true);
               mutate(
-                { type: "place", metaData, ...formState },
+                { type: "all", metaData },
                 {
                   onSuccess: (result) => {
-                    console.log("✅ 추천 장소 업데이트:", result);
-
+                    setIsAllRec(true);
                     dispatch({
-                      type: "SET_REC_PLACE_LIST",
+                      type: "SET_REC_ALL_LIST",
                       payload: result.data,
                     });
-
-                    resolve();
-                  },
-                  onError: (err) => {
-                    reject(err);
+                    toast.success("전체 추천이 완료되었습니다.");
+                    setIsAllRecLoading(false);
                   },
                 }
               );
-            });
-          }}
-        >
-          <RecommendLayout>
-            {recPlaceList &&
-              recPlaceList.map((data, index) => (
-                <RecommendTag
-                  key={index}
-                  onClick={() => handleRecommendationClick("place", data.place)}
-                  msg={data.place}
-                />
-              ))}
-          </RecommendLayout>
-        </SituationInputField>
-      </div>
+            }}
+            disabled={isAllRecLoading}
+            className="
+          absolute bottom-4 left-4 
+          md:w-12 md:h-12
+          w-16 h-16 rounded-full 
+          bg-orange-500 text-white shadow-lg
+          flex items-center justify-center 
+          transition-all hover:bg-orange-600 hover:scale-110 
+          focus:outline-none focus:ring-4 focus:ring-orange-400 
+          disabled:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50
+        "
+          >
+            {isAllRecLoading ? (
+              <Loader2 className="h-8 w-8 animate-spin" />
+            ) : (
+              <WandSparkles className="h-8 w-8" />
+            )}
+          </Button>
+        )}
 
-      {/* aiRole */}
-      <div className="flex flex-col items-center mt-6 w-full">
-        <SituationInputField
-          value={formState.aiRole}
-          onChange={(e) => handleChange(e)}
-          placeholder={"AI 역할을 입력해주세요"}
-          title={"AI 역할 (assistant)"}
-          name={"aiRole"}
-          aiRecommend={() =>
-            new Promise<void>((resolve, reject) => {
+        {/* AllRecommendDrawer (전체 추천이 완료된 후 모달 버튼 표시) */}
+        {isAllRec && (
+          <AllRecommendDrawer
+            initialData={recAllList}
+            isLoading={isAllRecLoading}
+            onRecommendAll={() => {
+              setIsAllRecLoading(true);
               mutate(
-                { type: "aiRole", metaData, ...formState },
+                { type: "all", metaData },
                 {
                   onSuccess: (result) => {
-                    console.log("✅ ai 역할 업데이트:", result);
                     dispatch({
-                      type: "SET_REC_AIROLE_LIST",
+                      type: "SET_REC_ALL_LIST",
                       payload: result.data,
                     });
-
-                    resolve();
-                  },
-                  onError: (err) => {
-                    reject(err);
+                    setIsAllRecLoading(false);
                   },
                 }
               );
-            })
-          }
-        >
-          <RecommendLayout>
-            {recAiRoleList &&
-              recAiRoleList.map((data, index) => (
-                <RecommendTag
-                  key={index}
-                  onClick={() =>
-                    handleRecommendationClick("aiRole", data.aiRole)
+            }}
+            isAllRec={isAllRec}
+            onFormStateChange={handleRecommendationClick}
+          />
+        )}
+
+        {/* 장소 상황 */}
+        <div className="flex flex-col items-center mt-5 w-full">
+          {/* 추천 태그 */}
+          <SituationInputField
+            value={formState.place}
+            onChange={(e) => handleChange(e)}
+            placeholder={"장소를 입력해주세요"}
+            title={"장소 (Place)"}
+            name={"place"}
+            aiRecommend={() => {
+              return new Promise<void>((resolve, reject) => {
+                mutate(
+                  { type: "place", metaData, ...formState },
+                  {
+                    onSuccess: (result) => {
+                      console.log("✅ 추천 장소 업데이트:", result);
+
+                      dispatch({
+                        type: "SET_REC_PLACE_LIST",
+                        payload: result.data,
+                      });
+
+                      resolve();
+                    },
+                    onError: (err) => {
+                      reject(err);
+                    },
                   }
-                  msg={data.aiRole}
-                />
-              ))}
-          </RecommendLayout>
-        </SituationInputField>
-      </div>
+                );
+              });
+            }}
+          >
+            <RecommendLayout>
+              {recPlaceList &&
+                recPlaceList.map((data, index) => (
+                  <RecommendTag
+                    key={index}
+                    onClick={() =>
+                      handleRecommendationClick("place", data.place)
+                    }
+                    msg={data.place}
+                  />
+                ))}
+            </RecommendLayout>
+          </SituationInputField>
+        </div>
 
-      {/* userRole  */}
-      <div className="flex flex-col items-center mt-6 w-full">
-        <SituationInputField
-          value={formState.userRole}
-          onChange={(e) => handleChange(e)}
-          placeholder={"사용자 역할을 입력해주세요"}
-          title={"사용자 역할 (user)"}
-          name={"userRole"}
-          aiRecommend={() =>
-            new Promise<void>((resolve, reject) => {
-              mutate(
-                { type: "userRole", metaData, ...formState },
-                {
-                  onSuccess: (result) => {
-                    console.log("✅ 사용자 역할 업데이트:", result);
-                    dispatch({
-                      type: "SET_REC_USERROLE_LIST",
-                      payload: result.data,
-                    });
+        {/* aiRole */}
+        <div className="flex flex-col items-center mt-5 w-full">
+          <SituationInputField
+            value={formState.aiRole}
+            onChange={(e) => handleChange(e)}
+            placeholder={"AI 역할을 입력해주세요"}
+            title={"AI 역할 (assistant)"}
+            name={"aiRole"}
+            aiRecommend={() =>
+              new Promise<void>((resolve, reject) => {
+                mutate(
+                  { type: "aiRole", metaData, ...formState },
+                  {
+                    onSuccess: (result) => {
+                      dispatch({
+                        type: "SET_REC_AIROLE_LIST",
+                        payload: result.data,
+                      });
 
-                    resolve();
-                  },
-                  onError: (err) => {
-                    reject(err);
-                  },
-                }
-              );
-            })
-          }
-        >
-          <RecommendLayout>
-            {recUserRoleList &&
-              recUserRoleList.map((data, index) => (
-                <RecommendTag
-                  key={index}
-                  onClick={() =>
-                    handleRecommendationClick("userRole", data.userRole)
+                      resolve();
+                    },
+                    onError: (err) => {
+                      reject(err);
+                    },
                   }
-                  msg={data.userRole}
-                />
-              ))}
-          </RecommendLayout>
-        </SituationInputField>
-      </div>
+                );
+              })
+            }
+          >
+            <RecommendLayout>
+              {recAiRoleList &&
+                recAiRoleList.map((data, index) => (
+                  <RecommendTag
+                    key={index}
+                    onClick={() =>
+                      handleRecommendationClick("aiRole", data.aiRole)
+                    }
+                    msg={data.aiRole}
+                  />
+                ))}
+            </RecommendLayout>
+          </SituationInputField>
+        </div>
 
-      {/* 목표 goal */}
-      <div className="flex flex-col items-center mt-6 w-full">
-        <SituationInputField
-          value={formState.goal}
-          onChange={(e) => handleChange(e)}
-          placeholder={"대화 목표를 입력해주세요"}
-          title={"목표 (Goal)"}
-          name={"goal"}
-          aiRecommend={() =>
-            new Promise((resolve, reject) => {
-              mutate(
-                { type: "goal", metaData, ...formState },
-                {
-                  onSuccess: (result) => {
-                    console.log("✅ 목표 업데이트:", result.data);
-                    dispatch({
-                      type: "SET_REC_GOAL_LIST",
-                      payload: result.data,
-                    });
-                    resolve();
-                  },
-                  onError: (err) => {
-                    reject(err);
-                  },
-                }
-              );
-            })
-          }
-        >
-          <RecommendLayout>
-            {recGoalList &&
-              recGoalList.map((data, index) => (
-                <RecommendTag
-                  key={index}
-                  onClick={() => handleRecommendationClick("goal", data.goal)}
-                  msg={data.goal}
-                />
-              ))}
-          </RecommendLayout>
-        </SituationInputField>
-      </div>
+        {/* userRole  */}
+        <div className="flex flex-col items-center mt-5 w-full">
+          <SituationInputField
+            value={formState.userRole}
+            onChange={(e) => handleChange(e)}
+            placeholder={"사용자 역할을 입력해주세요"}
+            title={"사용자 역할 (user)"}
+            name={"userRole"}
+            aiRecommend={() =>
+              new Promise<void>((resolve, reject) => {
+                mutate(
+                  { type: "userRole", metaData, ...formState },
+                  {
+                    onSuccess: (result) => {
+                      console.log("✅ 사용자 역할 업데이트:", result);
+                      dispatch({
+                        type: "SET_REC_USERROLE_LIST",
+                        payload: result.data,
+                      });
 
-      {/* 전체 추천 / 다음 버튼 */}
-      {/* <div className="flex justify-between mt-8">
-        <Button
-          className="
-                bg-orange-200 hover:bg-orange-300 text-orange-900
-                disabled:opacity-50 disabled:cursor-not-allowed
-                transition-colors
-              "
-        >
-          전체 추천
-        </Button>
+                      resolve();
+                    },
+                    onError: (err) => {
+                      reject(err);
+                    },
+                  }
+                );
+              })
+            }
+          >
+            <RecommendLayout>
+              {recUserRoleList &&
+                recUserRoleList.map((data, index) => (
+                  <RecommendTag
+                    key={index}
+                    onClick={() =>
+                      handleRecommendationClick("userRole", data.userRole)
+                    }
+                    msg={data.userRole}
+                  />
+                ))}
+            </RecommendLayout>
+          </SituationInputField>
+        </div>
 
-        <Button
-          className="
-                bg-orange-500 hover:bg-orange-600 text-white 
-                disabled:opacity-50 disabled:cursor-not-allowed
-                transition-colors
-              "
-        >
-          완료
-        </Button>
-      </div> */}
-    </>
+        {/* 목표 goal */}
+        <div className="flex flex-col items-center mt-5 w-full">
+          <SituationInputField
+            value={formState.goal}
+            onChange={(e) => handleChange(e)}
+            placeholder={"대화 목표를 입력해주세요"}
+            title={"목표 (Goal)"}
+            name={"goal"}
+            aiRecommend={() =>
+              new Promise((resolve, reject) => {
+                mutate(
+                  { type: "goal", metaData, ...formState },
+                  {
+                    onSuccess: (result) => {
+                      console.log("✅ 목표 업데이트:", result.data);
+                      dispatch({
+                        type: "SET_REC_GOAL_LIST",
+                        payload: result.data,
+                      });
+                      resolve();
+                    },
+                    onError: (err) => {
+                      reject(err);
+                    },
+                  }
+                );
+              })
+            }
+          >
+            <RecommendLayout>
+              {recGoalList &&
+                recGoalList.map((data, index) => (
+                  <RecommendTag
+                    key={index}
+                    onClick={() => handleRecommendationClick("goal", data.goal)}
+                    msg={data.goal}
+                  />
+                ))}
+            </RecommendLayout>
+          </SituationInputField>
+        </div>
+        <div className="flex justify-center mt-6">
+          <Button
+            type="submit"
+            className="
+      w-2/3 h-12 px-6 text-xl font-semibold
+      text-white bg-orange-500 rounded-xl 
+      shadow-md transition-all 
+      hover:bg-orange-600 hover:scale-105 
+      focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 
+      disabled:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50
+    "
+          >
+            상황 생성
+          </Button>
+        </div>
+      </form>
+    </div>
   );
 };

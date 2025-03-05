@@ -25,12 +25,22 @@ type TAllRecommendDrawer = {
   onRecommendAll: () => void;
   isAllRec: boolean;
   isLoading: boolean;
+  onFormStateChange: (name: keyof TAllList, value: string) => void;
 };
 
-const SelectCard = ({ item }: { item: TAllList }) => {
+const SelectCard = ({
+  item,
+  onSelect,
+}: {
+  item: TAllList;
+  onSelect: (item: TAllList) => void;
+}) => {
   return (
-    <button className="flex w-full flex-col items-center rounded-xl border bg-card p-6 text-card-foreground shadow-lg transition-colors hover:bg-muted/40 sm:p-10">
-      <div className="flex flex-col  space-y-2 text-lg text-muted-foreground">
+    <button
+      className="flex w-full flex-col items-center rounded-xl border bg-card p-6 text-card-foreground shadow-lg transition-colors hover:bg-muted/40 sm:p-10"
+      onClick={() => onSelect(item)} // 클릭 시 선택된 데이터 전달
+    >
+      <div className="flex flex-col space-y-2 text-lg text-muted-foreground">
         <p className="font-semibold text-center">
           장소 : <span className="text-card-foreground">{item.place}</span>
         </p>
@@ -53,12 +63,31 @@ const AllRecommendDrawer = ({
   onRecommendAll,
   initialData,
   isLoading,
+  onFormStateChange,
 }: TAllRecommendDrawer) => {
-  console.log("initialData", initialData);
+  const handleFormStateChange = (item: TAllList) => {
+    onFormStateChange("place", item.place);
+    onFormStateChange("aiRole", item.aiRole);
+    onFormStateChange("userRole", item.userRole);
+    onFormStateChange("goal", item.goal);
+  };
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button>Open</Button>
+        <Button
+          className="
+          absolute bottom-4 left-4 
+               md:w-16 md:h-16
+          w-12 h-12 rounded-full 
+          bg-orange-500 text-white shadow-lg
+          flex items-center justify-center 
+          transition-all hover:bg-orange-600 hover:scale-110 
+          focus:outline-none focus:ring-4 focus:ring-orange-400 
+          disabled:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50
+        "
+        >
+          Open
+        </Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className="flex justify-between">
@@ -69,7 +98,6 @@ const AllRecommendDrawer = ({
 
           <Button onClick={onRecommendAll} disabled={isLoading}>
             {isLoading ? (
-              // lucide-react spinner
               <Loader2 className="h-5 w-5 animate-spin" />
             ) : (
               <WandSparkles className="h-12 w-12" />
@@ -77,40 +105,41 @@ const AllRecommendDrawer = ({
           </Button>
         </DrawerHeader>
 
-        {/* initialData가 추가됨 */}
         <Carousel className="w-4/5 max-w-[1200px] mx-auto">
           <CarouselContent>
-            {Array.from({ length: initialData!.length / 4 }).map((_, index) => (
-              <CarouselItem key={index}>
-                <div className="p-1">
-                  <div className="grid sm:grid-cols-2 gap-4 mt-8 sm:gap-6 p-2">
-                    {(() => {
-                      const elements = [];
-
-                      for (let i = index * 4; i < 4 * (index + 1); i++) {
-                        elements.push(
-                          <SelectCard item={initialData![i]} key={i} />
-                        );
-                      }
-                      return elements;
-                    })()}
-                  </div>
-                </div>
-              </CarouselItem>
-            ))}
+            {Array.from({ length: Math.ceil(initialData!.length / 4) }).map(
+              (_, index) => (
+                <DrawerClose asChild>
+                  <CarouselItem key={index}>
+                    <div className="p-1">
+                      <div className="grid sm:grid-cols-2 gap-4 mt-8 sm:gap-6 p-2">
+                        {(() => {
+                          const elements = [];
+                          for (let i = index * 4; i < 4 * (index + 1); i++) {
+                            if (i < initialData!.length) {
+                              elements.push(
+                                <SelectCard
+                                  item={initialData![i]}
+                                  key={i}
+                                  onSelect={handleFormStateChange} // 선택 핸들러 전달
+                                />
+                              );
+                            }
+                          }
+                          return elements;
+                        })()}
+                      </div>
+                    </div>
+                  </CarouselItem>
+                </DrawerClose>
+              )
+            )}
           </CarouselContent>
           <CarouselPrevious />
           <CarouselNext />
         </Carousel>
 
-        <DrawerFooter>
-          {/* <button type="button">
-            <Button>Submit</Button>
-          </button>
-          <DrawerClose>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose> */}
-        </DrawerFooter>
+        <DrawerFooter></DrawerFooter>
       </DrawerContent>
     </Drawer>
   );

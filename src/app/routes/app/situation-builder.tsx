@@ -13,7 +13,7 @@ export default function SituationRoute() {
   // ---------- UI ----------
   return (
     <SituationBuilderLayout>
-      <div className="px-2.5 h-full flex flex-col">
+      <div className="px-2.5 h-full flex flex-col overflow-y-hidden">
         {/* 메인 컨텐츠 박스 */}
         <div
           className="
@@ -21,6 +21,8 @@ export default function SituationRoute() {
             flex flex-col justify-between 
             border border-orange-200 
             rounded-xl shadow-lg
+            flex-grow overflow-y-auto
+         
           "
         >
           <RecommendForm metaData={metaData} />

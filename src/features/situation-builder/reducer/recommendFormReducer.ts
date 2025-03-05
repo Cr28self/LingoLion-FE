@@ -57,17 +57,37 @@ export function recommendFormReducer(
         },
       };
 
-    case "SET_REC_PLACE_LIST":
-      return { ...state, recPlaceList: action.payload };
+    case "SET_REC_PLACE_LIST": {
+      const newList = state.recPlaceList || [];
+      action.payload?.forEach((item) => {
+        newList?.push(item);
+      });
+      return { ...state, recPlaceList: newList };
+    }
 
-    case "SET_REC_AIROLE_LIST":
-      return { ...state, recAiRoleList: action.payload };
+    case "SET_REC_AIROLE_LIST": {
+      const newList = state.recAiRoleList || [];
+      action.payload?.forEach((item) => {
+        newList?.push(item);
+      });
+      return { ...state, recAiRoleList: newList };
+    }
 
-    case "SET_REC_USERROLE_LIST":
-      return { ...state, recUserRoleList: action.payload };
+    case "SET_REC_USERROLE_LIST": {
+      const newList = state.recUserRoleList || [];
+      action.payload?.forEach((item) => {
+        newList?.push(item);
+      });
+      return { ...state, recUserRoleList: newList };
+    }
 
-    case "SET_REC_GOAL_LIST":
-      return { ...state, recGoalList: action.payload };
+    case "SET_REC_GOAL_LIST": {
+      const newList = state.recGoalList || [];
+      action.payload?.forEach((item) => {
+        newList?.push(item);
+      });
+      return { ...state, recGoalList: newList };
+    }
 
     case "SET_REC_ALL_LIST": {
       const newList = state.recAllList || [];
