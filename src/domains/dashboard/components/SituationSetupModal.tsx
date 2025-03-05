@@ -15,6 +15,13 @@ import { useNavigate } from "react-router-dom";
 const SituationSetupModal = () => {
   const navigate = useNavigate();
   const [input, setInput] = useState("");
+
+  // 엔터 키를 눌렀을 때 실행될 함수
+  const handleSubmit = () => {
+    if (input.trim() !== "") {
+      navigate("/app/situation/new", { state: { metaData: input } });
+    }
+  };
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -38,16 +45,17 @@ const SituationSetupModal = () => {
               className="col-span-4"
               value={input}
               onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleSubmit();
+                }
+              }}
             />
           </div>
         </div>
         <DialogFooter>
-          <Button
-            type="button"
-            onClick={() => {
-              navigate("/app/situation/new", { state: { metaData: input } });
-            }}
-          >
+          <Button type="button" onClick={handleSubmit}>
             제출
           </Button>
         </DialogFooter>
