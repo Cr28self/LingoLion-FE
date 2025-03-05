@@ -19,6 +19,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Loader2, WandSparkles } from "lucide-react";
+import { DrawerTriggerButton } from "./CustomButton";
 
 type TAllRecommendDrawer = {
   initialData: TAllList[] | null;
@@ -74,20 +75,7 @@ const AllRecommendDrawer = ({
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button
-          className="
-          absolute bottom-4 left-4 
-               md:w-16 md:h-16
-          w-12 h-12 rounded-full 
-          bg-orange-500 text-white shadow-lg
-          flex items-center justify-center 
-          transition-all hover:bg-orange-600 hover:scale-110 
-          focus:outline-none focus:ring-4 focus:ring-orange-400 
-          disabled:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50
-        "
-        >
-          Open
-        </Button>
+        <DrawerTriggerButton title="open" />
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className="flex justify-between">

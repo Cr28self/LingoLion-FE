@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import SituationBuilderLayout from "@/components/layout/situation-builder-layout";
-import { RecommendForm } from "@/features/situation-builder/components/Recommend";
+import { RecommendForm } from "@/features/situation-builder/components/RecommendForm";
 
 // ---------- 메인 컴포넌트 ----------
 export default function SituationRoute() {
