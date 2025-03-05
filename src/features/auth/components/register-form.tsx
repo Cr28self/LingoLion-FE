@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -15,11 +14,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { z } from "zod";
+import SubmitButton from "./SubmitButton";
+import { useState } from "react";
 type RegisterFormProps = {
   onSuccessNavigate: () => void;
 };
 const RegisterForm = ({ onSuccessNavigate }: RegisterFormProps) => {
-  const { mutate: register } = useRegister({ onSuccessNavigate });
+  const [isRegistering, setIsRegistering] = useState<boolean>(false);
+  const { mutate: register } = useRegister({
+    onSuccessNavigate,
+    setIsRegistering,
+  });
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
@@ -128,6 +133,15 @@ const RegisterForm = ({ onSuccessNavigate }: RegisterFormProps) => {
           >
             회원 가입
           </Button>
+
+          <SubmitButton
+            type="submit"
+            isLoading={isRegistering}
+            disabled={isRegistering}
+            className="w-full py-2 rounded-lg text-white font-semibold bg-orange-500 hover:bg-orange-400 transition-colors"
+          >
+            회원 가입
+          </SubmitButton>
         </form>
       </Form>
 

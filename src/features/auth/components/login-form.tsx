@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,14 +14,20 @@ import {
 import { Input } from "@/components/ui/input";
 import { loginSchema } from "@/lib/auth/schema";
 import { useLogin } from "@/lib/auth/hooks";
+import { useState } from "react";
+
+import SubmitButton from "./SubmitButton";
 
 // TODO : 일단 지금은 useState를 사용해서 email, password를 관리하고, 나중에 react-hook-form, zod 사용해서 리팩토링
 
 type LoginFormProps = {
   onSuccessNavigate: () => void;
 };
+
 const LoginForm = ({ onSuccessNavigate }: LoginFormProps) => {
-  const { mutate: login } = useLogin({ onSuccessNavigate });
+  const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
+  const { mutate: login } = useLogin({ onSuccessNavigate, setIsLoggingIn });
+
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -78,13 +83,14 @@ const LoginForm = ({ onSuccessNavigate }: LoginFormProps) => {
             )}
           />
 
-          {/* 로그인 버튼 */}
-          <Button
+          <SubmitButton
             type="submit"
+            isLoading={isLoggingIn}
+            disabled={isLoggingIn}
             className="w-full py-2 rounded-lg text-white font-semibold bg-orange-500 hover:bg-orange-400 transition-colors"
           >
             로그인
-          </Button>
+          </SubmitButton>
         </form>
       </Form>
 

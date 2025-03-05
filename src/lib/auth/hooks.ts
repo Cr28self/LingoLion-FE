@@ -10,38 +10,54 @@ import { useAuthApiClient } from "./useAuthApiClient";
 // ! 로그인 hook
 export const useLogin = ({
   onSuccessNavigate,
+  setIsLoggingIn,
 }: {
   onSuccessNavigate: () => void;
+  setIsLoggingIn: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { updateAccessToken } = useAuth();
+
   const { mutate } = useMutation({
     mutationFn: loginFn,
+    // 요청 직전에 isLoggingIn을 true로 설정
+    onMutate: () => {
+      setIsLoggingIn(true);
+    },
+    // 요청 성공 시
     onSuccess: (data) => {
-      // access token을 context에 저장
-      // dashboard로 redirect
       updateAccessToken(data.accessToken);
       toast.success("로그인 성공");
       onSuccessNavigate();
     },
+    // 요청 실패 시
     onError: (error: AxiosError<LoginErrorResponse>) => {
-      // error toast
       console.error(error.response?.data.message);
       toast.error("로그인 실패");
+    },
+    // 성공/실패와 관계없이 항상 호출
+    onSettled: () => {
+      setIsLoggingIn(false);
+      // ↑ 이미 onSuccess, onError 모두에서 false로 설정했다면 중복 설정은 생략 가능
     },
   });
 
   return { mutate };
 };
-
 // ! 회원가입 hook
 export const useRegister = ({
   onSuccessNavigate,
+  setIsRegistering,
 }: {
   onSuccessNavigate: () => void;
+  setIsRegistering: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { mutate } = useMutation({
     mutationFn: registerFn,
-    onSuccess: (data) => {
+    onMutate: () => {
+      setIsRegistering(true);
+    },
+
+    onSuccess: () => {
       toast.success("회원가입이 완료되었습니다.");
       onSuccessNavigate();
     },
@@ -49,6 +65,10 @@ export const useRegister = ({
       toast.error(
         error.response?.data.message || "회원가입 중 오류가 발생했습니다."
       );
+    },
+
+    onSettled: () => {
+      setIsRegistering(false);
     },
   });
 

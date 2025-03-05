@@ -4,9 +4,6 @@ import { RecommendForm } from "@/features/situation-builder/components/Recommend
 
 // ---------- 메인 컴포넌트 ----------
 export default function SituationRoute() {
-  // ! This is CodeRabit Test Code  so this code line will be removed in the future
-  // useReducer로 상태 관리
-
   const location = useLocation();
   const { metaData } = location.state || {}; // state에서 데이터 가져오기
 
