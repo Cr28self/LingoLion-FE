@@ -18,8 +18,11 @@ import { useLogin } from "@/lib/auth/hooks";
 
 // TODO : 일단 지금은 useState를 사용해서 email, password를 관리하고, 나중에 react-hook-form, zod 사용해서 리팩토링
 
-const LoginForm = () => {
-  const { mutate: login } = useLogin();
+type LoginFormProps = {
+  onSuccessNavigate: () => void;
+};
+const LoginForm = ({ onSuccessNavigate }: LoginFormProps) => {
+  const { mutate: login } = useLogin({ onSuccessNavigate });
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {

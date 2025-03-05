@@ -12,13 +12,14 @@ import { Input } from "@/components/ui/input";
 import { useRegister } from "@/lib/auth/hooks";
 import { registerSchema } from "@/lib/auth/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { z } from "zod";
-
-const RegisterForm = () => {
-  const { mutate: register } = useRegister();
+type RegisterFormProps = {
+  onSuccessNavigate: () => void;
+};
+const RegisterForm = ({ onSuccessNavigate }: RegisterFormProps) => {
+  const { mutate: register } = useRegister({ onSuccessNavigate });
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),

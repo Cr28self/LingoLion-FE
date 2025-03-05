@@ -8,8 +8,11 @@ import { toast } from "sonner";
 import { useAuthApiClient } from "./useAuthApiClient";
 
 // ! 로그인 hook
-export const useLogin = () => {
-  const navigate = useNavigate();
+export const useLogin = ({
+  onSuccessNavigate,
+}: {
+  onSuccessNavigate: () => void;
+}) => {
   const { updateAccessToken } = useAuth();
   const { mutate } = useMutation({
     mutationFn: loginFn,
@@ -18,7 +21,7 @@ export const useLogin = () => {
       // dashboard로 redirect
       updateAccessToken(data.accessToken);
       toast.success("로그인 성공");
-      navigate("/app/dashboard");
+      onSuccessNavigate();
     },
     onError: (error: AxiosError<LoginErrorResponse>) => {
       // error toast
@@ -30,13 +33,16 @@ export const useLogin = () => {
 };
 
 // ! 회원가입 hook
-export const useRegister = () => {
-  const navigate = useNavigate();
+export const useRegister = ({
+  onSuccessNavigate,
+}: {
+  onSuccessNavigate: () => void;
+}) => {
   const { mutate } = useMutation({
     mutationFn: registerFn,
     onSuccess: (data) => {
       toast.success("회원가입이 완료되었습니다.");
-      navigate("/auth/login");
+      onSuccessNavigate();
     },
     onError: (error: AxiosError<RegisterErrorResponse>) => {
       toast.error(
