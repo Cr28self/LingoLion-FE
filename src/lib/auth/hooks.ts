@@ -25,7 +25,8 @@ export const useLogin = ({
     },
     onError: (error: AxiosError<LoginErrorResponse>) => {
       // error toast
-      toast.error(error.response?.data.message || "로그인 실패");
+      console.error(error.response?.data.message);
+      toast.error("로그인 실패");
     },
   });
 
