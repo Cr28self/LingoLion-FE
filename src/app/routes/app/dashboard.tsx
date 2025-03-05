@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
-import ChatRoomCard from "@/features/dashboard/components/ChatRoomCard";
-import ConvCardList from "@/features/dashboard/components/ConvCardList";
-import DashboardSidebar from "@/features/dashboard/components/Dashboard-Sidebar";
-import SituationSetupModal from "@/features/dashboard/components/SituationSetupModal";
-import { TChatRoomCard } from "@/features/dashboard/types/types";
+import ChatRoomCard from "@/domains/dashboard/components/ChatRoomCard";
+import ConvCardList from "@/domains/dashboard/components/ConvCardList";
+import DashboardSidebar from "@/domains/dashboard/components/Dashboard-Sidebar";
+import SituationSetupModal from "@/domains/dashboard/components/SituationSetupModal";
+import { TChatRoomCard } from "@/domains/dashboard/types/types";
 import { useLogout } from "@/lib/auth/hooks";
 import React, { Suspense, useState } from "react";
 

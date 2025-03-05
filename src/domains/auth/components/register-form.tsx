@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -126,13 +125,6 @@ const RegisterForm = ({ onSuccessNavigate }: RegisterFormProps) => {
               </FormItem>
             )}
           />
-
-          <Button
-            type="submit"
-            className="w-full py-2 rounded-lg text-white font-semibold bg-orange-500 hover:bg-orange-400 transition-colors"
-          >
-            회원 가입
-          </Button>
 
           <SubmitButton
             type="submit"

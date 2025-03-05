@@ -1,4 +1,4 @@
-import { useGetAllConversations } from "@/features/conversation/api/get-all-conversations";
+import { useGetAllConversations } from "@/domains/conversation/api/get-all-conversations";
 import React from "react";
 
 const ConvCardList = () => {

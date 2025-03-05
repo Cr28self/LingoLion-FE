@@ -4,9 +4,9 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   ReceiveMsgBox,
   SendMsgBox,
-} from "@/features/conversation/components/MsgBox";
-import useConversationScroll from "@/features/conversation/hooks/use-conversation-scroll";
-import { TConvMsg } from "@/features/conversation/types/types";
+} from "@/domains/conversation/components/MsgBox";
+import useConversationScroll from "@/domains/conversation/hooks/use-conversation-scroll";
+import { TConvMsg } from "@/domains/conversation/types/types";
 import { Send } from "lucide-react";
 
 // React 훅 import
