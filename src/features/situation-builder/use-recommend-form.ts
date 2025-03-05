@@ -128,7 +128,7 @@ export function useRecommendForm({
     });
   }
 
-  // ! 폼 전송
+  // ! Form submission
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -148,6 +148,15 @@ export function useRecommendForm({
           toast.success("상황 생성 완료!!");
           onCompleteNavigate(); // 이동 혹은 다른 후속 작업
         },
+        onError: (error) => {
+          console.error("Failed to create situation:", error);
+          dispatch({
+            type: "SET_LOADING",
+            name: "isSubmitting",
+            value: false,
+          });
+          toast.error("상황 생성에 실패했습니다. 다시 시도해주세요.");
+        }
       }
     );
   }
