@@ -17,7 +17,9 @@ export const GlobalRouteErrorFallback = () => {
           <div className="rounded-full bg-destructive/10 p-4">
             <AlertCircle className="h-10 w-10 text-destructive" />
           </div>
-          <h1 className="text-4xl font-bold tracking-tight">Error</h1>
+          <h1 className="text-4xl font-bold tracking-tight">
+            Ooops, something went wrong :
+          </h1>
           <p className="text-muted-foreground">{errorMessage}</p>
         </div>
 
@@ -40,6 +42,18 @@ export const GlobalRouteErrorFallback = () => {
           </Button>
         </div>
       </div>
+    </div>
+  );
+};
+
+export const GlobalAppErrorFallback = ({ error }) => {
+  const isDev = process.env.NODE_ENV === "development";
+  return (
+    <div className="error-container">
+      <h2>죄송합니다. 문제가 발생했습니다.</h2>
+      <p>잠시 후 다시 시도해주세요.</p>
+      {isDev && <p className="error-details">{error.message}</p>}
+      <button onClick={() => window.location.reload()}>새로고침</button>
     </div>
   );
 };

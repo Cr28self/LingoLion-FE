@@ -1,25 +1,23 @@
+import * as React from "react";
 import { AuthProvider } from "@/lib/auth/authContext";
+import { queryConfig } from "@/lib/react-query";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
 import { Toaster } from "sonner";
-
-const queryClient = new QueryClient();
-function GlobalAppErrorFallback({ error }) {
-  const isDev = process.env.NODE_ENV === "development";
-  return (
-    <div className="error-container">
-      <h2>죄송합니다. 문제가 발생했습니다.</h2>
-      <p>잠시 후 다시 시도해주세요.</p>
-      {isDev && <p className="error-details">{error.message}</p>}
-      <button onClick={() => window.location.reload()}>새로고침</button>
-    </div>
-  );
-}
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { GlobalAppErrorFallback } from "@/components/errors/global";
 
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
+  // ! useState는 초기값을 함수로 전달하면, 해당 함수의 실행 결과를 상태의 초기값으로 설정합니다.
+  // ! QueryClient는 비교적 무거운 객체이므로, 불필요한 객체 생성을 방지하기 위해 콜백 함수 (lazy initializer)를 사용합니다.
+  const [queryClient] = React.useState(
+    () => new QueryClient({ defaultOptions: queryConfig })
+  );
+
   return (
     <ErrorBoundary FallbackComponent={GlobalAppErrorFallback}>
       <QueryClientProvider client={queryClient}>
+        {import.meta.env.DEV && <ReactQueryDevtools />}
         <AuthProvider>{children}</AuthProvider>
         <Toaster />
       </QueryClientProvider>

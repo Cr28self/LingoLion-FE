@@ -1,9 +1,4 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-  useNavigate,
-  useRouteError,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LandingRoute from "./routes/landing";
 import NotFoundRoute from "./routes/not-found";
 
@@ -45,7 +40,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/auth/login",
-        errorElement: <GlobalRouteError />,
+        errorElement: <GlobalRouteErrorFallback />,
         lazy: async () => {
           const { LoginRoute } = await import("./routes/auth/login");
           return { Component: LoginRoute };
@@ -60,7 +55,7 @@ const router = createBrowserRouter([
   {
     path: "/app",
     element: <PrivateLayout />,
-    errorElement: <GlobalRouteError />,
+    errorElement: <GlobalRouteErrorFallback />,
     children: [
       {
         path: "dashboard",
