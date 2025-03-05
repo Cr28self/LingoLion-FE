@@ -69,8 +69,17 @@ export function recommendFormReducer(
     case "SET_REC_GOAL_LIST":
       return { ...state, recGoalList: action.payload };
 
-    case "SET_REC_ALL_LIST":
-      return { ...state, recAllList: action.payload };
+    case "SET_REC_ALL_LIST": {
+      const newList = state.recAllList || [];
+      action.payload?.forEach((item) => {
+        newList?.push(item);
+      });
+      return {
+        ...state,
+        recAllList: newList,
+      };
+    }
+
     default:
       return state;
   }

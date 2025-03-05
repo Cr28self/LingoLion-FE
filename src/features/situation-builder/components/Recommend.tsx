@@ -1,13 +1,15 @@
 import { useReducer, useState } from "react";
 import { useRecommendSituations } from "../api/recommend-situations";
 import SituationInputField from "./Situation-Input-Field";
-import AllRecommendModal from "./AllRecommendModal";
 import {
   initialState,
   recommendFormReducer,
 } from "../reducer/recommendFormReducer";
 import { TAllList } from "../reducer/types";
 import { Button } from "@/components/ui/button";
+import AllRecommendDrawer from "./AllRecommendModal";
+import { toast } from "sonner";
+import { Loader2, WandSparkles } from "lucide-react";
 
 type TFormFieldName = keyof TAllList;
 
@@ -63,6 +65,8 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
   // 최초로 전체 추천 한번 했는지..
   const [isAllRec, setIsAllRec] = useState<boolean>(false);
 
+  const [isAllRecLoading, setIsAllRecLoading] = useState<boolean>(false);
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
 
@@ -79,32 +83,45 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
       {/* 전체 추천 로직 : 추천 정보 입력 모달 클릭 -> 클릭하자마자 바로 추천됨 */}
       {isAllRec === false ? (
         <Button
-          onClick={() =>
+          onClick={() => {
+            setIsAllRecLoading(true);
             mutate(
               { type: "all", metaData },
               {
                 onSuccess: (result) => {
                   setIsAllRec(true);
-                  console.log("✅ 전체 출력", result.data);
+                  dispatch({ type: "SET_REC_ALL_LIST", payload: result.data });
+                  toast.success("전체 추천이 완료되었습니다.");
+                  setIsAllRecLoading(false);
                 },
               }
-            )
-          }
+            );
+          }}
+          disabled={isAllRecLoading}
         >
-          전체 추천
+          {isAllRecLoading ? (
+            // lucide-react spinner
+            <Loader2 className="h-5 w-5 animate-spin" />
+          ) : (
+            <WandSparkles className="h-12 w-12" />
+          )}
         </Button>
       ) : (
-        <AllRecommendModal
-          onRecommendAll={() =>
+        <AllRecommendDrawer
+          initialData={recAllList}
+          isLoading={isAllRecLoading}
+          onRecommendAll={() => {
+            setIsAllRecLoading(true);
             mutate(
               { type: "all", metaData },
               {
                 onSuccess: (result) => {
-                  console.log("✅ 전체 출력", result.data);
+                  dispatch({ type: "SET_REC_ALL_LIST", payload: result.data });
+                  setIsAllRecLoading(false);
                 },
               }
-            )
-          }
+            );
+          }}
           isAllRec={isAllRec}
         />
       )}

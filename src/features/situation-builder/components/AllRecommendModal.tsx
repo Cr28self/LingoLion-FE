@@ -1,57 +1,119 @@
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 
-type TAllRecommendModal = {
+import { TAllList } from "../reducer/types";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { Loader2, WandSparkles } from "lucide-react";
+
+type TAllRecommendDrawer = {
+  initialData: TAllList[] | null;
   onRecommendAll: () => void;
   isAllRec: boolean;
+  isLoading: boolean;
 };
 
-const AllRecommendModal = ({
-  onRecommendAll,
-  isAllRec,
-}: TAllRecommendModal) => {
-  const [input, setInput] = useState("");
+const SelectCard = ({ item }: { item: TAllList }) => {
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button>전체 추천</Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>추천 정보 입력</DialogTitle>
-          <DialogDescription>
-            상황 생성을 위해서 ai에게 도움이 될만한 추천 정보를 입력해주세요
-          </DialogDescription>
-        </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Input
-              id="name"
-              placeholder="달리기"
-              className="col-span-4"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-            />
-          </div>
-        </div>
-        <DialogFooter>
-          <Button type="button" onClick={onRecommendAll}>
-            제출
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <button className="flex w-full flex-col items-center rounded-xl border bg-card p-6 text-card-foreground shadow-lg transition-colors hover:bg-muted/40 sm:p-10">
+      <div className="flex flex-col  space-y-2 text-lg text-muted-foreground">
+        <p className="font-semibold text-center">
+          장소 : <span className="text-card-foreground">{item.place}</span>
+        </p>
+        <p className="font-semibold text-center">
+          AI 역할 : <span className="text-card-foreground">{item.aiRole}</span>
+        </p>
+        <p className="font-semibold text-center">
+          사용자 역할 :{" "}
+          <span className="text-card-foreground">{item.userRole}</span>
+        </p>
+        <p className="font-semibold text-center">
+          목표 : <span className="text-card-foreground">{item.goal}</span>
+        </p>
+      </div>
+    </button>
   );
 };
 
-export default AllRecommendModal;
+const AllRecommendDrawer = ({
+  onRecommendAll,
+  initialData,
+  isLoading,
+}: TAllRecommendDrawer) => {
+  console.log("initialData", initialData);
+  return (
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button>Open</Button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader className="flex justify-between">
+          <div>
+            <DrawerTitle>전체 추천</DrawerTitle>
+            <DrawerDescription>하나를 선택하세요</DrawerDescription>
+          </div>
+
+          <Button onClick={onRecommendAll} disabled={isLoading}>
+            {isLoading ? (
+              // lucide-react spinner
+              <Loader2 className="h-5 w-5 animate-spin" />
+            ) : (
+              <WandSparkles className="h-12 w-12" />
+            )}
+          </Button>
+        </DrawerHeader>
+
+        {/* initialData가 추가됨 */}
+        <Carousel className="w-4/5 max-w-[1200px] mx-auto">
+          <CarouselContent>
+            {Array.from({ length: initialData!.length / 4 }).map((_, index) => (
+              <CarouselItem key={index}>
+                <div className="p-1">
+                  <div className="grid sm:grid-cols-2 gap-4 mt-8 sm:gap-6 p-2">
+                    {(() => {
+                      const elements = [];
+
+                      for (let i = index * 4; i < 4 * (index + 1); i++) {
+                        elements.push(
+                          <SelectCard item={initialData![i]} key={i} />
+                        );
+                      }
+                      return elements;
+                    })()}
+                  </div>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+
+        <DrawerFooter>
+          {/* <button type="button">
+            <Button>Submit</Button>
+          </button>
+          <DrawerClose>
+            <Button variant="outline">Cancel</Button>
+          </DrawerClose> */}
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  );
+};
+
+export default AllRecommendDrawer;
