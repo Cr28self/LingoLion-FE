@@ -26,6 +26,7 @@ const AuthContext = createContext<AuthContextType>({
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const accessTokenRef = useRef<string | null>(null);
+  console.log(accessTokenRef);
 
   // 새로 추가: 인증 여부 확인이 완료되기 전까지 true
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
@@ -54,6 +55,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (data?.accessToken) {
         updateAccessToken(data.accessToken);
       }
+
       setIsCheckingAuth(false); // 토큰 갱신 끝났으니 false
     },
     onError: () => {
@@ -62,6 +64,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setIsCheckingAuth(false); // 토큰 갱신 끝났으니 false
     },
   });
+
   useEffect(() => {
     mutate();
   }, [mutate]);

@@ -1,13 +1,15 @@
 import { Button } from "@/components/ui/button";
 import ChatRoomCard from "@/features/dashboard/components/ChatRoomCard";
+import ConvCardList from "@/features/dashboard/components/ConvCardList";
 import DashboardSidebar from "@/features/dashboard/components/Dashboard-Sidebar";
+import SituationSetupModal from "@/features/dashboard/components/SituationSetupModal";
 import { TChatRoomCard } from "@/features/dashboard/types/types";
 import { useLogout } from "@/lib/auth/hooks";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { Suspense, useState } from "react";
 
 const DashboardRoute = () => {
   const { logout, isLoggingOut } = useLogout();
+
   // !나중에 API로부터 받아온 데이터로 대체
   const [chatRoomList, setChatRoomList] = useState<TChatRoomCard[] | null>([
     { chatId: "1", title: "공항 안내 데스크", icon: "👤", time: "2h ago" },
@@ -91,15 +93,18 @@ const DashboardRoute = () => {
           )}
         </div>
 
+        <Suspense fallback={<div>Loading...</div>}>
+          <ConvCardList />
+        </Suspense>
+
         {/* Recent Activity */}
         <div className="bg-white p-6 rounded-xl shadow-sm">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">
               채팅방 목록
             </h2>
-            <Button>
-              <Link to="/app/situation/new">시나리오 생성</Link>
-            </Button>
+
+            <SituationSetupModal />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

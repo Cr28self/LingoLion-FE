@@ -1,19 +1,25 @@
-import { apiClient } from "@/lib/api-client";
-import { ChatList } from "@/types/api";
-import { useQuery } from "@tanstack/react-query";
+import { useAuthApiClient } from "@/lib/auth/useAuthApiClient";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { AxiosInstance } from "axios";
 
-// 순수 API 호출 함수
-export const getAllConversations = (): Promise<{ data: ChatList[] }> => {
-  return apiClient.get("/chat");
+export const getAllConversations = (apiClient: AxiosInstance) => {
+  return apiClient.get("/conversations");
 };
 
-// 쿼리 옵션
-export const getAllChatQueryOptions = () => {};
-
-// 최종 커스텀 훅
-export const useGetAllChat = () => {
-  return useQuery({
+export const getAllConvQueryOptions = () => {
+  return queryOptions({
     queryKey: ["getAllConversations"],
-    queryFn: getAllConversations,
+    staleTime: Infinity,
+
+    refetchOnWindowFocus: false,
+  });
+};
+
+export const useGetAllConversations = () => {
+  const authApiClient = useAuthApiClient();
+  return useSuspenseQuery({
+    queryFn: () => getAllConversations(authApiClient),
+
+    ...getAllConvQueryOptions(),
   });
 };
