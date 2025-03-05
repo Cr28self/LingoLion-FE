@@ -19,6 +19,9 @@ export type RecommendFormState = {
   recUserRoleList: TUserRoleList[] | null;
   recAiRoleList: TAiRoleList[] | null;
   recGoalList: TGoalList[] | null;
+  isInitialAllRec: boolean;
+  isAllRecLoading: boolean;
+  isSubmitting: boolean;
 };
 
 export type recommendFormAction =
@@ -27,8 +30,12 @@ export type recommendFormAction =
   | { type: "SET_REC_AIROLE_LIST"; payload: TAiRoleList[] | null }
   | { type: "SET_REC_USERROLE_LIST"; payload: TUserRoleList[] | null }
   | { type: "SET_REC_GOAL_LIST"; payload: TGoalList[] | null }
-  | { type: "SET_REC_ALL_LIST"; payload: TAllList[] | null };
-
+  | { type: "SET_REC_ALL_LIST"; payload: TAllList[] | null }
+  | {
+      type: "SET_LOADING";
+      name: "isAllRecLoading" | "isSubmitting";
+      value: boolean;
+    };
 export const initialState: RecommendFormState = {
   formState: {
     place: "",
@@ -41,6 +48,9 @@ export const initialState: RecommendFormState = {
   recUserRoleList: null,
   recAiRoleList: null,
   recGoalList: null,
+  isAllRecLoading: false,
+  isInitialAllRec: false,
+  isSubmitting: false,
 };
 
 export function recommendFormReducer(
@@ -96,9 +106,12 @@ export function recommendFormReducer(
       });
       return {
         ...state,
+        isInitialAllRec: true,
         recAllList: newList,
       };
     }
+    case "SET_LOADING":
+      return { ...state, [action.name]: action.value };
 
     default:
       return state;

@@ -26,3 +26,10 @@ export type TRecommend = {
   aiRole?: string;
   goal?: string;
 };
+
+export type TMakeSituation = {
+  place: string;
+  aiRole: string;
+  userRole: string;
+  goal: string;
+};

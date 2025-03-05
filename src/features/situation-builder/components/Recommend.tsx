@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import AllRecommendDrawer from "./AllRecommendModal";
 import { toast } from "sonner";
 import { Loader2, WandSparkles } from "lucide-react";
+import { useMakeSituation } from "../api/make-situation";
 
 type TFormFieldName = keyof TAllList;
 
@@ -48,8 +49,15 @@ const RecommendLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const RecommendForm = ({ metaData }: { metaData?: string }) => {
-  const { mutate } = useRecommendSituations();
+export const RecommendForm = ({
+  metaData,
+  onCompleteNavigate,
+}: {
+  metaData?: string;
+  onCompleteNavigate: () => void;
+}) => {
+  const { mutate: mutateRecommend } = useRecommendSituations();
+  const { mutate: mutateMake } = useMakeSituation();
 
   const [
     {
@@ -59,14 +67,12 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
       recGoalList,
       recPlaceList,
       recUserRoleList,
+      isAllRecLoading,
+      isInitialAllRec,
+      isSubmitting,
     },
     dispatch,
   ] = useReducer(recommendFormReducer, initialState);
-
-  // 최초로 전체 추천 한번 했는지..
-  const [isAllRec, setIsAllRec] = useState<boolean>(false);
-
-  const [isAllRecLoading, setIsAllRecLoading] = useState<boolean>(false);
 
   // ! Input 박스로 입력시 formState에 반영
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -80,25 +86,55 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
     dispatch({ type: "SET_FORM_VALUE", name, value });
   }
 
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    const { place, aiRole, goal, userRole } = formState;
+
+    // ! START
+    dispatch({ type: "SET_LOADING", name: "isSubmitting", value: true });
+
+    mutateMake(
+      { place, aiRole, goal, userRole },
+      {
+        onSuccess: (result) => {
+          // !END
+          dispatch({ type: "SET_LOADING", name: "isSubmitting", value: false });
+
+          toast.success("상황 생성 완료!!");
+
+          // naviga
+          onCompleteNavigate();
+        },
+      }
+    );
+  }
   return (
     <div className="relative">
-      <form className="relative">
+      <form className="relative" onSubmit={handleSubmit}>
         {/* 전체 추천 버튼 - 문서 흐름을 차지하지 않도록 absolute 배치 */}
-        {!isAllRec && (
+        {!isInitialAllRec && (
           <Button
             onClick={() => {
-              setIsAllRecLoading(true);
-              mutate(
+              dispatch({
+                type: "SET_LOADING",
+                name: "isAllRecLoading",
+                value: true,
+              });
+              mutateRecommend(
                 { type: "all", metaData },
                 {
                   onSuccess: (result) => {
-                    setIsAllRec(true);
                     dispatch({
                       type: "SET_REC_ALL_LIST",
                       payload: result.data,
                     });
                     toast.success("전체 추천이 완료되었습니다.");
-                    setIsAllRecLoading(false);
+                    dispatch({
+                      type: "SET_LOADING",
+                      name: "isAllRecLoading",
+                      value: false,
+                    });
                   },
                 }
               );
@@ -124,13 +160,17 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
         )}
 
         {/* AllRecommendDrawer (전체 추천이 완료된 후 모달 버튼 표시) */}
-        {isAllRec && (
+        {isInitialAllRec && (
           <AllRecommendDrawer
             initialData={recAllList}
             isLoading={isAllRecLoading}
             onRecommendAll={() => {
-              setIsAllRecLoading(true);
-              mutate(
+              dispatch({
+                type: "SET_LOADING",
+                name: "isAllRecLoading",
+                value: true,
+              });
+              mutateRecommend(
                 { type: "all", metaData },
                 {
                   onSuccess: (result) => {
@@ -138,12 +178,16 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
                       type: "SET_REC_ALL_LIST",
                       payload: result.data,
                     });
-                    setIsAllRecLoading(false);
+                    dispatch({
+                      type: "SET_LOADING",
+                      name: "isAllRecLoading",
+                      value: false,
+                    });
                   },
                 }
               );
             }}
-            isAllRec={isAllRec}
+            isAllRec={isInitialAllRec}
             onFormStateChange={handleRecommendationClick}
           />
         )}
@@ -159,7 +203,7 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
             name={"place"}
             aiRecommend={() => {
               return new Promise<void>((resolve, reject) => {
-                mutate(
+                mutateRecommend(
                   { type: "place", metaData, ...formState },
                   {
                     onSuccess: (result) => {
@@ -205,7 +249,7 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
             name={"aiRole"}
             aiRecommend={() =>
               new Promise<void>((resolve, reject) => {
-                mutate(
+                mutateRecommend(
                   { type: "aiRole", metaData, ...formState },
                   {
                     onSuccess: (result) => {
@@ -249,7 +293,7 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
             name={"userRole"}
             aiRecommend={() =>
               new Promise<void>((resolve, reject) => {
-                mutate(
+                mutateRecommend(
                   { type: "userRole", metaData, ...formState },
                   {
                     onSuccess: (result) => {
@@ -294,7 +338,7 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
             name={"goal"}
             aiRecommend={() =>
               new Promise((resolve, reject) => {
-                mutate(
+                mutateRecommend(
                   { type: "goal", metaData, ...formState },
                   {
                     onSuccess: (result) => {
@@ -336,8 +380,19 @@ export const RecommendForm = ({ metaData }: { metaData?: string }) => {
       focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 
       disabled:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50
     "
+            disabled={
+              isSubmitting ||
+              !formState.place ||
+              !formState.aiRole ||
+              !formState.userRole ||
+              !formState.goal
+            }
           >
-            상황 생성
+            {isSubmitting ? (
+              <Loader2 className="h-6 w-6 animate-spin" />
+            ) : (
+              "상황 생성"
+            )}
           </Button>
         </div>
       </form>

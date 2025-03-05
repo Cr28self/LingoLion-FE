@@ -109,8 +109,8 @@ const AllRecommendDrawer = ({
           <CarouselContent>
             {Array.from({ length: Math.ceil(initialData!.length / 4) }).map(
               (_, index) => (
-                <DrawerClose asChild>
-                  <CarouselItem key={index}>
+                <DrawerClose asChild key={index}>
+                  <CarouselItem>
                     <div className="p-1">
                       <div className="grid sm:grid-cols-2 gap-4 mt-8 sm:gap-6 p-2">
                         {(() => {

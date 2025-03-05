@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SituationBuilderLayout from "@/components/layout/situation-builder-layout";
 import { RecommendForm } from "@/features/situation-builder/components/Recommend";
 
@@ -9,6 +9,8 @@ export default function SituationRoute() {
 
   const location = useLocation();
   const { metaData } = location.state || {}; // state에서 데이터 가져오기
+
+  const navigate = useNavigate();
 
   // ---------- UI ----------
   return (
@@ -25,7 +27,10 @@ export default function SituationRoute() {
          
           "
         >
-          <RecommendForm metaData={metaData} />
+          <RecommendForm
+            metaData={metaData}
+            onCompleteNavigate={() => navigate("/app/dashboard")}
+          />
         </div>
       </div>
     </SituationBuilderLayout>
