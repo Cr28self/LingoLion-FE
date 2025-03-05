@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { BrainCircuit, Search, ArrowLeft, Sparkles } from "lucide-react";
-import { useEffect, useState, useRef } from "react";
+import { Search, ArrowLeft, Sparkles } from "lucide-react";
+import { useEffect, useState } from "react";
 import { AnimatedGradientText } from "@/components/animated-gradient-text";
 
-export default function NotFoundRoute() {
+export const NotFoundRoute = () => {
   const [searchPosition, setSearchPosition] = useState({ x: 0, y: 0 });
   const [showSparkle, setShowSparkle] = useState(false);
   const [wordIndex, setWordIndex] = useState(0);
@@ -123,4 +123,4 @@ export default function NotFoundRoute() {
       </footer>
     </div>
   );
-}
+};

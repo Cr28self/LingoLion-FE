@@ -69,10 +69,6 @@ const router = createBrowserRouter([
         path: "situation/new",
         element: <SituationRoute />,
       },
-      // {
-      //   path: "/situation/new",
-      //   element: <SituationRoute />,
-      // },
     ],
   },
 
@@ -81,7 +77,10 @@ const router = createBrowserRouter([
   // ===========================
   {
     path: "*",
-    element: <NotFoundRoute />,
+    lazy: async () => {
+      const { NotFoundRoute } = await import("./routes/not-found");
+      return { Component: NotFoundRoute };
+    },
   },
 ]);
 
