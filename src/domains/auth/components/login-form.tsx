@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import {
   Form,
   FormControl,
@@ -15,10 +14,7 @@ import { Input } from "@/components/ui/input";
 import { loginSchema } from "@/lib/auth/schema";
 import { useLogin } from "@/lib/auth/hooks";
 import { useState } from "react";
-
 import SubmitButton from "./SubmitButton";
-
-// TODO : 일단 지금은 useState를 사용해서 email, password를 관리하고, 나중에 react-hook-form, zod 사용해서 리팩토링
 
 type LoginFormProps = {
   onSuccessNavigate: () => void;
@@ -43,10 +39,10 @@ const LoginForm = ({ onSuccessNavigate }: LoginFormProps) => {
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
           <FormField
             control={form.control}
-            name={"email"}
+            name="email"
             render={({ field }) => (
               <FormItem className="mb-4">
                 <FormLabel>Email</FormLabel>
@@ -54,18 +50,16 @@ const LoginForm = ({ onSuccessNavigate }: LoginFormProps) => {
                   <Input
                     placeholder="abcde@example.com"
                     type="email"
-                    required
                     {...field}
                   />
                 </FormControl>
-
                 <FormMessage />
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
-            name={"password"}
+            name="password"
             render={({ field }) => (
               <FormItem className="mb-6">
                 <FormLabel>Password</FormLabel>
@@ -73,16 +67,14 @@ const LoginForm = ({ onSuccessNavigate }: LoginFormProps) => {
                   <Input
                     placeholder="Password"
                     type="password"
-                    required
                     {...field}
+                    onBlur={field.onBlur} // 포커스를 잃을 때도 유효성 검사
                   />
                 </FormControl>
-                {/* <FormDescription></FormDescription> */}
                 <FormMessage />
               </FormItem>
             )}
           />
-
           <SubmitButton
             type="submit"
             isLoading={isLoggingIn}
@@ -93,7 +85,6 @@ const LoginForm = ({ onSuccessNavigate }: LoginFormProps) => {
           </SubmitButton>
         </form>
       </Form>
-
       {/* 회원가입 링크 */}
       <div className="mt-4 text-center">
         <span className="text-gray-600">Don't have an account? </span>
