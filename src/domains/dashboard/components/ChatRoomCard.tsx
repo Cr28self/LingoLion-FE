@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 const ChatRoomCard = ({ chatId, title, icon, time }: TChatRoomCard) => {
   return (
     <Link to={`/app/c/${chatId}`}>
-      <div className="bg-white p-5 rounded-xl border border-gray-100 hover:border-orange-300 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer group">
+      <div className="bg-white/60 backdrop-blur-md p-5 rounded-xl border border-white/50 shadow-sm hover:shadow-md hover:bg-white/80 transition-all duration-200 cursor-pointer group">
         <div className="flex items-center">
-          <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-2xl mr-4 group-hover:bg-orange-200 transition-colors duration-200">
+          <div className="w-12 h-12 bg-orange-100/80 backdrop-blur-sm rounded-full flex items-center justify-center text-2xl mr-4 group-hover:bg-orange-200/80 transition-colors duration-200">
             <span className="text-orange-600">{icon}</span>
           </div>
           <div className="flex-1">
