@@ -1,6 +1,7 @@
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import SituationSetupModal from "@/domains/dashboard/components/SituationSetupModal";
 import SituationGrid from "@/domains/dashboard/components/SituationGrid";
+import { Suspense } from "react";
 
 const DashboardSituationsRoute = () => {
   // 상황 목록 데이터 (나중에 API로 대체)
@@ -23,7 +24,9 @@ const DashboardSituationsRoute = () => {
 
       {/* Situations Grid */}
 
-      <SituationGrid />
+      <Suspense fallback={<div>loading.......</div>}>
+        <SituationGrid onMakeSuccessLink={"/app/dashboard/conversations"} />
+      </Suspense>
     </DashboardLayout>
   );
 };

@@ -1,5 +1,5 @@
 import DashboardLayout from "@/components/layout/dashboard-layout";
-import React from "react";
+import React, { useState } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -9,46 +9,25 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { useGetAllConversations } from "@/domains/dashboard/api/get-all-conversations";
+import { formatDate } from "@/lib/utils";
 
 const DashboardConversationsRoute = () => {
-  // 회화 목록 데이터 (나중에 API로 대체)
-  const conversations = [
-    {
-      id: 1,
-      title: "공항 안내 데스크",
-      date: "2023-05-15",
-      duration: "10분",
-      score: 85,
-    },
-    {
-      id: 2,
-      title: "레스토랑 주문",
-      date: "2023-05-14",
-      duration: "15분",
-      score: 92,
-    },
-    {
-      id: 3,
-      title: "카드 분실",
-      date: "2023-05-12",
-      duration: "8분",
-      score: 78,
-    },
-    {
-      id: 4,
-      title: "시간 약속 잡기",
-      date: "2023-05-10",
-      duration: "12분",
-      score: 88,
-    },
-    {
-      id: 5,
-      title: "호텔 예약",
-      date: "2023-05-08",
-      duration: "14분",
-      score: 90,
-    },
-  ];
+  const [cursor, setCursor] = useState<string | null>(null);
+  const { data } = useGetAllConversations({ cursor });
+
+  const conversations = data?.data || [];
+  const pageInfo = data?.pageInfo;
+
+  const handleNextPage = () => {
+    if (pageInfo?.hasNextPage) {
+      setCursor(pageInfo.endCursor);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    setCursor(null); // 첫 페이지로 돌아가기
+  };
 
   return (
     <DashboardLayout>
@@ -83,86 +62,128 @@ const DashboardConversationsRoute = () => {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  제목
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  날짜
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  소요 시간
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  점수
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  액션
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {conversations.map((conversation) => (
-                <tr key={conversation.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">
+        {/* 카드 그리드 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {conversations.map((conversation) => (
+            <div
+              key={conversation.id}
+              className="bg-white/80 p-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-orange-100 flex flex-col"
+            >
+              <div className="flex items-start justify-between">
+                <div className="flex items-center">
+                  <span className="text-3xl mr-3">
+                    {conversation.icon || "💬"}
+                  </span>
+                  <div>
+                    <h3 className="font-medium text-lg text-gray-800">
                       {conversation.title}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-500">
-                      {conversation.date}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-500">
-                      {conversation.duration}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <span className="text-sm font-medium text-gray-900 mr-2">
-                        {conversation.score}
-                      </span>
-                      <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-orange-500 rounded-full"
-                          style={{ width: `${conversation.score}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    <button className="text-orange-500 hover:text-orange-700 mr-3">
-                      보기
-                    </button>
-                    <button className="text-gray-500 hover:text-gray-700">
-                      삭제
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                    </h3>
+                    <p className="text-sm text-gray-500">
+                      {formatDate(conversation.createdAt)}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex space-x-1">
+                  <button className="p-1 hover:bg-gray-100 rounded">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-gray-500"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      />
+                    </svg>
+                  </button>
+                  <button className="p-1 hover:bg-gray-100 rounded">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-gray-500"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <div className="mt-4 flex justify-between items-center">
+                <div className="flex space-x-2">
+                  <span className="px-2 py-1 bg-orange-100 text-orange-600 rounded text-xs">
+                    회화
+                  </span>
+                  <span className="px-2 py-1 bg-blue-100 text-blue-600 rounded text-xs">
+                    {conversation.id}번
+                  </span>
+                </div>
+                <button className="px-3 py-1 bg-orange-500 text-white rounded-md text-sm hover:bg-orange-600 transition-colors">
+                  계속하기
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
 
+        {/* 페이지네이션 */}
         <div className="mt-6 flex justify-center">
           <Pagination>
             <PaginationContent>
               <PaginationItem>
-                <PaginationPrevious href="#" />
+                <PaginationPrevious
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handlePreviousPage();
+                  }}
+                  className={!cursor ? "pointer-events-none opacity-50" : ""}
+                />
               </PaginationItem>
               <PaginationItem>
-                <PaginationLink href="#">1</PaginationLink>
+                <PaginationLink href="#" isActive={!cursor}>
+                  1
+                </PaginationLink>
               </PaginationItem>
+              {cursor && (
+                <PaginationItem>
+                  <PaginationLink href="#" isActive>
+                    2
+                  </PaginationLink>
+                </PaginationItem>
+              )}
               <PaginationItem>
                 <PaginationEllipsis />
               </PaginationItem>
               <PaginationItem>
-                <PaginationNext href="#" />
+                <PaginationNext
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNextPage();
+                  }}
+                  className={
+                    !pageInfo?.hasNextPage
+                      ? "pointer-events-none opacity-50"
+                      : ""
+                  }
+                />
               </PaginationItem>
             </PaginationContent>
           </Pagination>

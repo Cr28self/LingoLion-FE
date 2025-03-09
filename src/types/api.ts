@@ -33,3 +33,13 @@ export type TMakeSituation = {
   userRole: string;
   goal: string;
 };
+
+export type TMakeConversation = {
+  title: string;
+  icon?: string;
+  situationId: number;
+  metaData?: {
+    difficulty: "상" | "중" | "하";
+    request: string;
+  };
+};

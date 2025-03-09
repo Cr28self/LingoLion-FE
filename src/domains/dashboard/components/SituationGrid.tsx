@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   Pagination,
@@ -11,47 +11,46 @@ import {
 } from "@/components/ui/pagination";
 import MakeConvSetupModal from "@/domains/dashboard/components/MakeConvSetupModal";
 import { useGetSituations } from "../api/get-situations";
-const SituationGrid = () => {
-  const { data } = useGetSituations();
-  console.log(data);
-  const situations = [
-    {
-      id: 1,
-      title: "공항 체크인",
-      level: "초급",
-      category: "여행",
-    },
-    {
-      id: 2,
-      title: "레스토랑 주문",
-      level: "초급",
-      category: "식당",
-    },
-    {
-      id: 3,
-      title: "호텔 체크인",
-      level: "초급",
-      category: "여행",
-    },
-    {
-      id: 4,
-      title: "길 찾기",
-      level: "중급",
-      category: "여행",
-    },
-    {
-      id: 5,
-      title: "쇼핑하기",
-      level: "중급",
-      category: "쇼핑",
-    },
-    {
-      id: 6,
-      title: "병원 방문",
-      level: "고급",
-      category: "의료",
-    },
-  ];
+import { TAllList } from "@/domains/situation-builder/reducer/types";
+
+type MappedSituation = {
+  id: number;
+  title: string;
+  level: string;
+  category: string;
+};
+type SituationGridProps = {
+  onMakeSuccessLink: string;
+};
+
+const SituationGrid = ({ onMakeSuccessLink }: SituationGridProps) => {
+  const [cursor, setCursor] = useState<string | null>(null);
+  const { data } = useGetSituations({ cursor });
+
+  const situations = data?.data || [];
+
+  const pageInfo = data?.pageInfo;
+
+  const handleNextPage = () => {
+    if (pageInfo?.hasNextPage) {
+      setCursor(pageInfo.endCursor);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    setCursor(null); // 첫 페이지로 돌아가기
+  };
+
+  // 상황 데이터 매핑 함수
+  const mapSituationData = (situation: TAllList): MappedSituation => {
+    return {
+      id: situation.id,
+      title: situation.place,
+      level: situation.goal ? "중급" : "초급", // 예시로 goal 유무에 따라 레벨 설정
+      category: situation.aiRole?.split(":")[0] || "기타", // aiRole에서 첫 부분을 카테고리로 사용
+    };
+  };
+
   return (
     <div className="bg-white/70 backdrop-blur-md p-6 rounded-xl shadow-sm border border-white/50">
       <div className="flex items-center justify-between mb-6">
@@ -73,49 +72,75 @@ const SituationGrid = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {situations.map((situation) => (
-          <>
-            <MakeConvSetupModal>
-              <button
-                key={situation.id}
-                className="bg-white/80 p-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-orange-100"
-              >
+        {situations.map((situation) => {
+          const mappedSituation = mapSituationData(situation);
+          return (
+            <MakeConvSetupModal key={situation.id} situation={situation}>
+              <button className="bg-white/80 p-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-orange-100 w-full text-left">
                 <h3 className="font-medium text-lg text-gray-800">
-                  {situation.title}
+                  {mappedSituation.title}
                 </h3>
+                <p className="text-sm text-gray-600 mt-1 line-clamp-2">
+                  {situation.goal}
+                </p>
                 <div className="flex mt-2 space-x-2">
                   <span className="px-2 py-1 bg-orange-100 text-orange-600 rounded text-xs">
-                    {situation.level}
+                    {mappedSituation.level}
                   </span>
                   <span className="px-2 py-1 bg-blue-100 text-blue-600 rounded text-xs">
-                    {situation.category}
+                    {mappedSituation.category}
                   </span>
                 </div>
                 <div className="mt-4 flex justify-end">
-                  <button className="px-3 py-1 bg-orange-500 text-white rounded-md text-sm hover:bg-orange-600 transition-colors">
+                  <span className="px-3 py-1 bg-orange-500 text-white rounded-md text-sm hover:bg-orange-600 transition-colors">
                     시작하기
-                  </button>
+                  </span>
                 </div>
               </button>
             </MakeConvSetupModal>
-          </>
-        ))}
+          );
+        })}
       </div>
 
       <div className="mt-6 flex justify-center">
         <Pagination>
           <PaginationContent>
             <PaginationItem>
-              <PaginationPrevious href="#" />
+              <PaginationPrevious
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handlePreviousPage();
+                }}
+                className={!cursor ? "pointer-events-none opacity-50" : ""}
+              />
             </PaginationItem>
             <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
+              <PaginationLink href="#" isActive={!cursor}>
+                1
+              </PaginationLink>
             </PaginationItem>
+            {cursor && (
+              <PaginationItem>
+                <PaginationLink href="#" isActive>
+                  2
+                </PaginationLink>
+              </PaginationItem>
+            )}
             <PaginationItem>
               <PaginationEllipsis />
             </PaginationItem>
             <PaginationItem>
-              <PaginationNext href="#" />
+              <PaginationNext
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNextPage();
+                }}
+                className={
+                  !pageInfo?.hasNextPage ? "pointer-events-none opacity-50" : ""
+                }
+              />
             </PaginationItem>
           </PaginationContent>
         </Pagination>

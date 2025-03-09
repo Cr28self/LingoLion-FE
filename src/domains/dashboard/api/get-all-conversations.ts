@@ -2,8 +2,10 @@ import { useAuthApiClient } from "@/lib/auth/useAuthApiClient";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { AxiosInstance } from "axios";
 
-export const getAllConversations = (apiClient: AxiosInstance) => {
-  return apiClient.get("/conversations");
+export const getAllConversations = async (apiClient: AxiosInstance) => {
+  const response = await apiClient.get("/conversations");
+
+  return response.data;
 };
 
 export const getAllConvQueryOptions = () => {
