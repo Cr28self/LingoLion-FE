@@ -21,6 +21,7 @@ export const RecommendForm = ({
     isAllRecLoading,
     isInitialAllRec,
     isSubmitting,
+    currentRecommendLoading,
 
     handleChange,
     handleRecommendationClick,
@@ -40,7 +41,7 @@ export const RecommendForm = ({
           <AllRecommendDrawerButton
             onClick={handleAllRecommend}
             isLoading={isAllRecLoading}
-            disabled={isAllRecLoading}
+            disabled={isAllRecLoading || !!currentRecommendLoading}
           />
         )}
 
@@ -65,6 +66,9 @@ export const RecommendForm = ({
             title={"장소 (Place)"}
             name={"place"}
             aiRecommend={() => handleSingleRecommend("place")}
+            isDisabled={
+              !!currentRecommendLoading && currentRecommendLoading !== "place"
+            }
           >
             <RecommendTagLayout>
               {recPlaceList && (
@@ -88,6 +92,9 @@ export const RecommendForm = ({
             title={"AI 역할 (assistant)"}
             name={"aiRole"}
             aiRecommend={() => handleSingleRecommend("aiRole")}
+            isDisabled={
+              !!currentRecommendLoading && currentRecommendLoading !== "aiRole"
+            }
           >
             <RecommendTagLayout>
               {recAiRoleList && (
@@ -111,6 +118,10 @@ export const RecommendForm = ({
             title={"사용자 역할 (user)"}
             name={"userRole"}
             aiRecommend={() => handleSingleRecommend("userRole")}
+            isDisabled={
+              !!currentRecommendLoading &&
+              currentRecommendLoading !== "userRole"
+            }
           >
             <RecommendTagLayout>
               {recUserRoleList && (
@@ -134,6 +145,9 @@ export const RecommendForm = ({
             title={"목표 (Goal)"}
             name={"goal"}
             aiRecommend={() => handleSingleRecommend("goal")}
+            isDisabled={
+              !!currentRecommendLoading && currentRecommendLoading !== "goal"
+            }
           >
             <RecommendTagLayout>
               {recGoalList && (
@@ -158,7 +172,8 @@ export const RecommendForm = ({
               !formState.place ||
               !formState.aiRole ||
               !formState.userRole ||
-              !formState.goal
+              !formState.goal ||
+              !!currentRecommendLoading
             }
           >
             상황 생성

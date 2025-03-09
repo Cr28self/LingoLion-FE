@@ -1,5 +1,5 @@
 import DashboardLayout from "@/components/layout/dashboard-layout";
-import SituationSetupModal from "@/domains/dashboard/components/SituationSetupModal";
+import SituationSetupModal from "@/domains/dashboard/components/modal/SituationSetupModal";
 import SituationGrid from "@/domains/dashboard/components/SituationGrid";
 import { Suspense } from "react";
 

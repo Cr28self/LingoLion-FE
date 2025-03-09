@@ -22,6 +22,7 @@ export type RecommendFormState = {
   isInitialAllRec: boolean;
   isAllRecLoading: boolean;
   isSubmitting: boolean;
+  currentRecommendLoading: keyof TAllList | null;
 };
 
 export type recommendFormAction =
@@ -35,6 +36,10 @@ export type recommendFormAction =
       type: "SET_LOADING";
       name: "isAllRecLoading" | "isSubmitting";
       value: boolean;
+    }
+  | {
+      type: "SET_CURRENT_RECOMMEND_LOADING";
+      field: keyof TAllList | null;
     };
 export const initialState: RecommendFormState = {
   formState: {
@@ -51,6 +56,7 @@ export const initialState: RecommendFormState = {
   isAllRecLoading: false,
   isInitialAllRec: false,
   isSubmitting: false,
+  currentRecommendLoading: null,
 };
 
 export function recommendFormReducer(
@@ -112,6 +118,12 @@ export function recommendFormReducer(
     }
     case "SET_LOADING":
       return { ...state, [action.name]: action.value };
+    // 리듀서에 추가할 내용
+    case "SET_CURRENT_RECOMMEND_LOADING":
+      return {
+        ...state,
+        currentRecommendLoading: action.field,
+      };
 
     default:
       return state;

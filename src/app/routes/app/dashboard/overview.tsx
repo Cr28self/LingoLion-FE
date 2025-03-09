@@ -1,7 +1,6 @@
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import ChatRoomCard from "@/domains/dashboard/components/ChatRoomCard";
-import ConvCardList from "@/domains/dashboard/components/ConvCardList";
-import SituationSetupModal from "@/domains/dashboard/components/SituationSetupModal";
+import SituationSetupModal from "@/domains/dashboard/components/modal/SituationSetupModal";
 import { TChatRoomCard } from "@/domains/dashboard/types/types";
 import React, { Suspense, useState } from "react";
 
@@ -108,17 +107,7 @@ const DashboardOverviewRoute = () => {
       </div>
 
       {/* ConvCardList */}
-      <div className="mb-8 bg-white/60 backdrop-blur-md p-6 rounded-xl shadow-sm border border-white/50">
-        <Suspense
-          fallback={
-            <div className="flex justify-center items-center h-32">
-              <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-orange-500"></div>
-            </div>
-          }
-        >
-          <ConvCardList />
-        </Suspense>
-      </div>
+      <div className="mb-8 bg-white/60 backdrop-blur-md p-6 rounded-xl shadow-sm border border-white/50"></div>
 
       {/* Recent Activity */}
       <div className="bg-white/70 backdrop-blur-md p-6 rounded-xl shadow-sm border border-white/50">

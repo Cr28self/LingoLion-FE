@@ -7,6 +7,7 @@ import {
 } from "./reducer/recommendFormReducer";
 import { TAllList } from "./reducer/types";
 import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 type TFormFieldName = keyof TAllList;
 
@@ -21,7 +22,7 @@ export function useRecommendForm({
 }: UseRecommendFormProps) {
   const { mutate: mutateRecommend } = useRecommendSituations();
   const { mutate: mutateMake } = useMakeSituation();
-
+  const queryClient = useQueryClient();
   const [
     {
       formState,
@@ -33,9 +34,13 @@ export function useRecommendForm({
       isAllRecLoading,
       isInitialAllRec,
       isSubmitting,
+      currentRecommendLoading, // 추가: 현재 추천 로딩 중인 필드
     },
     dispatch,
-  ] = useReducer(recommendFormReducer, initialState);
+  ] = useReducer(recommendFormReducer, {
+    ...initialState,
+    currentRecommendLoading: null, // 초기값 추가
+  });
 
   // ! Input 박스로 입력시 formState에 반영
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -52,6 +57,8 @@ export function useRecommendForm({
   //   ! 전체 추천
   function handleAllRecommend() {
     dispatch({ type: "SET_LOADING", name: "isAllRecLoading", value: true });
+    // 현재 추천 로딩 중인 필드 설정
+    dispatch({ type: "SET_CURRENT_RECOMMEND_LOADING", field: "all" });
 
     mutateRecommend(
       { type: "all", metaData },
@@ -64,14 +71,27 @@ export function useRecommendForm({
             name: "isAllRecLoading",
             value: false,
           });
+          // 로딩 상태 초기화
+          dispatch({ type: "SET_CURRENT_RECOMMEND_LOADING", field: null });
+        },
+        onError: () => {
+          // 오류 발생 시에도 로딩 상태 초기화
+          dispatch({ type: "SET_CURRENT_RECOMMEND_LOADING", field: null });
+          dispatch({
+            type: "SET_LOADING",
+            name: "isAllRecLoading",
+            value: false,
+          });
         },
       }
     );
   }
 
   // ! 개별 추천 (place / aiRole / userRole / goal 등)
-
   function handleSingleRecommend(type: TFormFieldName) {
+    // 현재 추천 로딩 중인 필드 설정
+    dispatch({ type: "SET_CURRENT_RECOMMEND_LOADING", field: type });
+
     return new Promise<void>((resolve, reject) => {
       mutateRecommend(
         {
@@ -118,9 +138,13 @@ export function useRecommendForm({
                 console.error("Unknown recommend type:", type);
             }
 
+            // 로딩 상태 초기화
+            dispatch({ type: "SET_CURRENT_RECOMMEND_LOADING", field: null });
             resolve();
           },
           onError: (err) => {
+            // 오류 발생 시에도 로딩 상태 초기화
+            dispatch({ type: "SET_CURRENT_RECOMMEND_LOADING", field: null });
             reject(err);
           },
         }
@@ -145,6 +169,7 @@ export function useRecommendForm({
             name: "isSubmitting",
             value: false,
           });
+          queryClient.invalidateQueries({ queryKey: ["getSituations"] });
           toast.success("상황 생성 완료!!");
           onCompleteNavigate(); // 이동 혹은 다른 후속 작업
         },
@@ -156,7 +181,7 @@ export function useRecommendForm({
             value: false,
           });
           toast.error("상황 생성에 실패했습니다. 다시 시도해주세요.");
-        }
+        },
       }
     );
   }
@@ -171,6 +196,7 @@ export function useRecommendForm({
     isAllRecLoading,
     isInitialAllRec,
     isSubmitting,
+    currentRecommendLoading, // 추가: 현재 추천 로딩 중인 필드 반환
 
     handleChange,
     handleRecommendationClick,

@@ -11,6 +11,7 @@ const SituationInputField = ({
   name,
   aiRecommend,
   children,
+  isDisabled = false,
 }: {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -20,6 +21,7 @@ const SituationInputField = ({
   name: string;
   aiRecommend: () => Promise<void>;
   children: React.ReactNode;
+  isDisabled?: boolean;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -57,12 +59,18 @@ const SituationInputField = ({
           `}
         />
 
-        <Button className="h-auto" onClick={handleClick} disabled={loading}>
+        <Button
+          className="h-auto"
+          onClick={handleClick}
+          disabled={loading || isDisabled}
+        >
           {loading ? (
             // lucide-react spinner
             <Loader2 className="h-5 w-5 animate-spin" />
           ) : (
-            <WandSparkles className="h-12 w-12" />
+            <WandSparkles
+              className={`h-12 w-12 ${isDisabled ? "opacity-50" : ""}`}
+            />
           )}
         </Button>
       </div>
