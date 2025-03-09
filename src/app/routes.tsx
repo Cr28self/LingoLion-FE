@@ -1,11 +1,12 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LandingRoute from "./routes/landing";
-import NotFoundRoute from "./routes/not-found";
 
 import AppLayout from "@/components/layout/app-layout";
-import DashboardRoute from "./routes/app/dashboard";
+import DashboardOverviewRoute from "./routes/app/dashboard/overview";
+import DashboardSettingRoute from "./routes/app/dashboard/setting";
+import DashboardSituationsRoute from "./routes/app/dashboard/situations";
+import DashboardConversationsRoute from "./routes/app/dashboard/conversations";
 import SituationRoute from "./routes/app/situation-builder";
-// import RegisterRoute from "./routes/auth/register";
 import ConversationRoute from "./routes/app/conversation";
 import PublicLayout from "@/components/layout/PublicLayout";
 import PrivateLayout from "@/components/layout/PrivateLayout";
@@ -61,7 +62,14 @@ export const createAppRouter = () =>
       children: [
         {
           path: "dashboard",
-          element: <DashboardRoute />,
+
+          children: [
+            { path: "overview", element: <DashboardOverviewRoute /> },
+            { path: "setting", element: <DashboardSettingRoute /> },
+            { path: "situations", element: <DashboardSituationsRoute /> },
+            { path: "conversations", element: <DashboardConversationsRoute /> },
+            { index: true, path: "", element: <DashboardOverviewRoute /> },
+          ],
         },
         {
           path: "c/:conversationId",

@@ -6,6 +6,7 @@ import SituationSetupModal from "@/domains/dashboard/components/SituationSetupMo
 import { TChatRoomCard } from "@/domains/dashboard/types/types";
 import { useLogout } from "@/lib/auth/hooks";
 import React, { Suspense, useState } from "react";
+import { Link } from "react-router-dom";
 
 const DashboardRoute = () => {
   const { logout, isLoggingOut } = useLogout();
@@ -121,7 +122,7 @@ const DashboardRoute = () => {
       ),
     },
     {
-      name: "Analytics",
+      name: "회화 목록",
       icon: (
         <svg
           className="w-5 h-5"
@@ -139,7 +140,7 @@ const DashboardRoute = () => {
       ),
     },
     {
-      name: "Reports",
+      name: "상황 목록",
       icon: (
         <svg
           className="w-5 h-5"
@@ -193,16 +194,16 @@ const DashboardRoute = () => {
       <DashboardSidebar>
         <nav className="flex-1 space-y-2">
           {menuItems.map((item) => (
-            <a
+            <Link
               key={item.name}
-              href="#"
+              to="#"
               className="flex items-center px-4 py-3 text-white hover:bg-white/10 rounded-lg transition-colors duration-200 backdrop-blur-sm group"
             >
               <span className="mr-3">{item.icon}</span>
               <span className="font-medium group-hover:translate-x-1 transition-transform duration-200">
                 {item.name}
               </span>
-            </a>
+            </Link>
           ))}
         </nav>
 
