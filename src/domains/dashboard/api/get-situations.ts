@@ -3,11 +3,12 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { AxiosInstance } from "axios";
 
 export const getSituations = async (apiClient: AxiosInstance) => {
-  return apiClient.get("/situations", {
+  const response = await apiClient.get("/situations", {
     params: {
-      limit: 3,
+      limit: 6,
     },
   });
+  return response.data;
 };
 
 export const getSituationsQueryOptions = () => {

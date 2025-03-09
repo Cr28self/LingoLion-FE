@@ -12,28 +12,19 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-type SituationSetupModalProps = {
-  onNextLink: string;
-};
-
-const SituationSetupModal = ({ onNextLink }: SituationSetupModalProps) => {
+const MakeConvSetupModal = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
   const [input, setInput] = useState("");
 
   // 엔터 키를 눌렀을 때 실행될 함수
   const handleSubmit = () => {
     if (input.trim() !== "") {
-      navigate(onNextLink, { state: { metaData: input } });
+      navigate("/app/situation/new", { state: { metaData: input } });
     }
   };
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button>
-          {/* <Link to="/app/situation/new">시나리오 생성</Link> */}
-          시나리오 생성
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>추천 정보 입력</DialogTitle>
@@ -68,4 +59,4 @@ const SituationSetupModal = ({ onNextLink }: SituationSetupModalProps) => {
   );
 };
 
-export default SituationSetupModal;
+export default MakeConvSetupModal;

@@ -1,5 +1,14 @@
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import React from "react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const DashboardConversationsRoute = () => {
   // 회화 목록 데이터 (나중에 API로 대체)
@@ -141,23 +150,22 @@ const DashboardConversationsRoute = () => {
         </div>
 
         <div className="mt-6 flex justify-center">
-          <nav className="flex items-center space-x-2">
-            <button className="px-3 py-1 rounded-md bg-white border border-gray-300 text-sm">
-              이전
-            </button>
-            <button className="px-3 py-1 rounded-md bg-orange-500 text-white text-sm">
-              1
-            </button>
-            <button className="px-3 py-1 rounded-md bg-white border border-gray-300 text-sm">
-              2
-            </button>
-            <button className="px-3 py-1 rounded-md bg-white border border-gray-300 text-sm">
-              3
-            </button>
-            <button className="px-3 py-1 rounded-md bg-white border border-gray-300 text-sm">
-              다음
-            </button>
-          </nav>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious href="#" />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">1</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext href="#" />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
       </div>
     </DashboardLayout>

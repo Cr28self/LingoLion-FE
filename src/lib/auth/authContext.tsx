@@ -23,6 +23,9 @@ const AuthContext = createContext<AuthContextType>({
   resetAuthentication: () => {},
 });
 
+// sessionStorage 키 상수
+const ACCESS_TOKEN_KEY = "accessToken";
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const accessTokenRef = useRef<string | null>(null);
@@ -37,7 +40,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const updateAccessToken = (token: string) => {
     accessTokenRef.current = token;
-
+    // 토큰을 sessionStorage에 저장
+    sessionStorage.setItem(ACCESS_TOKEN_KEY, token);
     setIsAuthenticated(true);
   };
 
@@ -45,6 +49,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const resetAuthentication = () => {
     // 1) 토큰 제거
     accessTokenRef.current = null;
+    // sessionStorage에서도 토큰 제거
+    sessionStorage.removeItem(ACCESS_TOKEN_KEY);
     // 2) 인증 상태 false
     setIsAuthenticated(false);
   };
@@ -66,8 +72,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   });
 
   useEffect(() => {
-    mutate();
+    // sessionStorage에서 토큰 확인
+    const storedToken = sessionStorage.getItem(ACCESS_TOKEN_KEY);
+
+    if (storedToken) {
+      // sessionStorage에 토큰이 있으면 사용
+      accessTokenRef.current = storedToken;
+      setIsAuthenticated(true);
+      // 토큰을 사용한 후 sessionStorage에서 제거
+      sessionStorage.removeItem(ACCESS_TOKEN_KEY);
+      setIsCheckingAuth(false);
+    } else {
+      // sessionStorage에 토큰이 없으면 mutate 실행
+      mutate();
+    }
   }, [mutate]);
+
+  // 페이지 언로드(새로고침 또는 페이지 이동) 전에 토큰 저장
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (accessTokenRef.current) {
+        sessionStorage.setItem(ACCESS_TOKEN_KEY, accessTokenRef.current);
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
 
   return (
     <AuthContext.Provider
