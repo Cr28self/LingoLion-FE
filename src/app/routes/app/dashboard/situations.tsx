@@ -24,9 +24,28 @@ const DashboardSituationsRoute = () => {
 
       {/* Situations Grid */}
 
-      <Suspense fallback={<div>loading.......</div>}>
-        <SituationGrid onMakeSuccessLink={"/app/dashboard/conversations"} />
-      </Suspense>
+      <div className="bg-white/70 backdrop-blur-md p-6 rounded-xl shadow-sm border border-white/50">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-semibold text-gray-800">상황 목록</h2>
+          <div className="flex space-x-2">
+            <input
+              type="text"
+              placeholder="상황 검색..."
+              className="px-3 py-1 border border-gray-300 rounded-md text-sm"
+            />
+            <select className="px-3 py-1 border border-gray-300 rounded-md text-sm">
+              <option>모든 카테고리</option>
+              <option>여행</option>
+              <option>식당</option>
+              <option>쇼핑</option>
+              <option>의료</option>
+            </select>
+          </div>
+        </div>
+        <Suspense fallback={<div>loading.......</div>}>
+          <SituationGrid onMakeSuccessLink={"/app/dashboard/conversations"} />
+        </Suspense>
+      </div>
     </DashboardLayout>
   );
 };

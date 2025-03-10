@@ -17,66 +17,83 @@ import EditSituationModal from "./modal/EditSituationModal";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 import { Pencil, Trash2, ArrowRight, Clock } from "lucide-react";
+import { useSituationGrid } from "../hooks/use-situation-grid";
 
 type SituationGridProps = {
   onMakeSuccessLink: string;
 };
 
 const SituationGrid = ({ onMakeSuccessLink }: SituationGridProps) => {
-  const [cursor, setCursor] = useState<string | null>(null);
-  const { data } = useGetSituations({ cursor });
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [situationToDelete, setSituationToDelete] = useState<number | null>(
-    null
-  );
-  const [situationToEdit, setSituationToEdit] = useState<TAllList | null>(null);
+  const {
+    getIconForSituation,
+    handleDeleteClick,
+    handleEditClick,
+    handleNextPage,
+    handlePreviousPage,
+    setIsDeleteDialogOpen,
+    setIsEditModalOpen,
+    isDeleteDialogOpen,
+    isEditModalOpen,
+    situationToDelete,
+    situationToEdit,
+    situations,
+    cursor,
+    pageInfo,
+  } = useSituationGrid();
+  // const [cursor, setCursor] = useState<string | null>(null);
+  // const { data } = useGetSituations({ cursor });
+  // const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  // const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  // const [situationToDelete, setSituationToDelete] = useState<number | null>(
+  //   null
+  // );
+  // const [situationToEdit, setSituationToEdit] = useState<TAllList | null>(null);
 
-  const situations = data?.data || [];
-  const pageInfo = data?.pageInfo;
+  // const situations = data?.data || [];
+  // const pageInfo = data?.pageInfo;
 
-  const handleNextPage = () => {
-    if (pageInfo?.hasNextPage) {
-      setCursor(pageInfo.endCursor);
-    }
-  };
+  // const handleNextPage = () => {
+  //   if (pageInfo?.hasNextPage) {
+  //     setCursor(pageInfo.endCursor);
+  //   }
+  // };
 
-  const handlePreviousPage = () => {
-    setCursor(null); // 첫 페이지로 돌아가기
-  };
+  // const handlePreviousPage = () => {
+  //   setCursor(null); // 첫 페이지로 돌아가기
+  // };
 
-  // 삭제 버튼 클릭 핸들러
-  const handleDeleteClick = (situationId: number, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setSituationToDelete(situationId);
-    setIsDeleteDialogOpen(true);
-  };
+  // // 삭제 버튼 클릭 핸들러
+  // const handleDeleteClick = (situationId: number, e: React.MouseEvent) => {
+  //   e.stopPropagation();
+  //   setSituationToDelete(situationId);
+  //   setIsDeleteDialogOpen(true);
+  // };
 
-  // 편집 버튼 클릭 핸들러
-  const handleEditClick = (situation: TAllList, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setSituationToEdit(situation);
-    setIsEditModalOpen(true);
-  };
+  // // 편집 버튼 클릭 핸들러
+  // const handleEditClick = (situation: TAllList, e: React.MouseEvent) => {
+  //   e.stopPropagation();
+  //   setSituationToEdit(situation);
+  //   setIsEditModalOpen(true);
+  // };
 
-  // 아이콘 선택 함수
-  const getIconForSituation = (situation: TAllList) => {
-    const place = situation.place.toLowerCase();
+  // // 아이콘 선택 함수
+  // const getIconForSituation = (situation: TAllList) => {
+  //   const place = situation.place.toLowerCase();
 
-    if (place.includes("헬스장") || place.includes("운동")) return "💪";
-    if (place.includes("카페") || place.includes("커피")) return "☕";
-    if (place.includes("식당") || place.includes("레스토랑")) return "🍽️";
-    if (place.includes("학교") || place.includes("교실")) return "🏫";
-    if (place.includes("병원") || place.includes("의사")) return "🏥";
-    if (place.includes("공항") || place.includes("비행기")) return "✈️";
-    if (place.includes("호텔") || place.includes("숙소")) return "🏨";
-    if (place.includes("쇼핑") || place.includes("마트")) return "🛒";
-    if (place.includes("면접") || place.includes("사무실")) return "💼";
-    if (place.includes("스포츠") || place.includes("경기")) return "🏆";
+  //   if (place.includes("헬스장") || place.includes("운동")) return "💪";
+  //   if (place.includes("카페") || place.includes("커피")) return "☕";
+  //   if (place.includes("식당") || place.includes("레스토랑")) return "🍽️";
+  //   if (place.includes("학교") || place.includes("교실")) return "🏫";
+  //   if (place.includes("병원") || place.includes("의사")) return "🏥";
+  //   if (place.includes("공항") || place.includes("비행기")) return "✈️";
+  //   if (place.includes("호텔") || place.includes("숙소")) return "🏨";
+  //   if (place.includes("쇼핑") || place.includes("마트")) return "🛒";
+  //   if (place.includes("면접") || place.includes("사무실")) return "💼";
+  //   if (place.includes("스포츠") || place.includes("경기")) return "🏆";
 
-    // 기본 아이콘
-    return "🗣️";
-  };
+  //   // 기본 아이콘
+  //   return "🗣️";
+  // };
 
   // 날짜 포맷팅 함수
   const formatDate = (dateString: string) => {
@@ -91,25 +108,7 @@ const SituationGrid = ({ onMakeSuccessLink }: SituationGridProps) => {
   };
 
   return (
-    <div className="bg-white/70 backdrop-blur-md p-6 rounded-xl shadow-sm border border-white/50">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-gray-800">상황 목록</h2>
-        <div className="flex space-x-2">
-          <input
-            type="text"
-            placeholder="상황 검색..."
-            className="px-3 py-1 border border-gray-300 rounded-md text-sm"
-          />
-          <select className="px-3 py-1 border border-gray-300 rounded-md text-sm">
-            <option>모든 카테고리</option>
-            <option>여행</option>
-            <option>식당</option>
-            <option>쇼핑</option>
-            <option>의료</option>
-          </select>
-        </div>
-      </div>
-
+    <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {situations.map((situation) => (
           <div key={situation.id} className="relative group h-full">
@@ -253,7 +252,7 @@ const SituationGrid = ({ onMakeSuccessLink }: SituationGridProps) => {
         onOpenChange={setIsEditModalOpen}
         situation={situationToEdit}
       />
-    </div>
+    </>
   );
 };
 

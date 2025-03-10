@@ -22,9 +22,7 @@ const SituationSetupModal = ({ onNextLink }: SituationSetupModalProps) => {
 
   // 엔터 키를 눌렀을 때 실행될 함수
   const handleSubmit = () => {
-    if (input.trim() !== "") {
-      navigate(onNextLink, { state: { metaData: input } });
-    }
+    navigate(onNextLink, { state: { metaData: input } });
   };
   return (
     <Dialog>

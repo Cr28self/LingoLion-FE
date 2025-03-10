@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useUpdateConversation } from "../../api/update-conversation";
@@ -68,16 +68,16 @@ const EditConversationModal: React.FC<EditConversationModalProps> = ({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>대화 편집</DialogTitle>
-          <DialogDescription>
+    <Sheet open={isOpen} onOpenChange={onOpenChange}>
+      <SheetContent className="sm:max-w-md">
+        <SheetHeader>
+          <SheetTitle>대화 편집</SheetTitle>
+          <SheetDescription>
             대화의 제목과 아이콘을 수정한 후 저장 버튼을 클릭하세요.
-          </DialogDescription>
-        </DialogHeader>
+          </SheetDescription>
+        </SheetHeader>
 
-        <div className="grid gap-4 py-4">
+        <div className="grid gap-4 py-6">
           <div className="grid grid-cols-4 items-center gap-4">
             <label htmlFor="title" className="text-right font-medium">
               제목
@@ -103,11 +103,12 @@ const EditConversationModal: React.FC<EditConversationModalProps> = ({
           </div>
         </div>
 
-        <DialogFooter>
+        <SheetFooter className="mt-4">
           <Button
             variant="outline"
             onClick={() => onOpenChange(false)}
             disabled={isPending}
+            className="mr-2"
           >
             취소
           </Button>
@@ -118,9 +119,9 @@ const EditConversationModal: React.FC<EditConversationModalProps> = ({
           >
             {isPending ? "저장 중..." : "저장"}
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
   );
 };
 
