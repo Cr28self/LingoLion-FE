@@ -1,6 +1,7 @@
 import DashboardLayout from "@/components/layout/dashboard-layout";
-import { SkeletonCardSitu } from "@/components/loading/SkeletonCardLoading";
+
 import { Button } from "@/components/ui/button";
+import { SkeletonCardSitu } from "@/domains/dashboard/components/Contents-skeleton-loading";
 import SituationSetupModal from "@/domains/dashboard/components/modal/SituationSetupModal";
 import SituationGrid from "@/domains/dashboard/components/SituationGrid";
 import { Suspense, useState } from "react";
