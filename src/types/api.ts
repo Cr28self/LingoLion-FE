@@ -55,3 +55,16 @@ export type TGetAllMessage = {
   convId: string;
   cursor?: string;
 };
+
+export type TGetAllMessageResponse = {
+  data: {
+    createdAt: string;
+    id: number;
+    sender: "assistant" | "user";
+    content: string;
+  }[];
+  pageInfo: {
+    hasNextPage: boolean;
+    endCursor: string;
+  };
+};
