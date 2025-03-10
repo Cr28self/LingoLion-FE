@@ -45,3 +45,13 @@ export type TMakeConversation = {
     request: string;
   };
 };
+
+export type TSendMessage = {
+  convId: string;
+  content: string;
+};
+
+export type TGetAllMessage = {
+  convId: string;
+  cursor?: string;
+};

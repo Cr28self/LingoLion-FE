@@ -14,6 +14,7 @@ export function useSituationGrid(mode: TSituationMode) {
   const [situationToEdit, setSituationToEdit] = useState<TAllList | null>(null);
 
   const situations = data?.data || [];
+
   const pageInfo = data?.pageInfo;
 
   const handleNextPage = () => {
