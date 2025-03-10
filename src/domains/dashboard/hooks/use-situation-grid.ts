@@ -4,7 +4,6 @@ import { TAllList } from "@/domains/situation-builder/reducer/types";
 import { TSituationMode } from "@/types/api";
 
 export function useSituationGrid(mode: TSituationMode) {
-  const [cursor, setCursor] = useState<string | null>(null);
   const {
     data,
     hasNextPage,
@@ -65,7 +64,6 @@ export function useSituationGrid(mode: TSituationMode) {
     isEditModalOpen,
     situationToDelete,
     situationToEdit,
-    cursor,
     pageInfo,
     setIsDeleteDialogOpen,
     setIsEditModalOpen,

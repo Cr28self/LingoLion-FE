@@ -42,8 +42,7 @@ const SituationGrid = ({ mode }: SituationGridProps) => {
 
   // situations = [ page1, page2, page3, ... ] 형태
   // 각 page는 TSituationsResponse 타입
-
-  const { containerRef, setTargetRef } = useInfiniteScroll({
+  const { rootRef, targetRef } = useInfiniteScroll({
     data: situations,
     fetchNextPage,
     hasNextPage,
@@ -53,7 +52,7 @@ const SituationGrid = ({ mode }: SituationGridProps) => {
   return (
     <div
       className="relative h-[600px] overflow-y-auto border rounded-md"
-      ref={containerRef}
+      ref={rootRef}
     >
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {situations.map(({ data }, pagesIndex) =>
@@ -62,14 +61,11 @@ const SituationGrid = ({ mode }: SituationGridProps) => {
               pagesIndex === situations.length - 1 &&
               situationIndex === data.length - 1;
 
-            const str = isLastItem
-              ? "relative group h-full bg-red-100"
-              : "relative group h-full";
             return (
               <div
                 key={situation.id}
-                className={str}
-                ref={isLastItem ? setTargetRef : null}
+                className={"relative group h-full"}
+                ref={isLastItem ? targetRef : null}
               >
                 <MakeConvSetupModal situation={situation}>
                   <div className="relative bg-white/90 p-5 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-orange-100 w-full text-left h-full flex flex-col cursor-pointer overflow-hidden">

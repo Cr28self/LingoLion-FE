@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGetAllConversations } from "../api/get-all-conversations";
+import { useGetAllInfiniteConversations } from "../api/get-all-conversations";
 interface Conversation {
   id: number;
   title: string;
@@ -10,8 +10,9 @@ interface Conversation {
 
 export function useConversationGrid() {
   const navigate = useNavigate();
-  const [cursor, setCursor] = useState<string | null>(null);
-  const { data } = useGetAllConversations({ cursor });
+
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useGetAllInfiniteConversations();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [conversationToDelete, setConversationToDelete] = useState<
@@ -20,18 +21,8 @@ export function useConversationGrid() {
   const [conversationToEdit, setConversationToEdit] =
     useState<Conversation | null>(null);
 
-  const conversations = data?.data || [];
-  const pageInfo = data?.pageInfo;
-
-  const handleNextPage = () => {
-    if (pageInfo?.hasNextPage) {
-      setCursor(pageInfo.endCursor);
-    }
-  };
-
-  const handlePreviousPage = () => {
-    setCursor(null); // 첫 페이지로 돌아가기
-  };
+  const conversations = data?.pages || [];
+  const pageInfo = data?.pageParams;
 
   // 삭제 버튼 클릭 핸들러
   const handleDeleteClick = (conversationId: number, e: React.MouseEvent) => {
@@ -55,17 +46,17 @@ export function useConversationGrid() {
   return {
     conversations,
     pageInfo,
-    cursor,
     isDeleteDialogOpen,
     isEditModalOpen,
     conversationToDelete,
     conversationToEdit,
     setIsDeleteDialogOpen,
     setIsEditModalOpen,
-    handleNextPage,
-    handlePreviousPage,
+    fetchNextPage,
     handleDeleteClick,
     handleEditClick,
     handleContinueConversation,
+    hasNextPage,
+    isFetchingNextPage,
   };
 }
