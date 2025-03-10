@@ -1,4 +1,5 @@
 import DashboardLayout from "@/components/layout/dashboard-layout";
+import { SkeletonCardSitu } from "@/components/loading/SkeletonCardLoading";
 import { Button } from "@/components/ui/button";
 import SituationSetupModal from "@/domains/dashboard/components/modal/SituationSetupModal";
 import SituationGrid from "@/domains/dashboard/components/SituationGrid";
@@ -75,7 +76,7 @@ const DashboardSituationsRoute = () => {
           </div>
         </div>
 
-        <Suspense fallback={<div>loading.......</div>}>
+        <Suspense fallback={<SkeletonCardSitu />}>
           {state === "all" && <SituationGrid mode="all" />}
           {state === "my" && <SituationGrid mode="my" />}
         </Suspense>

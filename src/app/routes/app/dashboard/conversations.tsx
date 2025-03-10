@@ -1,4 +1,5 @@
 import DashboardLayout from "@/components/layout/dashboard-layout";
+import { SkeletonCardConv } from "@/components/loading/SkeletonCardLoading";
 import ConversationGrid from "@/domains/dashboard/components/ConversationGrid";
 import { Suspense } from "react";
 
@@ -22,7 +23,7 @@ const DashboardConversationsRoute = () => {
           <h2 className="text-xl font-semibold text-gray-800">회화 목록</h2>
         </div>
 
-        <Suspense fallback={<div>loading...</div>}>
+        <Suspense fallback={<SkeletonCardConv />}>
           <ConversationGrid />
         </Suspense>
       </div>
