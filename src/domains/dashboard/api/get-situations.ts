@@ -1,7 +1,7 @@
 import { TAllList } from "@/domains/situation-builder/reducer/types";
 import { useAuthApiClient } from "@/lib/auth/useAuthApiClient";
 import { TSituationMode } from "@/types/api";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { AxiosInstance } from "axios";
 
 export type TSituationsResponse = {
@@ -28,27 +28,26 @@ export const getSituations = async (
   return response.data;
 };
 
-export const getSituationsQueryOptions = (cursor: string | null) => {
-  return queryOptions({
-    queryKey: ["getSituations", cursor],
-    staleTime: Infinity,
-    refetchOnWindowFocus: false,
-  });
-};
-
-export const useGetSituations = ({
-  cursor,
-  mode,
-}: {
-  cursor: string | null;
-  mode: TSituationMode;
-}) => {
+export const useGetInfiniteSituations = (mode: TSituationMode) => {
   const authApiClient = useAuthApiClient();
 
-  return useSuspenseQuery<TSituationsResponse>({
-    queryKey: ["getSituations", mode, cursor],
-    queryFn: () => getSituations(authApiClient, cursor, mode),
+  return useSuspenseInfiniteQuery<TSituationsResponse>({
+    queryKey: ["getSituationsInfinite", mode],
+    // ⬇ 여기서 pageParam 기본값을 null로 두고, getSituations에 전달 ( pageParam으로 설정해야함 )
+    queryFn: ({ pageParam = null }) =>
+      getSituations(authApiClient, pageParam as string | null, mode),
+    // ⬇ 마지막 페이지(lastPage) 정보를 바탕으로, 다음 페이지의 cursor를 반환
+    // lastPage는 이전에 queryFn이 반환한 데이터
+    getNextPageParam: (lastPage) => {
+      if (lastPage.pageInfo.hasNextPage) {
+        // 여기서 return한게 pageParam으로 들어감
+        return lastPage.pageInfo.endCursor;
+      }
+      return undefined; // undefined를 반환하면 더 이상 요청하지 않음
+    },
+
     staleTime: Infinity,
     refetchOnWindowFocus: false,
+    initialPageParam: null, // ✨ 여기에 추가
   });
 };

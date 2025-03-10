@@ -29,7 +29,6 @@ const ACCESS_TOKEN_KEY = "accessToken";
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const accessTokenRef = useRef<string | null>(null);
-  console.log(accessTokenRef);
 
   // 새로 추가: 인증 여부 확인이 완료되기 전까지 true
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);

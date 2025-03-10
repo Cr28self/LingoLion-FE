@@ -60,7 +60,9 @@ const EditSituationModal: React.FC<EditSituationModalProps> = ({
           toast.success("상황이 성공적으로 업데이트되었습니다.");
           onOpenChange(false);
           // 상황 목록 데이터 갱신
-          queryClient.invalidateQueries({ queryKey: ["getSituations"] });
+          queryClient.invalidateQueries({
+            queryKey: ["getSituationsInfinite"],
+          });
         },
         onError: (error) => {
           console.error("업데이트 오류:", error);

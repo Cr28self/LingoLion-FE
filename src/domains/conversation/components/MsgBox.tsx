@@ -12,9 +12,9 @@ export const ReceiveMsgBox = ({ text }: MsgBoxProps) => {
       </Avatar>
       <div className="flex flex-col gap-1">
         <div className="text-xs text-gray-500 ml-1 font-medium">링고</div>
-        <div className="relative w-max max-w-[85%] rounded-2xl rounded-tl-sm px-4 py-3 text-sm bg-gradient-to-br from-orange-50 to-orange-100 text-gray-800 shadow-sm border border-orange-200">
+        <div className="relative w-full max-w-[85%] rounded-2xl rounded-tl-sm px-4 py-3 text-sm bg-gradient-to-br from-orange-50 to-orange-100 text-gray-800 shadow-sm border border-orange-200">
           <div className="font-medium leading-relaxed">{text}</div>
-          <div className="absolute -left-1.5 top-0 h-3 w-3 bg-gradient-to-br from-orange-50 to-orange-100 border-l border-t border-orange-200 transform rotate-45"></div>
+          <div className="absolute -left-2 top-[0.85rem] h-4 w-4 bg-gradient-to-br from-orange-50 to-orange-100 border-l border-t border-orange-200 transform rotate-[45deg] -translate-y-1/2"></div>
         </div>
       </div>
     </div>
@@ -27,21 +27,8 @@ export const SendMsgBox = ({ text }: MsgBoxProps) => {
       <div className="text-xs text-gray-500 mr-1 font-medium">나</div>
       <div className="relative w-max max-w-[85%] rounded-2xl rounded-tr-sm px-4 py-3 text-sm bg-gradient-to-br from-orange-500 to-orange-600 text-white shadow-md">
         <div className="font-medium leading-relaxed">{text}</div>
-        <div className="absolute -right-1.5 top-0 h-3 w-3 bg-gradient-to-br from-orange-500 to-orange-600 transform rotate-45"></div>
+        <div className="absolute -right-2 top-[0.85rem] h-4 w-4 bg-gradient-to-br from-orange-500 to-orange-600 transform rotate-[45deg] -translate-y-1/2"></div>
       </div>
     </div>
   );
 };
-
-// 애니메이션을 위한 스타일을 추가하려면 tailwind.config.js에 다음을 추가하세요:
-// extend: {
-//   keyframes: {
-//     fadeIn: {
-//       '0%': { opacity: 0, transform: 'translateY(10px)' },
-//       '100%': { opacity: 1, transform: 'translateY(0)' }
-//     }
-//   },
-//   animation: {
-//     fadeIn: 'fadeIn 0.3s ease-out forwards'
-//   }
-// }

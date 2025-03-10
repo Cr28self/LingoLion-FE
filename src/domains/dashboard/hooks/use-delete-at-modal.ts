@@ -47,7 +47,9 @@ export function useDeleteSituAtModal(
           toast.success("상황이 성공적으로 삭제되었습니다.");
           onOpenChange(false);
           // 삭제 후 상황 목록 데이터 갱신
-          queryClient.invalidateQueries({ queryKey: ["getSituations"] });
+          queryClient.invalidateQueries({
+            queryKey: ["getSituationsInfinite"],
+          });
         },
         onError: (error) => {
           console.error("삭제 오류:", error);

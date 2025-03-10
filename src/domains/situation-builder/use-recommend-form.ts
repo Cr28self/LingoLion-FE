@@ -169,7 +169,9 @@ export function useRecommendForm({
             name: "isSubmitting",
             value: false,
           });
-          queryClient.invalidateQueries({ queryKey: ["getSituations"] });
+          queryClient.invalidateQueries({
+            queryKey: ["getSituationsInfinite"],
+          });
           toast.success("상황 생성 완료!!");
           onCompleteNavigate(); // 이동 혹은 다른 후속 작업
         },

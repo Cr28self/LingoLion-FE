@@ -1,22 +1,13 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import useConversationScroll from "../hooks/use-conversation-scroll";
 import { ReceiveMsgBox, SendMsgBox } from "./MsgBox";
 import { useGetAllMessage } from "../api/get-all-message";
-import { Entity } from "@/types/api";
 
 type MessageList = {
   convId: string;
 };
 
-type TConvMsg = Entity<{
-  role: "AI" | "USER";
-  msg: string;
-}>;
-
 const MessageList = ({ convId }: MessageList) => {
-  // ! ReceiveMsg, SendMsg 임시로 구현
-  const [allMsg, setAllMsg] = useState<TConvMsg[]>([]);
-
   const { data } = useGetAllMessage({ convId, cursor: "" });
 
   const reversedMessages = useMemo(

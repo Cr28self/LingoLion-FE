@@ -1,11 +1,17 @@
 import { useState } from "react";
-import { useGetSituations } from "../api/get-situations";
+import { useGetInfiniteSituations } from "../api/get-situations";
 import { TAllList } from "@/domains/situation-builder/reducer/types";
 import { TSituationMode } from "@/types/api";
 
 export function useSituationGrid(mode: TSituationMode) {
   const [cursor, setCursor] = useState<string | null>(null);
-  const { data } = useGetSituations({ cursor, mode });
+  const {
+    data,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+    fetchPreviousPage,
+  } = useGetInfiniteSituations(mode);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [situationToDelete, setSituationToDelete] = useState<number | null>(
@@ -13,19 +19,12 @@ export function useSituationGrid(mode: TSituationMode) {
   );
   const [situationToEdit, setSituationToEdit] = useState<TAllList | null>(null);
 
-  const situations = data?.data || [];
+  const situations = data?.pages || [];
+  // data.pages = [ page1, page2, page3, ... ] 형태
+  // ! 한번 호출할때마다 page가 배열에 쌓임
+  // 각 page는 TSituationsResponse 타입
 
-  const pageInfo = data?.pageInfo;
-
-  const handleNextPage = () => {
-    if (pageInfo?.hasNextPage) {
-      setCursor(pageInfo.endCursor);
-    }
-  };
-
-  const handlePreviousPage = () => {
-    setCursor(null); // 첫 페이지로 돌아가기
-  };
+  const pageInfo = data?.pageParams;
 
   // 삭제 버튼 클릭 핸들러
   const handleDeleteClick = (situationId: number, e: React.MouseEvent) => {
@@ -73,7 +72,9 @@ export function useSituationGrid(mode: TSituationMode) {
     handleDeleteClick,
     handleEditClick,
     getIconForSituation,
-    handleNextPage,
-    handlePreviousPage,
+    fetchNextPage,
+    fetchPreviousPage,
+    hasNextPage,
+    isFetchingNextPage,
   };
 }
