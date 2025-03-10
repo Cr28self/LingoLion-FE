@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useGetSituations } from "../api/get-situations";
 import { TAllList } from "@/domains/situation-builder/reducer/types";
+import { TSituationMode } from "@/types/api";
 
-export function useSituationGrid() {
+export function useSituationGrid(mode: TSituationMode) {
   const [cursor, setCursor] = useState<string | null>(null);
-  const { data } = useGetSituations({ cursor });
+  const { data } = useGetSituations({ cursor, mode });
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [situationToDelete, setSituationToDelete] = useState<number | null>(

@@ -20,18 +20,6 @@ const DashboardConversationsRoute = () => {
       <div className="bg-white/70 backdrop-blur-md p-6 rounded-xl shadow-sm border border-white/50">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-semibold text-gray-800">회화 목록</h2>
-          <div className="flex space-x-2">
-            <input
-              type="text"
-              placeholder="회화 검색..."
-              className="px-3 py-1 border border-gray-300 rounded-md text-sm"
-            />
-            <select className="px-3 py-1 border border-gray-300 rounded-md text-sm">
-              <option>모든 날짜</option>
-              <option>최근 7일</option>
-              <option>최근 30일</option>
-            </select>
-          </div>
         </div>
 
         <Suspense fallback={<div>loading...</div>}>

@@ -27,6 +27,8 @@ export type TRecommend = {
   goal?: string;
 };
 
+export type TSituationMode = "all" | "my";
+
 export type TMakeSituation = {
   place: string;
   aiRole: string;

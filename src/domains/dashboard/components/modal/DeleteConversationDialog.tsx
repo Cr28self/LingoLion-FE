@@ -8,9 +8,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { useDeleteConversation } from "../../api/delete-conversation";
-import { toast } from "sonner";
-import { useQueryClient } from "@tanstack/react-query";
+
+import { useDeleteConvAtModal } from "../../hooks/use-delete-at-modal";
 
 interface DeleteConversationDialogProps {
   isOpen: boolean;
@@ -23,25 +22,10 @@ const DeleteConversationDialog: React.FC<DeleteConversationDialogProps> = ({
   onOpenChange,
   conversationId,
 }) => {
-  const queryClient = useQueryClient();
-  const { mutate, isPending } = useDeleteConversation();
-
-  const handleConfirmDelete = async () => {
-    if (conversationId) {
-      mutate(conversationId, {
-        onSuccess: () => {
-          toast.success("대화가 성공적으로 삭제되었습니다.");
-          onOpenChange(false);
-          // 삭제 후 대화 목록 데이터 갱신
-          queryClient.invalidateQueries({ queryKey: ["getAllConversations"] });
-        },
-        onError: (error) => {
-          console.error("삭제 오류:", error);
-          toast.error("대화 삭제 중 오류가 발생했습니다.");
-        },
-      });
-    }
-  };
+  const { isPending, handleConfirmDeleteConv } = useDeleteConvAtModal(
+    onOpenChange,
+    conversationId
+  );
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -62,7 +46,7 @@ const DeleteConversationDialog: React.FC<DeleteConversationDialogProps> = ({
           </Button>
           <Button
             variant="destructive"
-            onClick={handleConfirmDelete}
+            onClick={handleConfirmDeleteConv}
             className="bg-red-500 hover:bg-red-600"
             disabled={isPending}
           >

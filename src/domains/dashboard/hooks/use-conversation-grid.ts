@@ -49,7 +49,7 @@ export function useConversationGrid() {
 
   // 대화 계속하기 핸들러
   const handleContinueConversation = (conversationId: number) => {
-    navigate(`/app/conversation/${conversationId}`);
+    navigate(`/app/conv/${conversationId}`);
   };
 
   return {

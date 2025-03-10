@@ -14,12 +14,12 @@ import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 import { Pencil, Trash2, ArrowRight, Clock } from "lucide-react";
 import { useSituationGrid } from "../hooks/use-situation-grid";
+import { TSituationMode } from "@/types/api";
 
-type SituationGridProps = {
-  onMakeSuccessLink: string;
-};
-
-const SituationGrid = ({ onMakeSuccessLink }: SituationGridProps) => {
+interface SituationGridProps {
+  mode: TSituationMode;
+}
+const SituationGrid = ({ mode }: SituationGridProps) => {
   const {
     getIconForSituation,
     handleDeleteClick,
@@ -35,7 +35,7 @@ const SituationGrid = ({ onMakeSuccessLink }: SituationGridProps) => {
     situations,
     cursor,
     pageInfo,
-  } = useSituationGrid();
+  } = useSituationGrid(mode);
 
   // 날짜 포맷팅 함수
   const formatDate = (dateString: string) => {
