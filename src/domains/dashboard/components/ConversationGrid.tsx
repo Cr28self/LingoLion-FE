@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-import { useGetAllConversations } from "../api/get-all-conversations";
 import { formatDate } from "@/lib/utils";
 import {
   Pagination,
@@ -13,7 +11,6 @@ import {
 import { Pencil, Trash2, ArrowRight, Clock } from "lucide-react";
 import DeleteConversationDialog from "./modal/DeleteConversationDialog";
 import EditConversationModal from "./modal/EditConversationModal";
-import { useNavigate } from "react-router-dom";
 import { useConversationGrid } from "../hooks/use-conversation-grid";
 
 const ConversationGrid = () => {
