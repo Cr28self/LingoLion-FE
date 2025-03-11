@@ -1,6 +1,10 @@
 import { useAuthApiClient } from "@/lib/auth/useAuthApiClient";
 import { TGetAllMessage, TGetAllMessageResponse } from "@/types/api";
-import { queryOptions, useQuery } from "@tanstack/react-query";
+import {
+  queryOptions,
+  useQuery,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import { AxiosInstance } from "axios";
 
 // 순수 API 호출 함수
@@ -28,7 +32,7 @@ export const getAllMessageQueryOptions = ({ convId }: TGetAllMessage) => {
 // 최종 커스텀 훅
 export const useGetAllMessage = ({ convId, cursor }: TGetAllMessage) => {
   const authApiClient = useAuthApiClient();
-  return useQuery<TGetAllMessageResponse>({
+  return useSuspenseQuery<TGetAllMessageResponse>({
     queryFn: () => getAllMessage(authApiClient, { convId, cursor }),
     ...getAllMessageQueryOptions({ convId, cursor }),
   });
