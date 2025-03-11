@@ -37,7 +37,7 @@ const useConversationScroll = (deps: React.DependencyList) => {
 
     // No longer initial render after first execution
     isInitialRender.current = false;
-  }, deps);
+  }, [deps]);
 
   // Add a scroll event listener to track user scroll position
   useEffect(() => {
