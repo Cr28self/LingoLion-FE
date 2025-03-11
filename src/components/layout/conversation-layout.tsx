@@ -1,17 +1,23 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const ConversationLayout = ({ children }: { children: React.ReactNode }) => {
+type ConversationLayoutProps = {
+  children: React.ReactNode;
+  title: string;
+};
+
+const ConversationLayout = ({ title, children }: ConversationLayoutProps) => {
   const navigate = useNavigate();
 
   return (
     <div className="flex h-screen flex-col bg-gradient-to-br from-white to-orange-50 border border-gray-200 rounded-lg shadow-lg overflow-hidden">
       {/* 채팅 헤더 */}
-      <header className="flex items-center justify-between bg-gradient-to-r from-orange-400 to-orange-500 text-white px-6 py-4 shadow-md">
-        <div className="flex items-center">
+      <header className="flex items-center justify-between bg-gradient-to-r from-orange-500 via-orange-400 to-orange-500 text-white px-6 py-5 shadow-lg relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/path/to/pattern.png')] opacity-10"></div>
+        <div className="flex items-center relative z-10">
           <button
             onClick={() => navigate(-1)}
-            className="p-2 hover:bg-orange-600/30 rounded-full transition-all duration-300 mr-2"
+            className="p-2.5 hover:bg-white/20 rounded-full transition-all duration-300 mr-3 hover:scale-110"
           >
             <svg
               className="w-5 h-5"
@@ -28,13 +34,18 @@ const ConversationLayout = ({ children }: { children: React.ReactNode }) => {
             </svg>
           </button>
           <div className="flex flex-col">
-            <h1 className="text-xl font-bold">영어 회화 연습</h1>
-            <p className="text-xs text-orange-100">LingoLion과 대화하기</p>
+            <h1 className="text-2xl font-extrabold tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-white to-orange-100 ">
+              {title}
+            </h1>
+            <p className="text-sm text-orange-100 font-medium mt-0.5 tracking-wide flex items-center">
+              <span className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-ping"></span>
+              LingoLion과 대화하기
+            </p>
           </div>
         </div>
 
-        <div className="flex items-center space-x-2">
-          <button className="p-2 hover:bg-orange-600/30 rounded-full transition-all">
+        <div className="flex items-center space-x-2 relative z-10">
+          <button className="p-2.5 hover:bg-white/20 rounded-full transition-all duration-300 hover:scale-110 hover:rotate-180">
             <svg
               className="w-5 h-5"
               fill="none"

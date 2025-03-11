@@ -41,11 +41,17 @@ const ConversationGrid = () => {
             const isLastItem =
               pageIndex === conversations.length - 1 &&
               conversationIndex === data.length - 1;
+
             return (
               <div
                 key={conversation.id}
                 className="relative group bg-white/90 p-5 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-orange-100 flex flex-col cursor-pointer overflow-hidden"
-                onClick={() => handleContinueConversation(conversation.id)}
+                onClick={() =>
+                  handleContinueConversation(
+                    conversation.id,
+                    conversation.title
+                  )
+                }
                 ref={isLastItem ? targetRef : null}
               >
                 {/* 배경 효과 - 호버 시 나타남 */}

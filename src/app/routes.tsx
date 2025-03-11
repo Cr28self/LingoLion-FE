@@ -72,7 +72,7 @@ export const createAppRouter = () =>
           ],
         },
         {
-          path: "conv/:conversationId",
+          path: "conv/:conversationId/:conversationTitle",
           element: <ConversationRoute />,
         },
         {

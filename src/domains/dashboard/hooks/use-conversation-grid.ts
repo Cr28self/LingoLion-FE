@@ -39,8 +39,15 @@ export function useConversationGrid() {
   };
 
   // 대화 계속하기 핸들러
-  const handleContinueConversation = (conversationId: number) => {
-    navigate(`/app/conv/${conversationId}`);
+  const handleContinueConversation = (
+    conversationId: number,
+    conversationTitle: string
+  ) => {
+    const encodedTitle = encodeURIComponent(
+      encodeURIComponent(conversationTitle)
+    );
+
+    navigate(`/app/conv/${conversationId}/${encodedTitle}`);
   };
 
   return {

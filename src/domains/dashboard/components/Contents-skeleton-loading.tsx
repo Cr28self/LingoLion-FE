@@ -15,30 +15,26 @@ const SkeletonCard = ({ className }: { className?: string }) => {
 
 export const SkeletonCardSitu = () => {
   return (
-    <div className="relative h-[600px] overflow-y-auto border rounded-md">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        <SkeletonCard className="h-[300px]" />
-        <SkeletonCard className="h-[300px]" />
-        <SkeletonCard className="h-[300px]" />
-        <SkeletonCard className="h-[300px]" />
-        <SkeletonCard className="h-[300px]" />
-        <SkeletonCard className="h-[300px]" />
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <SkeletonCard className="h-[300px]" />
+      <SkeletonCard className="h-[300px]" />
+      <SkeletonCard className="h-[300px]" />
+      <SkeletonCard className="h-[300px]" />
+      <SkeletonCard className="h-[300px]" />
+      <SkeletonCard className="h-[300px]" />
     </div>
   );
 };
 
 export const SkeletonCardConv = () => {
   return (
-    <div className="relative h-[600px] overflow-y-auto border rounded-md">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <SkeletonCard className="h-[200px]" />
-        <SkeletonCard className="h-[200px]" />
-        <SkeletonCard className="h-[200px]" />
-        <SkeletonCard className="h-[200px]" />
-        <SkeletonCard className="h-[200px]" />
-        <SkeletonCard className="h-[200px]" />
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <SkeletonCard className="h-[200px]" />
+      <SkeletonCard className="h-[200px]" />
+      <SkeletonCard className="h-[200px]" />
+      <SkeletonCard className="h-[200px]" />
+      <SkeletonCard className="h-[200px]" />
+      <SkeletonCard className="h-[200px]" />
     </div>
   );
 };

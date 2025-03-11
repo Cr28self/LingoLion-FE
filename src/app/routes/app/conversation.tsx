@@ -10,10 +10,14 @@ import { useParams } from "react-router-dom";
 const ConversationRoute = () => {
   // URL 파라미터에서 chatId 추출
 
-  const { conversationId } = useParams(); // TODO: 채팅방 ID 추후 구현시 사용
+  const { conversationId, conversationTitle } = useParams();
 
   return (
-    <ConversationLayout>
+    <ConversationLayout
+      title={decodeURIComponent(
+        decodeURIComponent(conversationTitle as string)
+      )}
+    >
       {/* 메시지 표시 영역 */}
       <MessageList convId={conversationId as string} />
 
