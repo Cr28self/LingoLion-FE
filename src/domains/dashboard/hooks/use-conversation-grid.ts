@@ -21,7 +21,7 @@ export function useConversationGrid() {
   const [conversationToEdit, setConversationToEdit] =
     useState<Conversation | null>(null);
 
-  const conversations = data?.pages || [];
+  const conversations = data?.pages.flatMap((page) => page.data) || [];
   const pageInfo = data?.pageParams;
 
   // 삭제 버튼 클릭 핸들러

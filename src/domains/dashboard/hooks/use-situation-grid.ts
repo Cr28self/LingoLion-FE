@@ -18,7 +18,7 @@ export function useSituationGrid(mode: TSituationMode) {
   );
   const [situationToEdit, setSituationToEdit] = useState<TAllList | null>(null);
 
-  const situations = data?.pages || [];
+  const situations = data?.pages.flatMap((page) => page.data) || [];
   // data.pages = [ page1, page2, page3, ... ] 형태
   // ! 한번 호출할때마다 page가 배열에 쌓임
   // 각 page는 TSituationsResponse 타입

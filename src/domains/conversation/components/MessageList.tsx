@@ -1,29 +1,44 @@
 import React, { useMemo } from "react";
 import useConversationScroll from "../hooks/use-conversation-scroll";
 import { ReceiveMsgBox, SendMsgBox } from "./MsgBox";
-import { useGetAllMessage } from "../api/get-all-message";
+import { useGetAllInfiniteMessage } from "../api/get-all-message";
+import { Button } from "@/components/ui/button";
 
 type MessageList = {
   convId: string;
 };
 
 const MessageList = ({ convId }: MessageList) => {
-  const { data } = useGetAllMessage({ convId, cursor: "" });
+  const { data, hasNextPage, fetchNextPage } = useGetAllInfiniteMessage(convId);
 
   const reversedMessages = useMemo(
-    () => [...(data?.data || [])].reverse(),
+    () => [...(data.pages.flatMap((page) => page.data) || [])].reverse(),
     [data]
   );
 
-  const pageInfo = data?.pageInfo;
+  console.log(hasNextPage);
+
+  // ! 이게 핵심!!
+  const handleNext = () => {
+    fetchNextPage();
+  };
 
   const convContainerRef = useConversationScroll([reversedMessages]); // 의존성 배열 추가
   return (
     <div
       id="Msg Area"
-      className="flex-1 overflow-y-auto space-y-6 p-6 bg-[url('/chat-bg-pattern.png')] bg-opacity-5"
+      className="relative flex-1 overflow-y-auto space-y-6 p-6 bg-[url('/chat-bg-pattern.png')] bg-opacity-5"
       ref={convContainerRef}
     >
+      <Button
+        className="fixed top-0 left-1/2 transform -translate-x-1/2"
+        onClick={handleNext}
+      >
+        Next
+      </Button>
+      <Button className="fixed top-0 left-1/3 transform -translate-x-1/2">
+        Prev
+      </Button>
       {reversedMessages.length === 0 ? (
         <div className="flex flex-col items-center justify-center h-full text-center text-gray-500 space-y-4">
           <div className="w-20 h-20 rounded-full bg-orange-100 flex items-center justify-center">
