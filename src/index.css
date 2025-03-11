@@ -68,8 +68,6 @@
   }
 }
 
-
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -77,4 +75,14 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+textarea {
+  border: none;
+  outline: none;
+}
+
+textarea:focus {
+  border: none !important;
+  outline: none !important;
 }

@@ -27,9 +27,44 @@ export type TRecommend = {
   goal?: string;
 };
 
+export type TSituationMode = "all" | "my";
+
 export type TMakeSituation = {
   place: string;
   aiRole: string;
   userRole: string;
   goal: string;
+};
+
+export type TMakeConversation = {
+  title: string;
+  icon?: string;
+  situationId: number;
+  metaData?: {
+    difficulty: "상" | "중" | "하";
+    request: string;
+  };
+};
+
+export type TSendMessage = {
+  convId: string;
+  content: string;
+};
+
+export type TGetAllMessage = {
+  convId: string;
+  cursor?: string;
+};
+
+export type TGetAllMessageResponse = {
+  data: {
+    createdAt: string;
+    id: number;
+    sender: "assistant" | "user";
+    content: string;
+  }[];
+  pageInfo: {
+    hasNextPage: boolean;
+    endCursor: string;
+  };
 };

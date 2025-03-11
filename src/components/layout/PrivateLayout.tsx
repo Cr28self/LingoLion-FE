@@ -4,7 +4,7 @@ import Loading from "../ui/loading";
 
 // ! 인증이 필요한 페이지의 최상단 레이아웃
 const PrivateLayout = () => {
-  const { isAuthenticated, isCheckingAuth } = useAuth();
+  const { isAuthenticated, isCheckingAuth, resetAuthentication } = useAuth();
 
   // 아직 갱신이 끝나지 않았다면, "로딩 중" 상태만 표시하고 끝낸다.
   if (isCheckingAuth) {
@@ -13,6 +13,7 @@ const PrivateLayout = () => {
 
   // 갱신이 끝났는데 인증에 실패했다면
   if (!isAuthenticated) {
+    resetAuthentication();
     return <Navigate to="/auth/login" replace />;
   }
 

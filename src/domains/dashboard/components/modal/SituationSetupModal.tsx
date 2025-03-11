@@ -12,15 +12,17 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const SituationSetupModal = () => {
+type SituationSetupModalProps = {
+  onNextLink: string;
+};
+
+const SituationSetupModal = ({ onNextLink }: SituationSetupModalProps) => {
   const navigate = useNavigate();
   const [input, setInput] = useState("");
 
   // 엔터 키를 눌렀을 때 실행될 함수
   const handleSubmit = () => {
-    if (input.trim() !== "") {
-      navigate("/app/situation/new", { state: { metaData: input } });
-    }
+    navigate(onNextLink, { state: { metaData: input } });
   };
   return (
     <Dialog>

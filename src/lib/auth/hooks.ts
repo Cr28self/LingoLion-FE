@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { loginFn, logoutFn, registerFn } from "./api";
 import { AxiosError } from "axios";
 import { LoginErrorResponse, RegisterErrorResponse } from "./types";
@@ -76,6 +76,7 @@ export const useRegister = ({
 };
 
 export const useLogout = () => {
+  const queryClient = useQueryClient();
   const { resetAuthentication } = useAuth();
   const navigate = useNavigate();
   const authApiClient = useAuthApiClient();
@@ -87,7 +88,11 @@ export const useLogout = () => {
     onSuccess: () => {
       // 1) AuthContext를 초기화
       resetAuthentication();
-      // 2) 로그인 페이지로 이동
+
+      // 2) 모든 쿼리 캐시 삭제하고 초기화
+      queryClient.clear();
+
+      // 3) 로그인 페이지로 이동
       navigate("/auth/login");
 
       toast.success("로그아웃 되었습니다.");

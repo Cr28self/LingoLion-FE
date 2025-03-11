@@ -6,8 +6,6 @@ import Loading from "../ui/loading";
 const PublicLayout = () => {
   const { isAuthenticated, isCheckingAuth } = useAuth();
 
-  console.log("In PublicLayout", isAuthenticated);
-
   if (isCheckingAuth) {
     return <Loading />; // ✅ refreshToken이 완료될 때까지 UI 변경 X
   }
