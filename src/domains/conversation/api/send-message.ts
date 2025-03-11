@@ -1,6 +1,10 @@
 import { useAuthApiClient } from "@/lib/auth/useAuthApiClient";
 import { TGetAllMessageResponse, TSendMessage } from "@/types/api";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  InfiniteData,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { AxiosInstance } from "axios";
 
 export const sendMessage = async (
@@ -41,11 +45,17 @@ export const useSendMessage = () => {
       };
       queryClient.setQueryData(
         ["getAllMessage", convId],
-        (old: TGetAllMessageResponse) => {
-          return {
-            ...old,
-            data: [tempData, ...old.data],
+        (old: InfiniteData<TGetAllMessageResponse>) => {
+          const newData = {
+            pageParams: [null],
+            pages: [
+              {
+                data: [tempData, ...old.pages[0].data.slice(0, -1)],
+                pageInfo: { ...old.pages[0].pageInfo },
+              },
+            ],
           };
+          return newData;
         }
       );
 

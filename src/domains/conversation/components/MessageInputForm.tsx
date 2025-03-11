@@ -34,12 +34,13 @@ const MessageInputForm = ({ convId }: MessageInputFormProps) => {
 
       {
         onSuccess: () => {
-          toast.success("메시지 성공");
+          // toast.success("메시지 성공");
         },
-        onError: () => {
+        onError: (error) => {
           toast.error("메시지 전송 중 오류가 발생했습니다.");
         },
         onSettled: () => {
+          console.log("set");
           queryClient.invalidateQueries({
             queryKey: ["getAllMessage", convId],
           });
