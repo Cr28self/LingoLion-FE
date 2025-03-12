@@ -28,4 +28,4 @@ jobs:
             -t ${{ secrets.DOCKERHUB_USERNAME }}/lingo-lion-fe-prod:latest \
             -t ${{ secrets.DOCKERHUB_USERNAME }}/lingo-lion-fe-prod:v1.0 \
             --target production \
-            --push
+            --push .
