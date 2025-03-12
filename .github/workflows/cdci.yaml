@@ -1,0 +1,28 @@
+name: CDCI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout The Sourcecode
+        uses: actions/checkout@v3
+
+      - name: Set Environment Variables
+        run: echo "BACKEND_URL=${{ secrets.BACKEND_URL }}" >> $GITHUB_ENV
+
+      - name: Generate Nginx Config from Template
+        run: envsubst < nginx.conf.template > nginx.conf
+
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/lingo-lion-fe-prod --target production .
+
+      - name: Publish image to DockerHub
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/lingo-lion-fe-prod:latest
