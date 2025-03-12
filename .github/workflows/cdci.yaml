@@ -16,7 +16,7 @@ jobs:
         run: echo "BACKEND_URL=${{ secrets.BACKEND_URL }}" >> $GITHUB_ENV
 
       - name: Generate Nginx Config from Template
-        run: envsubst < nginx.conf.template > nginx.conf
+        run: envsubst '${BACKEND_URL}' < nginx.conf.template > nginx.conf
 
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
