@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Send } from "lucide-react";
-import React, { MutableRefObject, useRef, useState } from "react";
+import { MutableRefObject, useRef, useState } from "react";
 import { useSendMessage } from "../api/send-message";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
@@ -36,7 +36,7 @@ const MessageInputForm = ({ convId }: MessageInputFormProps) => {
         onSuccess: () => {
           // toast.success("메시지 성공");
         },
-        onError: (error) => {
+        onError: () => {
           toast.error("메시지 전송 중 오류가 발생했습니다.");
         },
         onSettled: () => {
@@ -65,7 +65,10 @@ const MessageInputForm = ({ convId }: MessageInputFormProps) => {
           value={sendMsg}
           onChange={(e) => {
             setSendMsg(e.target.value);
-            if (textAreaRef.current) adjustTextareaHeight(textAreaRef);
+            if (textAreaRef.current)
+              adjustTextareaHeight(
+                textAreaRef as MutableRefObject<HTMLTextAreaElement>
+              );
           }}
           placeholder="메시지를 입력하세요..."
           onCompositionStart={() => setIsComposing(true)}

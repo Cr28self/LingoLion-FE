@@ -167,7 +167,12 @@ const MakeConvSetupModal = ({
             <label htmlFor="difficulty" className="text-right font-medium">
               난이도
             </label>
-            <Select value={difficulty} onValueChange={setDifficulty}>
+            <Select
+              value={difficulty}
+              onValueChange={(value) =>
+                setDifficulty(value as "상" | "중" | "하")
+              }
+            >
               <SelectTrigger className="col-span-3">
                 <SelectValue placeholder="난이도 선택" />
               </SelectTrigger>

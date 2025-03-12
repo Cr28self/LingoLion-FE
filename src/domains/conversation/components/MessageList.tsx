@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import useConversationScroll from "../hooks/use-conversation-scroll";
 import { ReceiveMsgBox, SendMsgBox } from "./MsgBox";
 import { useGetAllInfiniteMessage } from "../api/get-all-message";
@@ -20,7 +20,7 @@ const MessageList = ({ convId }: MessageList) => {
   // Ref to know if we're loading older messages (to maintain scroll position)
   const isLoadingOlderRef = useRef<boolean>(false);
 
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   // Custom hook for scrolling to bottom on new messages
   const convContainerRef = useConversationScroll([reversedMessages]);
@@ -63,7 +63,6 @@ const MessageList = ({ convId }: MessageList) => {
   // Set both refs to the same element
   const setRootRef = (element: HTMLDivElement | null) => {
     if (element) {
-      // @ts-ignore - this is a hack to apply multiple refs to the same element
       rootRef.current = element;
       containerRef.current = element;
       convContainerRef.current = element;

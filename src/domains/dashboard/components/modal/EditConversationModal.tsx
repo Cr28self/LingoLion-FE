@@ -17,7 +17,7 @@ interface Conversation {
   id: number;
   title: string;
   icon: string;
-  createdAt: string;
+  createdAt: Date;
 }
 
 interface EditConversationModalProps {

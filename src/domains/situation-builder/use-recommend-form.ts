@@ -163,7 +163,7 @@ export function useRecommendForm({
     mutateMake(
       { place, aiRole, goal, userRole },
       {
-        onSuccess: (result) => {
+        onSuccess: () => {
           dispatch({
             type: "SET_LOADING",
             name: "isSubmitting",

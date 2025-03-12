@@ -3,6 +3,8 @@ import { useGetInfiniteSituations } from "../api/get-situations";
 import { TAllList } from "@/domains/situation-builder/reducer/types";
 import { TSituationMode } from "@/types/api";
 
+type TSituation = TAllList & { id: number; createdAt: Date };
+
 export function useSituationGrid(mode: TSituationMode) {
   const {
     data,
@@ -16,7 +18,9 @@ export function useSituationGrid(mode: TSituationMode) {
   const [situationToDelete, setSituationToDelete] = useState<number | null>(
     null
   );
-  const [situationToEdit, setSituationToEdit] = useState<TAllList | null>(null);
+  const [situationToEdit, setSituationToEdit] = useState<TSituation | null>(
+    null
+  );
 
   const situations = data?.pages.flatMap((page) => page.data) || [];
   // data.pages = [ page1, page2, page3, ... ] 형태
@@ -33,7 +37,7 @@ export function useSituationGrid(mode: TSituationMode) {
   };
 
   // 편집 버튼 클릭 핸들러
-  const handleEditClick = (situation: TAllList, e: React.MouseEvent) => {
+  const handleEditClick = (situation: TSituation, e: React.MouseEvent) => {
     e.stopPropagation();
     setSituationToEdit(situation);
     setIsEditModalOpen(true);

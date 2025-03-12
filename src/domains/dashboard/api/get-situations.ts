@@ -5,7 +5,7 @@ import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { AxiosInstance } from "axios";
 
 export type TSituationsResponse = {
-  data: (TAllList & { id: number })[];
+  data: (TAllList & { id: number; createdAt: Date })[];
   pageInfo: { hasNextPage: boolean; endCursor: string };
 };
 

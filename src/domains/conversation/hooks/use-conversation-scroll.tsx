@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 const useConversationScroll = (deps: React.DependencyList) => {
   // Keep track if this is the initial render

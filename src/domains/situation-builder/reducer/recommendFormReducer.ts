@@ -22,7 +22,7 @@ export type RecommendFormState = {
   isInitialAllRec: boolean;
   isAllRecLoading: boolean;
   isSubmitting: boolean;
-  currentRecommendLoading: keyof TAllList | null;
+  currentRecommendLoading: keyof TAllList | "all" | null;
 };
 
 export type recommendFormAction =
@@ -39,7 +39,7 @@ export type recommendFormAction =
     }
   | {
       type: "SET_CURRENT_RECOMMEND_LOADING";
-      field: keyof TAllList | null;
+      field: keyof TAllList | "all" | null;
     };
 export const initialState: RecommendFormState = {
   formState: {

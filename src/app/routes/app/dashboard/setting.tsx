@@ -1,5 +1,5 @@
 import DashboardLayout from "@/components/layout/dashboard-layout";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const DashboardSettingRoute = () => {
   const [activeTab, setActiveTab] = useState("profile");

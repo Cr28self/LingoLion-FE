@@ -48,7 +48,7 @@ export const GlobalRouteErrorFallback = () => {
   );
 };
 
-export const GlobalAppErrorFallback = ({ error }) => {
+export const GlobalAppErrorFallback = ({ error }: { error: Error }) => {
   const isDev = process.env.NODE_ENV === "development";
   return (
     <div className="error-container">

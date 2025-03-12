@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import DashboardSidebar from "@/domains/dashboard/components/Dashboard-Sidebar";
 import { useLogout } from "@/lib/auth/hooks";
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSidebarStore } from "@/domains/dashboard/store/sidebar-store";
 import { Menu } from "lucide-react";

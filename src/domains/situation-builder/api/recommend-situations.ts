@@ -1,6 +1,6 @@
 import { useAuthApiClient } from "@/lib/auth/useAuthApiClient";
 import { TRecommend } from "@/types/api";
-import { queryOptions, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { AxiosInstance } from "axios";
 
 export const recommendSituation = async (

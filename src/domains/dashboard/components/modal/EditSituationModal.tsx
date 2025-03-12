@@ -15,10 +15,12 @@ import { useUpdateSituation } from "../../api/update-situation";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 
+type TSituation = TAllList & { id: number; createdAt: Date };
+
 interface EditSituationModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  situation: TAllList | null;
+  situation: TSituation;
 }
 
 const EditSituationModal: React.FC<EditSituationModalProps> = ({
@@ -52,6 +54,7 @@ const EditSituationModal: React.FC<EditSituationModalProps> = ({
 
   const handleSubmit = () => {
     if (!situation) return;
+    console.log("idd", situation.id);
 
     mutate(
       { id: situation.id, data: formData },

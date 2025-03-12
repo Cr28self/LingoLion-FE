@@ -29,13 +29,14 @@ const SituationGrid = ({ mode }: SituationGridProps) => {
   } = useSituationGrid(mode);
 
   // 날짜 포맷팅 함수
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString: string | Date) => {
     try {
       return formatDistanceToNow(new Date(dateString), {
         addSuffix: true,
         locale: ko,
       });
-    } catch (e) {
+    } catch (error) {
+      console.error(error);
       return "날짜 정보 없음";
     }
   };
@@ -159,7 +160,7 @@ const SituationGrid = ({ mode }: SituationGridProps) => {
       <EditSituationModal
         isOpen={isEditModalOpen}
         onOpenChange={setIsEditModalOpen}
-        situation={situationToEdit}
+        situation={situationToEdit!}
       />
     </div>
   );
