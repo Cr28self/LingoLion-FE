@@ -37,7 +37,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: aws-ec2
+    runs-on: aws-ec2-web01
     steps:
       - name: Pull image from docker hub
         run: docker pull ${{ secrets.DOCKERHUB_USERNAME }}/lingo-lion-fe-prod:latest
@@ -48,4 +48,4 @@ jobs:
 
       - name: Run new container
         run: |
-          docker run -d -p 80:80 --name sng-lingo-lion-prod ${{ secrets.DOCKERHUB_USERNAME }}/lingo-lion-fe-prod
+          docker run -d -p 3000:80 --name sng-lingo-lion-prod ${{ secrets.DOCKERHUB_USERNAME }}/lingo-lion-fe-prod
