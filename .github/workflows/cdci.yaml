@@ -48,4 +48,4 @@ jobs:
 
       - name: Run new container
         run: |
-          docker run --rm -it -p 80:80 --name sng-lingo-lion-prod ${{ secrets.DOCKERHUB_USERNAME }}/lingo-lion-fe-prod
+          docker run -d -p 80:80 --name sng-lingo-lion-prod ${{ secrets.DOCKERHUB_USERNAME }}/lingo-lion-fe-prod
