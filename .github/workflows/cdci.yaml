@@ -34,3 +34,18 @@ jobs:
             -t ${{ secrets.DOCKERHUB_USERNAME }}/lingo-lion-fe-prod:v1.0 \
             --target production \
             --push .
+
+  deploy:
+    needs: build
+    runs-on: aws-ec2
+    steps:
+      - name: Pull image from docker hub
+        uses: docker pull ${{ secrets.DOCKERHUB_USERNAME }}/lingo-lion-fe-prod:latest
+
+      - name: Delete old container
+        run: |
+          docker rm -f sng-lingo-lion-prod
+
+      - name: Run new container
+        run: |
+          docker run --rm -it -p 80:80 --name sng-lingo-lion-prod ${{ secrets.DOCKERHUB_USERNAME }}/lingo-lion-fe-prod
