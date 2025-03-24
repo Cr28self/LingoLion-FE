@@ -5,6 +5,7 @@ import { ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSidebarStore } from "@/domains/dashboard/store/sidebar-store";
 import { Menu } from "lucide-react";
+import { useGetUsersMy } from "@/domains/dashboard/api/get-users-my";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -14,6 +15,9 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const { logout, isLoggingOut } = useLogout();
   const location = useLocation();
   const { isOpen, toggle } = useSidebarStore();
+  const { data } = useGetUsersMy();
+
+  const shortenName = data?.name.slice(0, 2);
 
   const menuItems = [
     {
@@ -139,21 +143,21 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
             <div className="flex items-center px-3">
               <div className="shrink-0">
                 <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg">
-                  <span className="text-white font-bold">SH</span>
+                  <span className="text-white font-bold">{shortenName}</span>
                 </div>
               </div>
               <div className="ml-3 overflow-hidden">
                 <p className="text-sm font-medium text-white truncate">
-                  SangHyun Oh
+                  {data?.name}
                 </p>
                 <p className="text-xs text-orange-100 truncate">
-                  cr28self@gmail.com
+                  {data?.email}
                 </p>
               </div>
             </div>
           ) : (
             <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg mx-auto">
-              <span className="text-white font-bold">SH</span>
+              <span className="text-white font-bold">{shortenName}</span>
             </div>
           )}
           <Button

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSidebarStore } from "../store/sidebar-store";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { useGetUser } from "../api/get-users-my";
 
 interface DashboardSidebarProps {
   children: React.ReactNode;
