@@ -1,23 +1,50 @@
 import { Button } from "@/components/ui/button";
 import DashboardSidebar from "@/domains/dashboard/components/Dashboard-Sidebar";
 import { useLogout } from "@/lib/auth/hooks";
-import { ReactNode } from "react";
+import { ReactNode, Suspense } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSidebarStore } from "@/domains/dashboard/store/sidebar-store";
 import { Menu } from "lucide-react";
 import { useGetUsersMy } from "@/domains/dashboard/api/get-users-my";
+import { SkeletonUserProfile } from "@/domains/dashboard/components/Contents-skeleton-loading";
 
 interface DashboardLayoutProps {
   children: ReactNode;
 }
 
-const DashboardLayout = ({ children }: DashboardLayoutProps) => {
-  const { logout, isLoggingOut } = useLogout();
-  const location = useLocation();
-  const { isOpen, toggle } = useSidebarStore();
+const SidebarUserInfo = ({ isOpen }: { isOpen: boolean }) => {
   const { data } = useGetUsersMy();
 
   const shortenName = data?.name.slice(0, 2);
+  return (
+    <>
+      {isOpen ? (
+        <div className="flex items-center px-3">
+          <div className="shrink-0">
+            <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg">
+              <span className="text-white font-bold">{shortenName}</span>
+            </div>
+          </div>
+          <div className="ml-3 overflow-hidden">
+            <p className="text-sm font-medium text-white truncate">
+              {data?.name}
+            </p>
+            <p className="text-xs text-orange-100 truncate">{data?.email}</p>
+          </div>
+        </div>
+      ) : (
+        <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg mx-auto">
+          <span className="text-white font-bold">{shortenName}</span>
+        </div>
+      )}
+    </>
+  );
+};
+
+const DashboardLayout = ({ children }: DashboardLayoutProps) => {
+  const location = useLocation();
+  const { isOpen, toggle } = useSidebarStore();
+  const { logout, isLoggingOut } = useLogout();
 
   const menuItems = [
     {
@@ -134,32 +161,19 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           ))}
         </nav>
 
+        {/* User Info */}
+
         <div
           className={`mt-auto border-t border-white/20 pt-4 ${
             isOpen ? "" : "text-center"
           }`}
         >
-          {isOpen ? (
-            <div className="flex items-center px-3">
-              <div className="shrink-0">
-                <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg">
-                  <span className="text-white font-bold">{shortenName}</span>
-                </div>
-              </div>
-              <div className="ml-3 overflow-hidden">
-                <p className="text-sm font-medium text-white truncate">
-                  {data?.name}
-                </p>
-                <p className="text-xs text-orange-100 truncate">
-                  {data?.email}
-                </p>
-              </div>
-            </div>
-          ) : (
-            <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg mx-auto">
-              <span className="text-white font-bold">{shortenName}</span>
-            </div>
-          )}
+          <Suspense fallback={<SkeletonUserProfile />}>
+            <SidebarUserInfo isOpen={isOpen} />
+          </Suspense>
+
+          {/* <SkeletonUserProfile /> */}
+
           <Button
             className={`${
               isOpen ? "w-full mt-4" : "w-10 h-10 p-0 mx-auto mt-3"

@@ -38,3 +38,18 @@ export const SkeletonCardConv = () => {
     </div>
   );
 };
+
+export const SkeletonUserProfile = () => {
+  return (
+    <div className={"flex space-y-3 items-baseline space-x-3 px-3"}>
+      <div className="shrink-0">
+        <Skeleton className="rounded-full bg-[#e68a4f] w-10 h-10" />
+      </div>
+
+      <div className="space-y-2 w-full">
+        <Skeleton className="bg-[#e68a4f] h-4 w-full" />
+        <Skeleton className="bg-[#e68a4f] h-4 w-3/4" />
+      </div>
+    </div>
+  );
+};
