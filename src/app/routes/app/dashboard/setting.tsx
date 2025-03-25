@@ -1,11 +1,8 @@
 import DashboardLayout from "@/components/layout/dashboard-layout";
 
 import SettingContents from "@/domains/dashboard/components/SettingContents";
-import { useState } from "react";
 
 const DashboardSettingRoute = () => {
-  const [activeTab, setActiveTab] = useState("profile");
-
   return (
     <DashboardLayout>
       <header className="flex items-center justify-between mb-8">
@@ -18,7 +15,7 @@ const DashboardSettingRoute = () => {
       </header>
 
       {/* Settings Content */}
-      <SettingContents activeTab={activeTab} setActiveTab={setActiveTab} />
+      <SettingContents />
     </DashboardLayout>
   );
 };

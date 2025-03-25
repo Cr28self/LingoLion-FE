@@ -1,10 +1,10 @@
-import { useAuth } from "@/lib/auth/authContext";
 import { Navigate, Outlet } from "react-router-dom";
 import Loading from "../ui/loading";
+import { useAuthStore } from "@/lib/auth/useAuthStore";
 
 // ! 인증이 필요한 페이지의 최상단 레이아웃
 const PrivateLayout = () => {
-  const { isAuthenticated, isCheckingAuth, resetAuthentication } = useAuth();
+  const { isLoggedIn, isCheckingAuth } = useAuthStore();
 
   // 아직 갱신이 끝나지 않았다면, "로딩 중" 상태만 표시하고 끝낸다.
   if (isCheckingAuth) {
@@ -12,8 +12,7 @@ const PrivateLayout = () => {
   }
 
   // 갱신이 끝났는데 인증에 실패했다면
-  if (!isAuthenticated) {
-    resetAuthentication();
+  if (!isLoggedIn) {
     return <Navigate to="/auth/login" replace />;
   }
 

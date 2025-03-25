@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useGetUsersMy } from "../api/get-users-my";
 
 const settingTabs = [
@@ -7,12 +8,9 @@ const settingTabs = [
   { id: "privacy", label: "개인정보" },
 ];
 
-type SettingContentsProps = {
-  activeTab: string;
-  setActiveTab: (tab: string) => void;
-};
+const SettingContents = () => {
+  const [activeTab, setActiveTab] = useState("profile");
 
-const SettingContents = ({ activeTab, setActiveTab }: SettingContentsProps) => {
   const { data: userData } = useGetUsersMy();
   return (
     <div className="bg-white/70 backdrop-blur-md p-6 rounded-xl shadow-sm border border-white/50">

@@ -1,18 +1,14 @@
 import { useMemo } from "react";
-import { useAuth } from "./authContext";
 import axios, { AxiosError, AxiosInstance } from "axios";
 import { apiClient } from "../api-client";
 import { UnAuthorizedResponse } from "./types";
 import { refreshTokenFn } from "./api";
+import { useAuthStore } from "./useAuthStore";
 
 // accessToken을 AuthContext에서 불러와, 요청 header에 담아주는 hook / 토큰이 만료될 경우, refreshToken을 호출하여 새롭게 갱신
 export function useAuthApiClient(): AxiosInstance {
-  const {
-    getAccessToken,
-    isAuthenticated,
-    updateAccessToken,
-    setIsAuthenticated,
-  } = useAuth();
+  const { getAccessToken, isLoggedIn, updateAccessToken, setIsLoggedIn } =
+    useAuthStore();
 
   const authApiClient = useMemo(() => {
     const axiosInstance = axios.create({
@@ -43,7 +39,7 @@ export function useAuthApiClient(): AxiosInstance {
       },
       async (error: AxiosError<UnAuthorizedResponse>) => {
         // ! 401 에러가 발생하고, 로그인 상태일 때만 refreshToken을 이용해 새로운 accessToken을 발급
-        if (error.response?.status === 401 && isAuthenticated) {
+        if (error.response?.status === 401 && isLoggedIn) {
           try {
             // 🔥 accessToken 만료 → refreshToken으로 갱신 시도
             const response = await refreshTokenFn();
@@ -55,12 +51,14 @@ export function useAuthApiClient(): AxiosInstance {
             // 🔥 이전 요청 재시도
             //  error.config에는 기존 요청의 메서드(GET, POST 등), URL, 헤더 등 모든 정보가 포함되어 있음.
             if (error.config) {
-              error.config.headers["Authorization"] = `Bearer ${newAccessToken}`;
+              error.config.headers[
+                "Authorization"
+              ] = `Bearer ${newAccessToken}`;
               return axiosInstance(error.config);
             }
           } catch (error) {
             // refreshToken 갱신 실패 → 로그아웃 처리
-            setIsAuthenticated(false);
+            setIsLoggedIn(false);
             return Promise.reject(error);
           }
         }
@@ -70,7 +68,7 @@ export function useAuthApiClient(): AxiosInstance {
     );
 
     return axiosInstance;
-  }, [getAccessToken, isAuthenticated, updateAccessToken, setIsAuthenticated]);
+  }, [getAccessToken, isLoggedIn, updateAccessToken, setIsLoggedIn]);
 
   return authApiClient;
 }

@@ -7,11 +7,15 @@ import { Pencil, Trash2, ArrowRight, Clock } from "lucide-react";
 import { useSituationGrid } from "../hooks/use-situation-grid";
 import { TSituationMode } from "@/types/api";
 import useInfiniteScroll from "@/hooks/use-infinite-scroll";
+import { Button } from "@/components/ui/button";
+import { Suspense, useState } from "react";
+import { SkeletonCardSitu } from "./Contents-skeleton-loading";
 
 interface SituationGridProps {
   mode: TSituationMode;
 }
-const SituationGrid = ({ mode }: SituationGridProps) => {
+
+const SituationGridContents = ({ mode }: SituationGridProps) => {
   const {
     getIconForSituation,
     handleDeleteClick,
@@ -162,6 +166,66 @@ const SituationGrid = ({ mode }: SituationGridProps) => {
         onOpenChange={setIsEditModalOpen}
         situation={situationToEdit!}
       />
+    </div>
+  );
+};
+
+const SituationGrid = () => {
+  const [state, setState] = useState<"all" | "my">("all");
+
+  return (
+    <div className="bg-white/70 backdrop-blur-md p-6 rounded-xl shadow-sm border border-white/50">
+      <div className="flex items-center justify-between mb-6">
+        <div className="p-1 bg-gray-100/80 rounded-lg">
+          <div className="flex items-center space-x-1">
+            <Button
+              variant={state === "all" ? "default" : "ghost"}
+              onClick={() => setState("all")}
+              className={`
+              relative px-6 py-2 transition-all duration-200
+              ${
+                state === "all"
+                  ? "bg-white text-orange-600 shadow-sm hover:bg-white/90"
+                  : "hover:bg-white/50 text-gray-600"
+              }
+            `}
+            >
+              <span className="font-medium">전체 상황 목록</span>
+              {state === "all" && (
+                <span className="absolute -top-1 -right-1 flex h-4 w-4">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-200 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-4 w-4 bg-orange-400"></span>
+                </span>
+              )}
+            </Button>
+            <Button
+              variant={state === "my" ? "default" : "ghost"}
+              onClick={() => setState("my")}
+              className={`
+              relative px-6 py-2 transition-all duration-200
+              ${
+                state === "my"
+                  ? "bg-white text-orange-600 shadow-sm hover:bg-white/90"
+                  : "hover:bg-white/50 text-gray-600"
+              }
+            `}
+            >
+              <span className="font-medium">내 상황 목록</span>
+              {state === "my" && (
+                <span className="absolute -top-1 -right-1 flex h-4 w-4">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-200 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-4 w-4 bg-orange-400"></span>
+                </span>
+              )}
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      <Suspense fallback={<SkeletonCardSitu />}>
+        {state === "all" && <SituationGridContents mode="all" />}
+        {state === "my" && <SituationGridContents mode="my" />}
+      </Suspense>
     </div>
   );
 };

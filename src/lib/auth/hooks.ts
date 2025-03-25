@@ -3,9 +3,9 @@ import { loginFn, logoutFn, registerFn } from "./api";
 import { AxiosError } from "axios";
 import { LoginErrorResponse, RegisterErrorResponse } from "./types";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "./authContext";
 import { toast } from "sonner";
 import { useAuthApiClient } from "./useAuthApiClient";
+import { useAuthStore } from "./useAuthStore";
 
 // ! 로그인 hook
 export const useLogin = ({
@@ -15,7 +15,7 @@ export const useLogin = ({
   onSuccessNavigate: () => void;
   setIsLoggingIn: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const { updateAccessToken } = useAuth();
+  const { updateAccessToken } = useAuthStore();
 
   const { mutate } = useMutation({
     mutationFn: loginFn,
@@ -77,7 +77,7 @@ export const useRegister = ({
 
 export const useLogout = () => {
   const queryClient = useQueryClient();
-  const { resetAuthentication } = useAuth();
+  const { resetAuthentication } = useAuthStore();
   const navigate = useNavigate();
   const authApiClient = useAuthApiClient();
 
