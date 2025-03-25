@@ -54,7 +54,6 @@ const EditSituationModal: React.FC<EditSituationModalProps> = ({
 
   const handleSubmit = () => {
     if (!situation) return;
-    console.log("idd", situation.id);
 
     mutate(
       { id: situation.id, data: formData },

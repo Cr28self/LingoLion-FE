@@ -8,7 +8,6 @@ export const getUsersMy = async (
 ): Promise<TGetUsersMyResponse> => {
   const response = await apiClient.get(`/users/my`);
 
-  await new Promise((resolve) => setTimeout(resolve, 3000));
   return response.data;
 };
 
@@ -16,7 +15,8 @@ export const useGetUsersMy = () => {
   const authApi = useAuthApiClient();
 
   return useSuspenseQuery({
-    queryKey: ["user"],
+    queryKey: ["usersMy"],
     queryFn: () => getUsersMy(authApi),
+    staleTime: Infinity,
   });
 };
