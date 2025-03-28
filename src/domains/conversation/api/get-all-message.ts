@@ -18,15 +18,6 @@ export const getAllMessage = async (
   return response.data;
 };
 
-// 쿼리 옵션
-// export const getAllMessageQueryOptions = ({ convId }: TGetAllMessage) => {
-//   return queryOptions<TGetAllMessageResponse>({
-//     queryKey: ["getAllMessage", convId],
-//     staleTime: Infinity,
-//     refetchOnWindowFocus: false,
-//   });
-// };
-// 최종 커스텀 훅
 export const useGetAllInfiniteMessage = (convId: string) => {
   const authApiClient = useAuthApiClient();
   return useSuspenseInfiniteQuery<TGetAllMessageResponse>({

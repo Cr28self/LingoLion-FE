@@ -11,10 +11,13 @@ export const sendMessage = async (
   apiClient: AxiosInstance,
   { content, convId }: TSendMessage
 ) => {
-  const response = await apiClient.post(`/conversations/${convId}/message`, {
-    role: "user",
-    content,
-  });
+  const response = await apiClient.post(
+    `/conversations/${convId}/message/stream`,
+    {
+      role: "user",
+      content,
+    }
+  );
 
   return response.data;
 };
