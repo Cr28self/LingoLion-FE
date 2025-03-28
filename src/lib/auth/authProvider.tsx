@@ -33,7 +33,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // sessionStorage에서 토큰 확인
     const storedToken = sessionStorage.getItem(ACCESS_TOKEN_KEY);
-    console.log("storedToken", storedToken);
 
     if (storedToken) {
       // sessionStorage에 토큰이 있으면 사용
