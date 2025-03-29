@@ -1,13 +1,13 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import LandingRoute from "./routes/landing";
+import LandingRoute from "../routes/landing";
 
 import AppLayout from "@/components/layout/app-layout";
-import DashboardOverviewRoute from "./routes/app/dashboard/overview";
-import DashboardSettingRoute from "./routes/app/dashboard/setting";
-import DashboardSituationsRoute from "./routes/app/dashboard/situations";
-import DashboardConversationsRoute from "./routes/app/dashboard/conversations";
-import SituationRoute from "./routes/app/situation-builder";
-import ConversationRoute from "./routes/app/conversation";
+import DashboardOverviewRoute from "../routes/app/dashboard/overview";
+import DashboardSettingRoute from "../routes/app/dashboard/setting";
+import DashboardSituationsRoute from "../routes/app/dashboard/situations";
+import DashboardConversationsRoute from "../routes/app/dashboard/conversations";
+import SituationRoute from "../routes/app/situation-builder";
+import ConversationRoute from "../routes/app/conversation";
 import PublicLayout from "@/components/layout/PublicLayout";
 import PrivateLayout from "@/components/layout/PrivateLayout";
 import { GlobalRouteErrorFallback } from "@/components/errors/global";
@@ -37,7 +37,7 @@ export const createAppRouter = () =>
           path: "/auth/register",
 
           lazy: async () => {
-            const { RegisterRoute } = await import("./routes/auth/register");
+            const { RegisterRoute } = await import("../routes/auth/register");
             return { Component: RegisterRoute };
           },
         },
@@ -45,7 +45,7 @@ export const createAppRouter = () =>
           path: "/auth/login",
           errorElement: <GlobalRouteErrorFallback />,
           lazy: async () => {
-            const { LoginRoute } = await import("./routes/auth/login");
+            const { LoginRoute } = await import("../routes/auth/login");
             return { Component: LoginRoute };
           },
         },
@@ -88,7 +88,7 @@ export const createAppRouter = () =>
     {
       path: "*",
       lazy: async () => {
-        const { NotFoundRoute } = await import("./routes/not-found");
+        const { NotFoundRoute } = await import("../routes/not-found");
         return { Component: NotFoundRoute };
       },
     },
