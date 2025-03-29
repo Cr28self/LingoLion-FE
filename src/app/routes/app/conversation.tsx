@@ -14,6 +14,7 @@ const ConversationRoute = () => {
 
   return (
     <ConversationLayout
+      convId={conversationId as string}
       title={decodeURIComponent(
         decodeURIComponent(conversationTitle as string)
       )}

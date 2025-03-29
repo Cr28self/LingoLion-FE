@@ -7,8 +7,6 @@ interface LiveMessagesState {
 
   addUserLiveMessage: (message: string, order: number) => void;
 
-  setLiveMessages: (messages: LiveMessage[]) => void;
-
   realtimeAddLiveMessage: (message: string, order: number) => void;
 
   resetLiveMessages: () => void;
@@ -60,6 +58,10 @@ export const useLiveMessagesStore = create<LiveMessagesState>()(
             ],
           };
         });
+      },
+
+      resetLiveMessages: () => {
+        set({ liveMessages: [] });
       },
     }),
     { name: "Conversation-Live-Messages" }

@@ -1,13 +1,34 @@
+import { useLiveMessagesStore } from "@/domains/conversation/\bstore/useLiveMessagesStore";
+import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
 type ConversationLayoutProps = {
   children: React.ReactNode;
   title: string;
+  convId: string;
 };
 
-const ConversationLayout = ({ title, children }: ConversationLayoutProps) => {
+const ConversationLayout = ({
+  title,
+  convId,
+  children,
+}: ConversationLayoutProps) => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const resetLiveMessages = useLiveMessagesStore(
+    (state) => state.resetLiveMessages
+  );
+
+  function handleExitConversation() {
+    navigate("/app/dashboard/conversations");
+    resetLiveMessages();
+
+    queryClient.invalidateQueries({
+      queryKey: ["getAllMessage", convId],
+    });
+  }
 
   return (
     <div className="flex h-screen flex-col bg-gradient-to-br from-white to-orange-50 border border-gray-200 rounded-lg shadow-lg overflow-hidden">
@@ -16,7 +37,7 @@ const ConversationLayout = ({ title, children }: ConversationLayoutProps) => {
         <div className="absolute inset-0 bg-[url('/path/to/pattern.png')] opacity-10"></div>
         <div className="flex items-center relative z-10">
           <button
-            onClick={() => navigate(-1)}
+            onClick={handleExitConversation}
             className="p-2.5 hover:bg-white/20 rounded-full transition-all duration-300 mr-3 hover:scale-110"
           >
             <svg
