@@ -23,7 +23,6 @@ const ConversationGrid = () => {
   } = useConversationGrid();
 
   const { rootRef, targetRef } = useInfiniteScroll({
-    data: conversations,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,

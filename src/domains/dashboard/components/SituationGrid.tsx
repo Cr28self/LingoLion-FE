@@ -48,7 +48,6 @@ const SituationGridContents = ({ mode }: SituationGridProps) => {
   // situations = [ page1, page2, page3, ... ] 형태
   // 각 page는 TSituationsResponse 타입
   const { rootRef, targetRef } = useInfiniteScroll({
-    data: situations,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
