@@ -1,9 +1,10 @@
 import { useLiveMessagesStore } from "../\bstore/useLiveMessagesStore";
-import useAutoscrollBottom from "../hooks/use-autoscroll-bottom";
+import useLiveMsgAutoscroll from "../hooks/use-live-msg-autoscroll";
 import { useGetAllInfiniteMessage } from "../api/get-all-message";
 import useInfiniteScroll from "@/hooks/use-infinite-scroll";
-import { useEffect, useRef } from "react";
+import { useMemo } from "react";
 import { ConvMessageBox } from "./Conv-Message-Box";
+import { useConvScrollManager } from "../hooks/use-conv-scroll-manager";
 
 function NoMessagePlaceholder() {
   return (
@@ -34,13 +35,13 @@ function NoMessagePlaceholder() {
 const ConvMessageList = ({ convId }: { convId: string }) => {
   const pageLimit = 7;
   const liveMessages = useLiveMessagesStore((state) => state.liveMessages);
-  console.log("LM", liveMessages);
 
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isFetching } =
     useGetAllInfiniteMessage(convId, pageLimit);
 
-  const flatMessages = data?.pages.flatMap((page) => page.data) || [];
-  const reversedMessages = [...flatMessages].reverse();
+  const flatMessages = useMemo(() => {
+    return data?.pages.flatMap((page) => page.data) || [];
+  }, [data]);
 
   const { rootRef, targetRef } = useInfiniteScroll({
     fetchNextPage,
@@ -49,75 +50,17 @@ const ConvMessageList = ({ convId }: { convId: string }) => {
   });
 
   // Pass rootRef to the autoscroll hook
-  const lastMessageRef = useAutoscrollBottom(rootRef, liveMessages);
+  const lastMessageRef = useLiveMsgAutoscroll(rootRef, liveMessages);
 
-  // ! 최초 강제 밑으로 스크롤 되는 동작이 일어났는지 판단하는 flag
-  const initialScrollPerformedRef = useRef(false);
-
-  // ! 새로운 데이터가 오기 전에 이전 scrollHeight를 저장하는 변수
-  const prevScrollHeightRef = useRef<number | null>(null);
-
-  // Effect 1: Maintain Scroll Position when Fetching Previous Messages
-  useEffect(() => {
-    const rootElement = rootRef.current;
-    if (!rootElement) return;
-
-    // Before new data (older messages) potentially renders and increases scrollHeight
-    //  새로운 페이지의 데이터가 불러오는 중일때..... ( isFetchingNextPage=true )
-    if (isFetchingNextPage) {
-      // ! scrollHeight : 실제 내부 content의 높이
-      prevScrollHeightRef.current = rootElement.scrollHeight;
-    }
-    // After new data has rendered
-    else if (
-      prevScrollHeightRef.current !== null &&
-      !isFetchingNextPage &&
-      hasNextPage
-    ) {
-      // * 여기 로직부터 새로운 데이터가 들어오면 scroll 처리
-      // 새로운 페이지가 추가된 rootElement의 scrollHeight 추출
-      const newScrollHeight = rootElement.scrollHeight;
-
-      // !rootElement의 scrollTop을 조작해서 스크롤 강제 이동시킴 ( 왜 +=했는지 이해안됨? )
-      rootElement.scrollTop += newScrollHeight - prevScrollHeightRef.current;
-
-      // 초기화
-      prevScrollHeightRef.current = null;
-    }
-  }, [isFetchingNextPage, flatMessages.length, rootRef, hasNextPage]);
-
-  // Effect 2: Initial Scroll to Bottom Logic
-  useEffect(() => {
-    const rootElement = rootRef.current;
-
-    // Only perform this scroll ONCE after the initial data load (+ potential first auto-fetch)
-    if (initialScrollPerformedRef.current === true) return;
-
-    const shouldScrollToBottom =
-      rootElement &&
-      !isFetching &&
-      !isFetchingNextPage &&
-      (flatMessages.length > pageLimit || flatMessages.length === 0);
-
-    if (shouldScrollToBottom) {
-      if (flatMessages.length > pageLimit) {
-        console.log("Performing initial scroll to bottom");
-        console.log("flatMsg 길이", flatMessages.length);
-        console.log("root scrollHeight 값", rootElement.scrollHeight);
-        // Scroll to the actual bottom of the content
-        rootElement.scrollTo({
-          top: rootElement.scrollHeight,
-          behavior: "smooth",
-        });
-      } else {
-        console.log("flatMsg 길이", flatMessages.length);
-        console.log("No messages, marking initial scroll as done.");
-      }
-
-      // 공통 처리
-      initialScrollPerformedRef.current = true;
-    }
-  }, [isFetching, isFetchingNextPage, flatMessages.length, rootRef]);
+  // *** Use the new custom hook for managing scroll position ***
+  useConvScrollManager({
+    rootRef,
+    isFetchingNextPage,
+    hasNextPage,
+    isFetching,
+    messageCount: flatMessages.length, // Pass the count of historical messages
+    pageLimit, // Pass pageLimit for initial scroll logic
+  });
 
   return (
     <div
@@ -135,11 +78,14 @@ const ConvMessageList = ({ convId }: { convId: string }) => {
         {/* Render reversed historical messages */}
 
         {/* start of reversedMessages */}
-        {reversedMessages.length > 0 &&
-          reversedMessages.map((message, index) => {
+        {flatMessages.length > 0 &&
+          flatMessages.map((_, order, arr) => {
             // Target the second message (index 1) for triggering load of older messages
 
-            const isTriggerElement = index === 1;
+            const index = arr.length - 1 - order;
+            const message = arr[index];
+
+            const isTriggerElement = order === 1;
             const elemKey = `${convId}-${message.id}`; // Ensure unique key
 
             return (
@@ -154,7 +100,7 @@ const ConvMessageList = ({ convId }: { convId: string }) => {
         {/* end of reversedMessages */}
 
         {/* Placeholder shown only if NO historical AND NO live messages exist after initial load */}
-        {reversedMessages.length === 0 && liveMessages.length === 0 && (
+        {flatMessages.length === 0 && liveMessages.length === 0 && (
           <NoMessagePlaceholder />
         )}
 

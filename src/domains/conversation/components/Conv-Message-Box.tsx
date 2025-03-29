@@ -17,11 +17,12 @@ const ReceiveMsgBox = React.forwardRef<HTMLDivElement, { text: string }>(
         <Avatar className="mt-1 border-2 border-orange-200 p-0.5 shadow-md transition-all duration-300 group-hover:scale-105">
           <AvatarImage src={"/lingo-lion-logo.jpeg"} />
         </Avatar>
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 max-w-[80%]">
           <div className="text-xs text-gray-500 ml-1 font-medium">링고</div>
-          <div className="relative w-full max-w-[85%]  min-h-[3rem] rounded-2xl rounded-tl-sm px-4 py-3 text-sm bg-gradient-to-br from-orange-50 to-orange-100 text-gray-800 shadow-sm border border-orange-200">
-            <div className="font-medium leading-relaxed">{text}</div>
-            {/* <div className="absolute -left-2 top-[0.85rem] h-4 w-4 bg-gradient-to-br from-orange-50 to-orange-100 border-l border-t border-orange-200 transform rotate-[45deg] -translate-y-1/2"></div> */}
+          <div className="relative w-full  min-h-[3rem] rounded-2xl rounded-tl-sm px-4 py-3 text-sm bg-gradient-to-br from-orange-50 to-orange-100 text-gray-800 shadow-sm border border-orange-200">
+            <div className="font-medium leading-relaxed  whitespace-pre-wrap">
+              {text}
+            </div>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef } from "react";
 
-const useAutoscrollBottom = (
+const useLiveMsgAutoscroll = (
   scrollContainerRef: React.RefObject<HTMLElement>,
   deps: React.DependencyList
 ) => {
@@ -38,12 +38,13 @@ const useAutoscrollBottom = (
     }
   }, [deps, scrollContainerRef]);
 
-  // Add scroll listener to track user scrolling up ( 나중에 debounce로 최적화 가능?? )
+  //! Add scroll listener to track user scrolling up ( 나중에 debounce로 최적화 가능?? )
   useEffect(() => {
     const container = scrollContainerRef.current;
     let scrollTimeout: NodeJS.Timeout | null = null;
 
     const handleScroll = () => {
+      console.log("handleScroll");
       if (container) {
         const isNearBottom =
           container.scrollHeight -
@@ -82,4 +83,4 @@ const useAutoscrollBottom = (
   return lastMessageRef; // Return the ref to be attached to the last message
 };
 
-export default useAutoscrollBottom;
+export default useLiveMsgAutoscroll;
