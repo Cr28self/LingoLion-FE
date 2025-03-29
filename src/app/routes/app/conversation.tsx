@@ -1,6 +1,8 @@
 // UI 컴포넌트 및 아이콘 import
 import ConversationLayout from "@/components/layout/conversation-layout";
-import ChatSSE from "@/domains/conversation/components/ChatSSE";
+import ConvInputForm from "@/domains/conversation/components/Conv-Input-Form";
+import ConvMessageList from "@/domains/conversation/components/Conv-Message-List";
+import { Suspense } from "react";
 
 import { useParams } from "react-router-dom";
 
@@ -16,7 +18,11 @@ const ConversationRoute = () => {
         decodeURIComponent(conversationTitle as string)
       )}
     >
-      <ChatSSE convId={conversationId as string} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <ConvMessageList convId={conversationId as string} />
+
+        <ConvInputForm convId={conversationId as string} />
+      </Suspense>
     </ConversationLayout>
   );
 };
