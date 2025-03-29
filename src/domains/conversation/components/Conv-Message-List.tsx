@@ -32,34 +32,91 @@ function NoMessagePlaceholder() {
 }
 
 const ConvMessageList = ({ convId }: { convId: string }) => {
+  const pageLimit = 7;
   const liveMessages = useLiveMessagesStore((state) => state.liveMessages);
 
-  const lastMessageRef = useAutoscrollBottom(liveMessages);
-
-  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useGetAllInfiniteMessage(convId);
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isFetching } =
+    useGetAllInfiniteMessage(convId, pageLimit);
 
   const flatMessages = data?.pages.flatMap((page) => page.data) || [];
   const reversedMessages = [...flatMessages].reverse();
 
-  //   ! 처음에 채팅창 진입하면 scroll 맨 밑으로 가게 설정!!
-  //   ! threshold 조정 ( 3~ 4번째 요소가 보이면.. )
   const { rootRef, targetRef } = useInfiniteScroll({
-    data,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
   });
 
+  // Pass rootRef to the autoscroll hook
+  const lastMessageRef = useAutoscrollBottom(rootRef, liveMessages);
+
   // ! 최초 강제 밑으로 스크롤 되는 동작이 일어났는지 판단하는 flag
   const initialScrollPerformedRef = useRef(false);
 
   // ! 새로운 데이터가 오기 전에 이전 scrollHeight를 저장하는 변수
-  const prevScrollHeight = useRef<number | null>(null);
+  const prevScrollHeightRef = useRef<number | null>(null);
 
+  // Effect 1: Maintain Scroll Position when Fetching Previous Messages
   useEffect(() => {
-    // ! 여기서 최초로 한번만 일어나게 하는 동작 구현 ( 다음 페이지 불러왔으면 더이상 불러지지 않게 맨 밑으로 강제로 스크롤)
-  }, []);
+    const rootElement = rootRef.current;
+    if (!rootElement) return;
+
+    // Before new data (older messages) potentially renders and increases scrollHeight
+    //  새로운 페이지의 데이터가 불러오는 중일때..... ( isFetchingNextPage=true )
+    if (isFetchingNextPage) {
+      // ! scrollHeight : 실제 내부 content의 높이
+      prevScrollHeightRef.current = rootElement.scrollHeight;
+    }
+    // After new data has rendered
+    else if (
+      prevScrollHeightRef.current !== null &&
+      !isFetchingNextPage &&
+      hasNextPage
+    ) {
+      // * 여기 로직부터 새로운 데이터가 들어오면 scroll 처리
+      // 새로운 페이지가 추가된 rootElement의 scrollHeight 추출
+      const newScrollHeight = rootElement.scrollHeight;
+
+      // !rootElement의 scrollTop을 조작해서 스크롤 강제 이동시킴 ( 왜 +=했는지 이해안됨? )
+      rootElement.scrollTop += newScrollHeight - prevScrollHeightRef.current;
+
+      // 초기화
+      prevScrollHeightRef.current = null;
+    }
+  }, [isFetchingNextPage, flatMessages.length, rootRef, hasNextPage]);
+
+  // Effect 2: Initial Scroll to Bottom Logic
+  useEffect(() => {
+    const rootElement = rootRef.current;
+
+    // Only perform this scroll ONCE after the initial data load (+ potential first auto-fetch)
+    if (initialScrollPerformedRef.current === true) return;
+
+    const shouldScrollToBottom =
+      rootElement &&
+      !isFetching &&
+      !isFetchingNextPage &&
+      (flatMessages.length > pageLimit || flatMessages.length === 0);
+
+    if (shouldScrollToBottom) {
+      if (flatMessages.length > pageLimit) {
+        console.log("Performing initial scroll to bottom");
+        console.log("flatMsg 길이", flatMessages.length);
+        console.log("root scrollHeight 값", rootElement.scrollHeight);
+        // Scroll to the actual bottom of the content
+        rootElement.scrollTo({
+          top: rootElement.scrollHeight,
+          behavior: "smooth",
+        });
+      } else {
+        console.log("flatMsg 길이", flatMessages.length);
+        console.log("No messages, marking initial scroll as done.");
+      }
+
+      // 공통 처리
+      initialScrollPerformedRef.current = true;
+    }
+  }, [isFetching, isFetchingNextPage, flatMessages.length, rootRef]);
 
   return (
     <div
@@ -67,19 +124,28 @@ const ConvMessageList = ({ convId }: { convId: string }) => {
       className="relative flex-1 overflow-y-auto space-y-6 p-6 bg-[url('/chat-bg-pattern.png')] bg-opacity-5"
       ref={rootRef}
     >
+      {/* Loading Indicator at the top */}
+      {isFetchingNextPage && (
+        <div className="text-center py-2 text-gray-500">
+          Loading older messages...
+        </div>
+      )}
       <div className="space-y-6 inset-0">
-        {/* ChatDATA */}
-        {reversedMessages.length === 0 ? (
-          <NoMessagePlaceholder />
-        ) : (
-          reversedMessages.map(({ sender, content, createdAt }, index) => {
-            // Only the first element (oldest message) gets the target ref for infinite scroll
-            const isSecondMessage = index === 1;
-            const elemKey = `${createdAt}-${sender}`; // 고유한 키 생성
+        {/* Render reversed historical messages */}
+
+        {/* start of reversedMessages */}
+        {reversedMessages.length > 0 &&
+          reversedMessages.map(({ id, sender, content }, index) => {
+            // Target the second message (index 1) for triggering load of older messages
+            console.log("아이디's content", id, content);
+            const isTriggerElement = index === 1;
+            const elemKey = `${convId}-${id}`; // Ensure unique key
+
             if (sender === "assistant") {
               return (
                 <ReceiveMsgBox
-                  ref={isSecondMessage ? targetRef : null}
+                  // Assign targetRef only to the designated trigger element
+                  ref={isTriggerElement ? targetRef : null}
                   key={elemKey}
                   text={content}
                 />
@@ -87,22 +153,25 @@ const ConvMessageList = ({ convId }: { convId: string }) => {
             } else {
               return (
                 <SendMsgBox
-                  ref={isSecondMessage ? targetRef : null}
+                  // Assign targetRef only to the designated trigger element
+                  ref={isTriggerElement ? targetRef : null}
                   key={elemKey}
                   text={content}
                 />
               );
             }
-          })
-        )}
-        <button className="fixed top-0 right-0" onClick={() => fetchNextPage()}>
-          {" "}
-          fetchNextPAge!!
-        </button>
+          })}
 
-        {/* ChatDATA */}
+        {/* end of reversedMessages */}
+
+        {/* Placeholder shown only if NO historical AND NO live messages exist after initial load */}
+        {reversedMessages.length === 0 && liveMessages.length === 0 && (
+          <NoMessagePlaceholder />
+        )}
+
+        {/* start of Render live messages */}
         {liveMessages.map(({ role, content, order }, index) => {
-          const elemKey = `${order}-${role}`; // 고유한 키 생성
+          const elemKey = `${order}-${role}`; // Ensure unique
 
           const isLastMessage = index === liveMessages.length - 1;
           if (role === "assistant") {
@@ -123,6 +192,7 @@ const ConvMessageList = ({ convId }: { convId: string }) => {
             );
           }
         })}
+        {/* end of Render live messages */}
       </div>
     </div>
   );
