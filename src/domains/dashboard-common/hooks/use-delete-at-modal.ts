@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useDeleteSituation } from "../api/delete-situations";
-import { useDeleteConversation } from "../api/delete-conversation";
+import { useDeleteSituation } from "../../dashboard-situations/api/delete-situations";
+import { useDeleteConversation } from "../../dashboard-conversations/api/delete-conversation";
 import { toast } from "sonner";
 
 export function useDeleteConvAtModal(

@@ -1,6 +1,6 @@
 import DashboardLayout from "@/components/layout/dashboard-layout";
-import SituationSetupModal from "@/domains/dashboard/components/modal/SituationSetupModal";
-import SituationGrid from "@/domains/dashboard/components/SituationGrid";
+import SituationSetupModal from "@/domains/dashboard-situations/components/modal/SituationSetupModal";
+import SituationGrid from "@/domains/dashboard-situations/components/SituationGrid";
 
 const DashboardSituationsRoute = () => {
   // 상황 목록 데이터 (나중에 API로 대체)
@@ -18,7 +18,7 @@ const DashboardSituationsRoute = () => {
             다양한 상황별 회화 연습을 시작하세요.
           </p>
         </div>
-        <SituationSetupModal onNextLink={"/app/situation/new"} />
+        <SituationSetupModal onNextLink={"/app/situation/create"} />
       </header>
 
       {/* Situations Grid */}

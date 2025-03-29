@@ -1,6 +1,6 @@
 import DashboardLayout from "@/components/layout/dashboard-layout";
 
-import SettingContents from "@/domains/dashboard/components/SettingContents";
+import SettingContents from "@/domains/dashboard-setting/components/SettingContents";
 
 const DashboardSettingRoute = () => {
   return (

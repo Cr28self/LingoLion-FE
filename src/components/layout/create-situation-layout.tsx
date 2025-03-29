@@ -2,11 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 
-const SituationBuilderLayout = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+const CreateSituationLayout = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
 
   return (
@@ -48,4 +44,4 @@ const SituationBuilderLayout = ({
   );
 };
 
-export default SituationBuilderLayout;
+export default CreateSituationLayout;

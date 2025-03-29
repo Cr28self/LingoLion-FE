@@ -1,4 +1,4 @@
-import { TAllList } from "@/domains/situation-builder/reducer/types";
+import { TAllList } from "@/domains/situation-create/reducer/types";
 import { useAuthApiClient } from "@/lib/auth/useAuthApiClient";
 import { TSituationMode } from "@/types/api";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";

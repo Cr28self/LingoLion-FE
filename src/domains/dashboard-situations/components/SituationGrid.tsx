@@ -1,4 +1,4 @@
-import MakeConvSetupModal from "@/domains/dashboard/components/modal/MakeConvSetupModal";
+import MakeConvSetupModal from "@/domains/dashboard-conversations/components/modal/MakeConvSetupModal";
 import DeleteConfirmDialog from "./modal/DeleteConfirmDialog";
 import EditSituationModal from "./modal/EditSituationModal";
 import { formatDistanceToNow } from "date-fns";
@@ -9,7 +9,7 @@ import { TSituationMode } from "@/types/api";
 import useInfiniteScroll from "@/hooks/use-infinite-scroll";
 import { Button } from "@/components/ui/button";
 import { Suspense, useState } from "react";
-import { SkeletonCardSitu } from "./Contents-skeleton-loading";
+import { SkeletonCardSitu } from "../../dashboard-common/components/Contents-skeleton-loading";
 
 interface SituationGridProps {
   mode: TSituationMode;

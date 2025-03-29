@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
-import { useDeleteConvAtModal } from "../../hooks/use-delete-at-modal";
+import { useDeleteConvAtModal } from "../../../dashboard-common/hooks/use-delete-at-modal";
 
 interface DeleteConversationDialogProps {
   isOpen: boolean;

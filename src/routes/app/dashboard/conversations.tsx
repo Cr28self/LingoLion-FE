@@ -1,7 +1,7 @@
 import DashboardLayout from "@/components/layout/dashboard-layout";
-import { SkeletonCardConv } from "@/domains/dashboard/components/Contents-skeleton-loading";
+import { SkeletonCardConv } from "@/domains/dashboard-common/components/Contents-skeleton-loading";
+import ConversationGrid from "@/domains/dashboard-conversations/components/ConversationGrid";
 
-import ConversationGrid from "@/domains/dashboard/components/ConversationGrid";
 import { Suspense } from "react";
 
 const DashboardConversationsRoute = () => {

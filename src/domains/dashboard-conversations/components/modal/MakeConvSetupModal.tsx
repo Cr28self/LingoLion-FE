@@ -9,7 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { TAllList } from "@/domains/situation-builder/reducer/types";
+import { TAllList } from "@/domains/situation-create/reducer/types";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {

@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { useDeleteSituAtModal } from "../../hooks/use-delete-at-modal";
+import { useDeleteSituAtModal } from "../../../dashboard-common/hooks/use-delete-at-modal";
 
 interface DeleteConfirmDialogProps {
   isOpen: boolean;

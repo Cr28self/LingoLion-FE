@@ -6,12 +6,12 @@ import DashboardOverviewRoute from "../routes/app/dashboard/overview";
 import DashboardSettingRoute from "../routes/app/dashboard/setting";
 import DashboardSituationsRoute from "../routes/app/dashboard/situations";
 import DashboardConversationsRoute from "../routes/app/dashboard/conversations";
-import SituationRoute from "../routes/app/situation-builder";
 import ConversationRoute from "../routes/app/conversation";
 import PublicLayout from "@/components/layout/PublicLayout";
 import PrivateLayout from "@/components/layout/PrivateLayout";
 import { GlobalRouteErrorFallback } from "@/components/errors/global";
 import { useMemo } from "react";
+import CreateSituationRoute from "../routes/app/situation/create";
 
 // 원래는 lazy 컴포넌트 불러올때 Suspense로 감싸야함내부적으로 Suspense를 자동으로 처리하므로 <Suspense>를 수동으로 감쌀 필요가 없습니다.
 // ! 페이지에서 발생하는 에러 --> react-route의 errorElement로 처리
@@ -76,8 +76,8 @@ export const createAppRouter = () =>
           element: <ConversationRoute />,
         },
         {
-          path: "situation/new",
-          element: <SituationRoute />,
+          path: "situation/create",
+          element: <CreateSituationRoute />,
         },
       ],
     },

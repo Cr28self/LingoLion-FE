@@ -1,7 +1,7 @@
 import { useAuthApiClient } from "@/lib/auth/useAuthApiClient";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosInstance } from "axios";
-import { TAllList } from "@/domains/situation-builder/reducer/types";
+import { TAllList } from "@/domains/situation-create/reducer/types";
 
 export const updateSituation = async (
   apiClient: AxiosInstance,

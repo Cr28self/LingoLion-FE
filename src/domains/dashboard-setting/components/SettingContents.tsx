@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useGetUsersMy } from "../api/get-users-my";
+import { useGetUsersMy } from "../../dashboard-common/api/get-users-my";
 
 const settingTabs = [
   { id: "profile", label: "프로필" },

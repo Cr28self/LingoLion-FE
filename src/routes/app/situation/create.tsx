@@ -1,9 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import SituationBuilderLayout from "@/components/layout/situation-builder-layout";
-import { RecommendForm } from "@/domains/situation-builder/components/RecommendForm";
+import CreateSituationLayout from "@/components/layout/create-situation-layout";
+import { RecommendForm } from "@/domains/situation-create/components/RecommendForm";
 
 // ---------- 메인 컴포넌트 ----------
-export default function SituationRoute() {
+export default function CreateSituationRoute() {
   const location = useLocation();
   const { metaData } = location.state || {}; // state에서 데이터 가져오기
 
@@ -11,7 +11,7 @@ export default function SituationRoute() {
 
   // ---------- UI ----------
   return (
-    <SituationBuilderLayout>
+    <CreateSituationLayout>
       <div className="px-2.5 h-full flex flex-col overflow-y-hidden">
         {/* 메인 컨텐츠 박스 */}
         <div
@@ -30,6 +30,6 @@ export default function SituationRoute() {
           />
         </div>
       </div>
-    </SituationBuilderLayout>
+    </CreateSituationLayout>
   );
 }
