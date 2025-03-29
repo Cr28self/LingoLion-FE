@@ -1,9 +1,9 @@
 import { useLiveMessagesStore } from "../\bstore/useLiveMessagesStore";
 import useAutoscrollBottom from "../hooks/use-autoscroll-bottom";
-import { ReceiveMsgBox, SendMsgBox } from "./MsgBox";
 import { useGetAllInfiniteMessage } from "../api/get-all-message";
 import useInfiniteScroll from "@/hooks/use-infinite-scroll";
 import { useEffect, useRef } from "react";
+import { ConvMessageBox } from "./Conv-Message-Box";
 
 function NoMessagePlaceholder() {
   return (
@@ -34,6 +34,7 @@ function NoMessagePlaceholder() {
 const ConvMessageList = ({ convId }: { convId: string }) => {
   const pageLimit = 7;
   const liveMessages = useLiveMessagesStore((state) => state.liveMessages);
+  console.log("LM", liveMessages);
 
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isFetching } =
     useGetAllInfiniteMessage(convId, pageLimit);
@@ -135,31 +136,19 @@ const ConvMessageList = ({ convId }: { convId: string }) => {
 
         {/* start of reversedMessages */}
         {reversedMessages.length > 0 &&
-          reversedMessages.map(({ id, sender, content }, index) => {
+          reversedMessages.map((message, index) => {
             // Target the second message (index 1) for triggering load of older messages
-            console.log("아이디's content", id, content);
-            const isTriggerElement = index === 1;
-            const elemKey = `${convId}-${id}`; // Ensure unique key
 
-            if (sender === "assistant") {
-              return (
-                <ReceiveMsgBox
-                  // Assign targetRef only to the designated trigger element
-                  ref={isTriggerElement ? targetRef : null}
-                  key={elemKey}
-                  text={content}
-                />
-              );
-            } else {
-              return (
-                <SendMsgBox
-                  // Assign targetRef only to the designated trigger element
-                  ref={isTriggerElement ? targetRef : null}
-                  key={elemKey}
-                  text={content}
-                />
-              );
-            }
+            const isTriggerElement = index === 1;
+            const elemKey = `${convId}-${message.id}`; // Ensure unique key
+
+            return (
+              <ConvMessageBox
+                key={elemKey}
+                message={message}
+                ref={isTriggerElement ? targetRef : null}
+              />
+            );
           })}
 
         {/* end of reversedMessages */}
@@ -170,29 +159,19 @@ const ConvMessageList = ({ convId }: { convId: string }) => {
         )}
 
         {/* start of Render live messages */}
-        {liveMessages.map(({ role, content, order }, index) => {
-          const elemKey = `${order}-${role}`; // Ensure unique
+        {liveMessages.map((message, index) => {
+          const elemKey = `${message.order}-${message.role}`; // Ensure unique
 
           const isLastMessage = index === liveMessages.length - 1;
-          if (role === "assistant") {
-            return (
-              <ReceiveMsgBox
-                ref={isLastMessage ? lastMessageRef : null}
-                key={elemKey}
-                text={content}
-              />
-            );
-          } else {
-            return (
-              <SendMsgBox
-                ref={isLastMessage ? lastMessageRef : null}
-                key={elemKey}
-                text={content}
-              />
-            );
-          }
+
+          return (
+            <ConvMessageBox
+              message={message}
+              key={elemKey}
+              ref={isLastMessage ? lastMessageRef : null}
+            />
+          );
         })}
-        {/* end of Render live messages */}
       </div>
     </div>
   );

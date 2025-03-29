@@ -1,18 +1,13 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-
-type LiveMessages = {
-  role: "assistant" | "user";
-  content: string;
-  order: number;
-};
+import { LiveMessage } from "../types/message";
 
 interface LiveMessagesState {
-  liveMessages: LiveMessages[];
+  liveMessages: LiveMessage[];
 
   addUserLiveMessage: (message: string, order: number) => void;
 
-  setLiveMessages: (messages: LiveMessages[]) => void;
+  setLiveMessages: (messages: LiveMessage[]) => void;
 
   realtimeAddLiveMessage: (message: string, order: number) => void;
 
