@@ -7,6 +7,7 @@ import {
   Loader2,
   Wand2,
 } from "lucide-react";
+import useRecommendFormInputStore from "@/domains/situation-create/store/use-recommend-form-input-store";
 
 // --- Mock Data & Modal Component (이전과 동일) ---
 // ... (sampleRecommendations, individualSuggestionData, RecommendationModal 코드는 변경 없음) ...
@@ -146,10 +147,17 @@ const RecommendationModal = ({
 
 // --- 상황 생성 페이지 컴포넌트 (태그 스타일 및 레이아웃 개선) ---
 const SituationCreatePage = () => {
-  const [place, setPlace] = useState("");
-  const [aiRole, setAiRole] = useState("");
-  const [userRole, setUserRole] = useState("");
-  const [goal, setGoal] = useState("");
+  const { aiRole, goal, place, userRole } = useRecommendFormInputStore(
+    (state) => state.formInputState
+  );
+  const setFormInputState = useRecommendFormInputStore(
+    (state) => state.setFormInputState
+  );
+
+  // const [place, setPlace] = useState("");
+  // const [aiRole, setAiRole] = useState("");
+  // const [userRole, setUserRole] = useState("");
+  // const [goal, setGoal] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [suggestions, setSuggestions] = useState({
