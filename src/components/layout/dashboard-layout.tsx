@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import DashboardSidebar from "@/domains/dashboard-common/components/Dashboard-Sidebar";
-import { useLogout } from "@/lib/auth/hooks";
+import { useLogout } from "@/lib/auth/use-logout";
 import { ReactNode, Suspense } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSidebarStore } from "@/domains/dashboard-common/store/sidebar-store";

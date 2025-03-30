@@ -1,10 +1,12 @@
-import { useLiveMessagesStore } from "../\bstore/useLiveMessagesStore";
+import { useLiveMessagesStore } from "../store/use-live-messages-store";
 import useLiveMsgAutoscroll from "../hooks/use-live-msg-autoscroll";
-import { useGetAllInfiniteMessage } from "../api/get-all-message";
+
 import useInfiniteScroll from "@/hooks/use-infinite-scroll";
 import { useMemo } from "react";
-import { ConvMessageBox } from "./Conv-Message-Box";
+
 import { useConvScrollManager } from "../hooks/use-conv-scroll-manager";
+import { ConvMessageBox } from "./conv-message-box";
+import useGetAllInfiniteMessage from "../api/get-all-message";
 
 function NoMessagePlaceholder() {
   return (

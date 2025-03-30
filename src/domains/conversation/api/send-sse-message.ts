@@ -1,8 +1,8 @@
-import { useAuthStore } from "@/lib/auth/useAuthStore";
+import { useAuthStore } from "@/lib/auth/use-auth-store";
 import { useRef, useState } from "react";
 
-import { useLiveMessagesStore } from "../\bstore/useLiveMessagesStore";
-import { useConvInputStore } from "../\bstore/useConvInputStore";
+import { useLiveMessagesStore } from "../store/use-live-messages-store";
+import { useConvInputStore } from "../store/use-conv-input-store";
 
 async function fetchSSEStream({
   url,

@@ -27,7 +27,7 @@ const SituationSetupModal = ({ onNextLink }: SituationSetupModalProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>시나리오 생성</Button>
+        <Button>상황 생성</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

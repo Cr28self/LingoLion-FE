@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { refreshTokenFn } from "./api";
 import { useMutation } from "@tanstack/react-query";
-import { useAuthStore } from "./useAuthStore";
+import { useAuthStore } from "./use-auth-store";
 
 // sessionStorage 키 상수
 const ACCESS_TOKEN_KEY = "accessToken";

@@ -1,4 +1,4 @@
-import { useAuthApiClient } from "@/lib/auth/useAuthApiClient";
+import { useAuthenticatedApiClient } from "@/lib/auth/use-authenticated-api-client";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { AxiosInstance } from "axios";
 
@@ -31,7 +31,7 @@ export const getAllConversations = async (
 // };
 
 export const useGetAllInfiniteConversations = () => {
-  const authApiClient = useAuthApiClient();
+  const authApiClient = useAuthenticatedApiClient();
   return useSuspenseInfiniteQuery<TConversationResponse>({
     queryKey: ["getAllConversations"],
 

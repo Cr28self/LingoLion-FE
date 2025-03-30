@@ -1,4 +1,4 @@
-import { useLiveMessagesStore } from "@/domains/conversation/\bstore/useLiveMessagesStore";
+import { useLiveMessagesStore } from "@/domains/conversation/store/use-live-messages-store";
 import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { useNavigate } from "react-router-dom";

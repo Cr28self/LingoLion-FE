@@ -1,4 +1,4 @@
-import { useAuthApiClient } from "@/lib/auth/useAuthApiClient";
+import { useAuthenticatedApiClient } from "@/lib/auth/use-authenticated-api-client";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosInstance } from "axios";
 
@@ -8,7 +8,7 @@ export const deleteSituation = async (apiClient: AxiosInstance, id: number) => {
 };
 
 export const useDeleteSituation = () => {
-  const authApi = useAuthApiClient();
+  const authApi = useAuthenticatedApiClient();
 
   return useMutation({
     mutationFn: (id: number) => deleteSituation(authApi, id),

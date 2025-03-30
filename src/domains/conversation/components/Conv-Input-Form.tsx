@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Send } from "lucide-react";
 import React, { MutableRefObject, useRef, useState } from "react";
-import { useConvInputStore } from "../\bstore/useConvInputStore";
+import { useConvInputStore } from "../store/use-conv-input-store";
 import { useSendSSEMessage } from "../api/send-sse-message";
 
 const ConvInputForm = ({ convId }: { convId: string }) => {

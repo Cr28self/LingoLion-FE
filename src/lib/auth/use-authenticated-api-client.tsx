@@ -3,10 +3,10 @@ import axios, { AxiosError, AxiosInstance } from "axios";
 import { apiClient } from "../api-client";
 import { UnAuthorizedResponse } from "./types";
 import { refreshTokenFn } from "./api";
-import { useAuthStore } from "./useAuthStore";
+import { useAuthStore } from "./use-auth-store";
 
 // accessToken을 AuthContext에서 불러와, 요청 header에 담아주는 hook / 토큰이 만료될 경우, refreshToken을 호출하여 새롭게 갱신
-export function useAuthApiClient(): AxiosInstance {
+export function useAuthenticatedApiClient(): AxiosInstance {
   const { getAccessToken, isLoggedIn, updateAccessToken, setIsLoggedIn } =
     useAuthStore();
 

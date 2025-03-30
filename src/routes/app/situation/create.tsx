@@ -26,7 +26,7 @@ export default function CreateSituationRoute() {
         >
           <RecommendForm
             metaData={metaData}
-            onCompleteNavigate={() => navigate("/app/dashboard")}
+            onCompleteNavigate={() => navigate("/app/dashboard/situations")}
           />
         </div>
       </div>

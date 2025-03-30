@@ -1,7 +1,7 @@
 // UI 컴포넌트 및 아이콘 import
 import ConversationLayout from "@/components/layout/conversation-layout";
-import ConvInputForm from "@/domains/conversation/components/Conv-Input-Form";
-import ConvMessageList from "@/domains/conversation/components/Conv-Message-List";
+import ConvInputForm from "@/domains/conversation/components/conv-input-form";
+import ConvMessageList from "@/domains/conversation/components/conv-message-list";
 import { Suspense } from "react";
 
 import { useParams } from "react-router-dom";

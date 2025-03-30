@@ -1,5 +1,5 @@
 import { TAllList } from "@/domains/situation-create/reducer/types";
-import { useAuthApiClient } from "@/lib/auth/useAuthApiClient";
+import { useAuthenticatedApiClient } from "@/lib/auth/use-authenticated-api-client";
 import { TSituationMode } from "@/types/api";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { AxiosInstance } from "axios";
@@ -29,7 +29,7 @@ export const getSituations = async (
 };
 
 export const useGetInfiniteSituations = (mode: TSituationMode) => {
-  const authApiClient = useAuthApiClient();
+  const authApiClient = useAuthenticatedApiClient();
 
   return useSuspenseInfiniteQuery<TSituationsResponse>({
     queryKey: ["getSituationsInfinite", mode],

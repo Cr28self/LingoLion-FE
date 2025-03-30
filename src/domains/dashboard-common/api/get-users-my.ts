@@ -1,4 +1,4 @@
-import { useAuthApiClient } from "@/lib/auth/useAuthApiClient";
+import { useAuthenticatedApiClient } from "@/lib/auth/use-authenticated-api-client";
 import { TGetUsersMyResponse } from "@/types/api";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { AxiosInstance } from "axios";
@@ -12,7 +12,7 @@ export const getUsersMy = async (
 };
 
 export const useGetUsersMy = () => {
-  const authApi = useAuthApiClient();
+  const authApi = useAuthenticatedApiClient();
 
   return useSuspenseQuery({
     queryKey: ["usersMy"],
