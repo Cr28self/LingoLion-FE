@@ -45,17 +45,18 @@ const RegisterForm = ({ onSuccessNavigate }: RegisterFormProps) => {
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={form.control}
             name={"email"}
             render={({ field }) => (
-              <FormItem className="mb-4">
+              <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="abcde@example.com"
                     type="email"
+                    className="h-10"
                     required
                     {...field}
                   />
@@ -69,12 +70,13 @@ const RegisterForm = ({ onSuccessNavigate }: RegisterFormProps) => {
             control={form.control}
             name={"password"}
             render={({ field }) => (
-              <FormItem className="mb-6">
+              <FormItem>
                 <FormLabel>비밀번호</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Password"
                     type="password"
+                    className="h-10"
                     required
                     {...field}
                   />
@@ -89,12 +91,13 @@ const RegisterForm = ({ onSuccessNavigate }: RegisterFormProps) => {
             control={form.control}
             name={"confirmPassword"}
             render={({ field }) => (
-              <FormItem className="mb-6">
+              <FormItem>
                 <FormLabel>비밀번호 확인</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="비밀번호 확인"
                     type="password"
+                    className="h-10"
                     required
                     {...field}
                   />
@@ -109,11 +112,11 @@ const RegisterForm = ({ onSuccessNavigate }: RegisterFormProps) => {
             control={form.control}
             name={"name"}
             render={({ field }) => (
-              <FormItem className="mb-4">
+              <FormItem>
                 <FormLabel>이름</FormLabel>
                 <FormControl>
                   <Input
-                    className="w-full px-3 py-2 border border-orange-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full px-3 py-2 border border-orange-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 h-10"
                     placeholder="이름"
                     type="text"
                     required
@@ -139,7 +142,7 @@ const RegisterForm = ({ onSuccessNavigate }: RegisterFormProps) => {
 
       {/* 로그인 링크 */}
       <div className="mt-4 text-center">
-        <span className="text-gray-600">Already have an account? </span>
+        <span className="text-gray-600">이미 계정이 있으신가요? </span>
         <Link
           to="/auth/login"
           className="font-semibold text-orange-500 hover:text-orange-400 transition-colors"
