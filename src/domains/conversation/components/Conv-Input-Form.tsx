@@ -2,10 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Send } from "lucide-react";
 import React, { MutableRefObject, useRef, useState } from "react";
-import { useConvInputStore } from "../store/use-conv-input-store";
+import { useConvInputStore } from "../store/use-conv-input-store";
 import { useSendSSEMessage } from "../api/send-sse-message";
 
-const ConvInputForm = ({ convId }: { convId: string }) => {
+export default function ConvInputForm({ convId }: { convId: string }) {
   const { inputMessage, setInputMessage } = useConvInputStore();
   const [isComposing, setIsComposing] = useState(false); // 추가된 부분
 
@@ -25,7 +25,7 @@ const ConvInputForm = ({ convId }: { convId: string }) => {
   return (
     <form
       id="Input Area"
-      className="flex p-4 bg-white border-t border-gray-200 shadow-inner"
+      className="flex p-4 bg-white border-t border-gray-200 shadow-inner h-[300px]"
       onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         handleSend();
@@ -75,6 +75,4 @@ const ConvInputForm = ({ convId }: { convId: string }) => {
       </div>
     </form>
   );
-};
-
-export default ConvInputForm;
+}

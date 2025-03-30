@@ -18,7 +18,7 @@ import { registerSchema, TRegisterSchema } from "../schema/register-schema";
 type RegisterFormProps = {
   onSuccessNavigate: () => void;
 };
-const RegisterForm = ({ onSuccessNavigate }: RegisterFormProps) => {
+export default function RegisterForm({ onSuccessNavigate }: RegisterFormProps) {
   const [isRegistering, setIsRegistering] = useState<boolean>(false);
   const { mutate: register } = useRegister({
     onSuccessNavigate,
@@ -152,6 +152,4 @@ const RegisterForm = ({ onSuccessNavigate }: RegisterFormProps) => {
       </div>
     </>
   );
-};
-
-export default RegisterForm;
+}

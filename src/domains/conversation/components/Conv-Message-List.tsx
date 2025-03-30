@@ -1,14 +1,14 @@
-import { useLiveMessagesStore } from "../store/use-live-messages-store";
+import { useLiveMessagesStore } from "../store/use-live-messages-store";
 import useLiveMsgAutoscroll from "../hooks/use-live-msg-autoscroll";
 
 import useInfiniteScroll from "@/hooks/use-infinite-scroll";
 import { useMemo } from "react";
 
 import { useConvScrollManager } from "../hooks/use-conv-scroll-manager";
-import { ConvMessageBox } from "./conv-message-box";
+import ConvMessageBox from "./conv-message-box";
 import useGetAllInfiniteMessage from "../api/get-all-message";
 
-function NoMessagePlaceholder() {
+const NoMessagePlaceholder = () => {
   return (
     <div className="flex flex-col items-center justify-center h-full text-center text-gray-500 space-y-4">
       <div className="w-20 h-20 rounded-full bg-orange-100 flex items-center justify-center">
@@ -32,9 +32,9 @@ function NoMessagePlaceholder() {
       </p>
     </div>
   );
-}
+};
 
-const ConvMessageList = ({ convId }: { convId: string }) => {
+export default function ConvMessageList({ convId }: { convId: string }) {
   const pageLimit = 7;
   const liveMessages = useLiveMessagesStore((state) => state.liveMessages);
 
@@ -123,6 +123,4 @@ const ConvMessageList = ({ convId }: { convId: string }) => {
       </div>
     </div>
   );
-};
-
-export default ConvMessageList;
+}
