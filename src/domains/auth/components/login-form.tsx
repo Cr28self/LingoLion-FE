@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { GoogleLogin } from "@react-oauth/google";
 
 import {
   Form,
@@ -17,12 +16,13 @@ import { useState } from "react";
 import SubmitButton from "./submit-button";
 import useLogin from "../hooks/use-login";
 import { loginSchema, TLoginSchema } from "../schema/login-schema";
+import CustomGoogleLoginButton from "./custom-google-login-button";
 
 type LoginFormProps = {
   onSuccessNavigate: () => void;
 };
 
-const LoginForm = ({ onSuccessNavigate }: LoginFormProps) => {
+export default function LoginForm({ onSuccessNavigate }: LoginFormProps) {
   const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
   const { mutate: login } = useLogin({ onSuccessNavigate, setIsLoggingIn });
 
@@ -37,6 +37,8 @@ const LoginForm = ({ onSuccessNavigate }: LoginFormProps) => {
   const onSubmit = ({ email, password }: TLoginSchema) => {
     login({ email, password });
   };
+
+  const isGoogleLoading = false;
 
   return (
     <>
@@ -112,11 +114,12 @@ const LoginForm = ({ onSuccessNavigate }: LoginFormProps) => {
           </div>
         </div>
 
-        <GoogleLogin
-          onSuccess={() => {}}
-          onError={() => {}}
-          useOneTap={false} // 원탭 로그인 비활성화
+        <CustomGoogleLoginButton
+          isLoading={isGoogleLoading}
+          disabled={isLoggingIn || !isGoogleLoading} // Disable if either is loading
+          // className="w-full" // Already set to w-full inside the component, but can override if needed
         />
+
         {/* 회원가입 링크 */}
         <div className="mt-4 text-center">
           <span className="text-gray-600">계정이 없으신가요? </span>
@@ -130,6 +133,4 @@ const LoginForm = ({ onSuccessNavigate }: LoginFormProps) => {
       </footer>
     </>
   );
-};
-
-export default LoginForm;
+}
