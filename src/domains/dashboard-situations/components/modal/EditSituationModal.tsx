@@ -17,11 +17,11 @@ import { useQueryClient } from "@tanstack/react-query";
 
 type TSituation = TAllList & { id: number; createdAt: Date };
 
-interface EditSituationModalProps {
+type EditSituationModalProps = {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   situation: TSituation;
-}
+};
 
 const EditSituationModal: React.FC<EditSituationModalProps> = ({
   isOpen,

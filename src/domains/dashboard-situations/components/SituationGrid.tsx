@@ -11,9 +11,9 @@ import { Button } from "@/components/ui/button";
 import { Suspense, useState } from "react";
 import { SkeletonCardSitu } from "../../dashboard-common/components/Contents-skeleton-loading";
 
-interface SituationGridProps {
+type SituationGridProps = {
   mode: TSituationMode;
-}
+};
 
 const SituationGridContents = ({ mode }: SituationGridProps) => {
   const {

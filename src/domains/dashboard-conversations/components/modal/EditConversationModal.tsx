@@ -13,18 +13,18 @@ import { useUpdateConversation } from "../../api/update-conversation";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 
-interface Conversation {
+type Conversation = {
   id: number;
   title: string;
   icon: string;
   createdAt: Date;
-}
+};
 
-interface EditConversationModalProps {
+type EditConversationModalProps = {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   conversation: Conversation | null;
-}
+};
 
 const EditConversationModal: React.FC<EditConversationModalProps> = ({
   isOpen,

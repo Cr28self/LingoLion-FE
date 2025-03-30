@@ -10,11 +10,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { useDeleteSituAtModal } from "../../../dashboard-common/hooks/use-delete-at-modal";
 
-interface DeleteConfirmDialogProps {
+type DeleteConfirmDialogProps = {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   situationId: number | null;
-}
+};
 
 const DeleteConfirmDialog: React.FC<DeleteConfirmDialogProps> = ({
   isOpen,

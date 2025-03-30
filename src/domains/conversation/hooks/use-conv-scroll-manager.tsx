@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-interface UseChatScrollManagerProps {
+type UseChatScrollManagerProps = {
   /** Ref attached to the scrollable chat container element. */
   rootRef: React.RefObject<HTMLElement>;
   /** Indicates if older messages are currently being fetched (for infinite scroll). */
@@ -13,7 +13,7 @@ interface UseChatScrollManagerProps {
   messageCount: number;
   /** The number of messages loaded per page (used for initial scroll logic). */
   pageLimit: number;
-}
+};
 
 /**
  * Custom hook to manage complex scrolling behaviors in a chat interface:

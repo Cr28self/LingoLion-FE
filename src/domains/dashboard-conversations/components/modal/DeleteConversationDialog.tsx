@@ -11,11 +11,11 @@ import { Button } from "@/components/ui/button";
 
 import { useDeleteConvAtModal } from "../../../dashboard-common/hooks/use-delete-at-modal";
 
-interface DeleteConversationDialogProps {
+type DeleteConversationDialogProps = {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   conversationId: number | null;
-}
+};
 
 const DeleteConversationDialog: React.FC<DeleteConversationDialogProps> = ({
   isOpen,

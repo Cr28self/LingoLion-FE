@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGetAllInfiniteConversations } from "../api/get-all-conversations";
-interface Conversation {
+type Conversation = {
   id: number;
   title: string;
   icon: string;
   createdAt: Date;
-}
+};
 
 export function useConversationGrid() {
   const navigate = useNavigate();

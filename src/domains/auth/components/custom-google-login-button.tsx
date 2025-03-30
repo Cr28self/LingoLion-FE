@@ -25,14 +25,14 @@ const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-interface GoogleLoginButtonProps {
+type GoogleLoginButtonProps = {
   isLoading?: boolean;
   children?: React.ReactNode;
   className?: string;
   disabled?: boolean;
   // Allow other standard button props if needed
   [key: string]: any;
-}
+};
 
 export default function CustomGoogleLoginButton({
   isLoading,

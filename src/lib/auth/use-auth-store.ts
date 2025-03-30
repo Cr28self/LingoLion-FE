@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
-interface AuthState {
+type AuthState = {
   isCheckingAuth: boolean;
   isLoggedIn: boolean;
   accessToken: string | null;
@@ -10,7 +10,7 @@ interface AuthState {
   resetAuthentication: () => void;
   finishCheckingAuth: () => void;
   setIsLoggedIn: (isLoggedIn: boolean) => void;
-}
+};
 
 const ACCESS_TOKEN_KEY = "accessToken";
 

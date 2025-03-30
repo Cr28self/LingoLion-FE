@@ -8,9 +8,9 @@ import { Menu } from "lucide-react";
 import { useGetUsersMy } from "@/domains/dashboard-common/api/get-users-my";
 import { SkeletonUserProfile } from "@/domains/dashboard-common/components/Contents-skeleton-loading";
 
-interface DashboardLayoutProps {
+type DashboardLayoutProps = {
   children: ReactNode;
-}
+};
 
 const SidebarUserInfo = ({ isOpen }: { isOpen: boolean }) => {
   const { data } = useGetUsersMy();

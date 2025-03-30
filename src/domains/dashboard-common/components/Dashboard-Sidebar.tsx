@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { useSidebarStore } from "../store/sidebar-store";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
-interface DashboardSidebarProps {
+type DashboardSidebarProps = {
   children: React.ReactNode;
-}
+};
 
 const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ children }) => {
   const { isOpen, toggle, close, open } = useSidebarStore();

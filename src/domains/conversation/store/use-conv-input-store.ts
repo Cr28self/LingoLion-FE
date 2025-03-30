@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
-interface ConvInputState {
+type ConvInputState = {
   inputMessage: string;
   setInputMessage: (message: string) => void;
   resetInputMessage: () => void;
   getInputMessage: () => string;
-}
+};
 
 export const useConvInputStore = create<ConvInputState>()(
   devtools(

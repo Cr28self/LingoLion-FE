@@ -2,10 +2,10 @@ import { useAuthenticatedApiClient } from "@/lib/auth/use-authenticated-api-clie
 import { useMutation } from "@tanstack/react-query";
 import { AxiosInstance } from "axios";
 
-interface UpdateConversationData {
+type UpdateConversationData = {
   title?: string;
   icon?: string;
-}
+};
 
 export const updateConversation = async (
   apiClient: AxiosInstance,

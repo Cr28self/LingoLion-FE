@@ -3,21 +3,20 @@ import clsx from "clsx";
 import { Loader2, WandSparkles } from "lucide-react";
 import React from "react";
 
-interface SubmitButtonProps {
+type SubmitButtonProps = {
   isLoading?: boolean;
   children: React.ReactNode;
   className?: string;
   [key: string]: any;
-}
-interface AllRecommendDrawerButtonProps {
+};
+type AllRecommendDrawerButtonProps = {
   onClick: () => void;
   disabled: boolean;
   isLoading: boolean;
-}
-interface DrawerTriggerButtonProps
-  extends React.HTMLAttributes<HTMLButtonElement> {
+};
+type DrawerTriggerButtonProps = React.HTMLAttributes<HTMLButtonElement> & {
   title: string;
-}
+};
 
 export const SubmitButton = ({
   isLoading,

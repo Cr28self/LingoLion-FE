@@ -40,10 +40,10 @@ export const RecommendTagLayout = ({
   );
 };
 
-interface RecommendTagListProps {
+type RecommendTagListProps = {
   tags: string[]; // 태그 리스트
   onTagClick?: (tag: string) => void; // 클릭 시 태그 값을 전달하는 함수
-}
+};
 
 const RecommendTagList: React.FC<RecommendTagListProps> = ({
   tags,
