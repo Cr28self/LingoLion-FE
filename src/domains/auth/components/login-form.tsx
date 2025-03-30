@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -11,10 +10,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { loginSchema } from "@/lib/auth/schema";
-import { useLogin } from "@/lib/auth/hooks";
+
 import { useState } from "react";
-import SubmitButton from "./SubmitButton";
+import SubmitButton from "./submit-button";
+import useLogin from "../hooks/use-login";
+import { loginSchema, TLoginSchema } from "../schema/login-schema";
 
 type LoginFormProps = {
   onSuccessNavigate: () => void;
@@ -24,7 +24,7 @@ const LoginForm = ({ onSuccessNavigate }: LoginFormProps) => {
   const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
   const { mutate: login } = useLogin({ onSuccessNavigate, setIsLoggingIn });
 
-  const form = useForm<z.infer<typeof loginSchema>>({
+  const form = useForm<TLoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
@@ -32,7 +32,7 @@ const LoginForm = ({ onSuccessNavigate }: LoginFormProps) => {
     },
   });
 
-  const onSubmit = ({ email, password }: z.infer<typeof loginSchema>) => {
+  const onSubmit = ({ email, password }: TLoginSchema) => {
     login({ email, password });
   };
 

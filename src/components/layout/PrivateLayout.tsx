@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 import Loading from "../ui/loading";
-import { useAuthStore } from "@/lib/auth/useAuthStore";
+import { useAuthStore } from "@/lib/auth/use-auth-store";
 
 // ! 인증이 필요한 페이지의 최상단 레이아웃
 const PrivateLayout = () => {

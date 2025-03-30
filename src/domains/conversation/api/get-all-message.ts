@@ -1,38 +1,33 @@
-import { useAuthApiClient } from "@/lib/auth/useAuthApiClient";
+import { useAuthenticatedApiClient } from "@/lib/auth/use-authenticated-api-client";
 import { TGetAllMessageResponse } from "@/types/api";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { AxiosInstance } from "axios";
 
 // 순수 API 호출 함수
-export const getAllMessage = async (
+const getAllMessage = async (
   apiClient: AxiosInstance,
   cursor: string | null,
-  convId: string
+  convId: string,
+  limit: number
 ): Promise<TGetAllMessageResponse> => {
   const response = await apiClient.get(`/conversations/${convId}/message`, {
     params: {
       cursor,
-      limit: 6,
+      limit,
     },
   });
   return response.data;
 };
 
-// 쿼리 옵션
-// export const getAllMessageQueryOptions = ({ convId }: TGetAllMessage) => {
-//   return queryOptions<TGetAllMessageResponse>({
-//     queryKey: ["getAllMessage", convId],
-//     staleTime: Infinity,
-//     refetchOnWindowFocus: false,
-//   });
-// };
-// 최종 커스텀 훅
-export const useGetAllInfiniteMessage = (convId: string) => {
-  const authApiClient = useAuthApiClient();
+export default function useGetAllInfiniteMessage(
+  convId: string,
+  limit: number
+) {
+  const authApiClient = useAuthenticatedApiClient();
   return useSuspenseInfiniteQuery<TGetAllMessageResponse>({
     queryKey: ["getAllMessage", convId],
     queryFn: ({ pageParam = null }) =>
-      getAllMessage(authApiClient, pageParam as string | null, convId),
+      getAllMessage(authApiClient, pageParam as string | null, convId, limit),
     getNextPageParam: (lastPage) => {
       if (lastPage.pageInfo.hasNextPage) {
         return lastPage.pageInfo.endCursor;
@@ -43,4 +38,4 @@ export const useGetAllInfiniteMessage = (convId: string) => {
     refetchOnWindowFocus: false,
     initialPageParam: null,
   });
-};
+}

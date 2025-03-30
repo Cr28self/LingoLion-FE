@@ -7,14 +7,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useRegister } from "@/lib/auth/hooks";
-import { registerSchema } from "@/lib/auth/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { z } from "zod";
-import SubmitButton from "./SubmitButton";
+import SubmitButton from "./submit-button";
 import { useState } from "react";
+import { useRegister } from "../hooks/use-register";
+import { registerSchema, TRegisterSchema } from "../schema/register-schema";
 type RegisterFormProps = {
   onSuccessNavigate: () => void;
 };
@@ -25,7 +25,7 @@ const RegisterForm = ({ onSuccessNavigate }: RegisterFormProps) => {
     setIsRegistering,
   });
 
-  const form = useForm<z.infer<typeof registerSchema>>({
+  const form = useForm<TRegisterSchema>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
       email: "",
