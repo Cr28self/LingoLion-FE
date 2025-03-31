@@ -19,9 +19,7 @@ const SituationCreatePage = () => {
       <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl p-6 md:p-8">
         <CreateSituationForm />
       </div>
-
       {/* 추천 모달 */}
-
       <RecommendationModal />
 
       {/* 스크롤바 스타일 (선택적, tailwind-scrollbar 플러그인 필요) */}

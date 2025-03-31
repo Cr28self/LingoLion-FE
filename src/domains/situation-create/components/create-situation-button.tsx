@@ -3,15 +3,17 @@ import React, { useState } from "react";
 
 type CreateSituationButtonProps = {
   isFormFilled: boolean;
+  onClick: () => void;
 };
 export default function CreateSituationButton({
   isFormFilled,
+  onClick,
 }: CreateSituationButtonProps) {
   const [isCreating, setIsCreating] = useState(false);
   return (
     <button
       type="button"
-      onClick={() => {}}
+      onClick={onClick}
       disabled={!isFormFilled || isCreating}
       className={`w-full flex justify-center items-center py-4 px-6 text-lg font-extrabold rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500
       ${

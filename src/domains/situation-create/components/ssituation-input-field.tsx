@@ -1,53 +1,80 @@
 import { Wand2 } from "lucide-react";
+import {
+  RecommendationTypeMap,
+  TAiRoleRecommendation,
+  TGoalRecommendation,
+  TPlaceRecommendation,
+  TRecommendationCategoriesKey,
+  TUserRoleRecommendation,
+} from "../reducer/types";
+import { Button } from "@/components/ui/button";
 
-type SituationInputField = {
-  name: string;
+// Base props common to all variants (can be kept separate or inline)
+type BaseSituationInputFieldProps = {
   label: string;
   value: string;
-  handleValueChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onValueChange: (val: string) => void;
+  onIndividualRecommend: () => void;
   placeholder: string;
+  isPending: boolean;
 };
 
-const individualSuggestionData = {
-  place: [
-    "공원 달리기 트랙",
-    "조용한 해변 산책로",
-    "운동 시설의 피트니스 센터",
-    "산책하기 좋은 산길",
-    "번화한 도심 거리",
-    "조용한 시골길",
-  ],
-  aiRole: [
-    "친절한 트레이너",
-    "경험 많은 선배 러너",
-    "데이터 분석가",
-    "재활 전문가",
-    "동기부여 코치",
-  ],
-  userRole: [
-    "초보 러너",
-    "마라톤 준비생",
-    "부상에서 회복 중인 사람",
-    "기록 단축 목표 선수",
-    "즐겁게 달리는 사람",
-  ],
-  goal: [
-    "5km 완주하기",
-    "하프 마라톤 준비",
-    "달리기 자세 교정",
-    "부상 없이 달리기",
-    "스트레스 해소",
-    "새로운 달리기 코스 찾기",
-  ],
+// Generate a map where keys are 'name' values and values are the corresponding full prop types
+type SituationInputFieldPropsMap = {
+  // For each key K in 'place' | 'aiRole' | 'userRole' | 'goal'
+  [K in TRecommendationCategoriesKey]: BaseSituationInputFieldProps & {
+    name: K; // The 'name' prop is the specific key K
+    // The 'recommendations' prop type is looked up in RecommendationTypeMap using K
+    recommendations: RecommendationTypeMap[K];
+  };
 };
+
+// Create the final union type by getting all possible values from the map
+export type SituationInputFieldProps =
+  SituationInputFieldPropsMap[TRecommendationCategoriesKey];
 
 export default function SituationInputField({
   name,
   label,
   placeholder,
   value,
-  handleValueChange,
-}: SituationInputField) {
+  onValueChange,
+  onIndividualRecommend,
+  recommendations,
+  isPending,
+}: SituationInputFieldProps) {
+  const getRecommendationText = (
+    rec:
+      | TPlaceRecommendation
+      | TAiRoleRecommendation
+      | TUserRoleRecommendation
+      | TGoalRecommendation
+  ): string => {
+    // Check the 'name' prop passed to the component instance
+    // and use type guards ('in' operator) to narrow the type of 'rec'
+    if (name === "place" && "place" in rec) {
+      return rec.place; // TS knows rec is TPlaceRecommendation here
+    }
+    if (name === "aiRole" && "aiRole" in rec) {
+      return rec.aiRole; // TS knows rec is TAiRoleRecommendation here
+    }
+    if (name === "userRole" && "userRole" in rec) {
+      return rec.userRole; // TS knows rec is TUserRoleRecommendation here
+    }
+    if (name === "goal" && "goal" in rec) {
+      return rec.goal; // TS knows rec is TGoalRecommendation here
+    }
+    // Fallback or error handling if needed, though theoretically unreachable
+    // if props are passed correctly.
+    console.warn(
+      "Could not determine suggestion value for:",
+      rec,
+      "with name:",
+      name
+    );
+    return "";
+  };
+
   return (
     <div>
       <label
@@ -60,45 +87,51 @@ export default function SituationInputField({
         {/* Input Field */}
         <input
           type="text"
+          id={name}
           name={name}
           value={value}
-          onChange={handleValueChange}
+          onChange={(e) => onValueChange(e.target.value)}
           placeholder={placeholder}
           className="w-full p-2 border border-gray-200 bg-gray-50 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-transparent focus:bg-white transition duration-200 ease-in-out shadow-sm pr-14 text-gray-700 placeholder-gray-400"
         />
         {/* Individual Recommend Button */}
-        <button
+        <Button
           type="button"
-          onClick={() => {}}
+          onClick={onIndividualRecommend}
           title={`${label} AI 추천 받기`}
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 text-orange-500 hover:text-orange-700 bg-transparent hover:bg-orange-100 rounded-full transition duration-200 opacity-70 group-hover:opacity-100"
+          disabled={isPending}
+          className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 text-orange-500 hover:text-orange-700 bg-transparent hover:bg-orange-100  transition duration-200 opacity-70 group-hover:opacity-100 border-none"
         >
           <Wand2 size={20} />
-        </button>
+        </Button>
       </div>
 
       {/* 태그 영역 (미리 공간 확보) */}
       <div className="mt-2 min-h-[44px] w-full overflow-hidden">
         {" "}
         {/* 최소 높이 지정 */}
+        {recommendations.length > 0 && (
+          <div className="flex overflow-x-auto space-x-2 py-2 scrollbar-thin scrollbar-thumb-orange-300 scrollbar-track-orange-100">
+            {/* 가로 스크롤 컨테이너 */}
+
+            {recommendations.map((recommendation, index) => {
+              const recommendationText = getRecommendationText(recommendation);
+
+              return (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={() => onValueChange(recommendationText)}
+                  // 개선된 태그 스타일
+                  className="px-3.5 py-1.5 border border-orange-200 rounded-full text-sm font-medium text-orange-700 bg-white hover:bg-orange-50 hover:border-orange-300 hover:shadow-md transition duration-200 ease-in-out whitespace-nowrap shadow-sm"
+                >
+                  {recommendationText}
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );
 }
-
-// {suggestions[field.id].length > 0 && (
-//   <div className="flex overflow-x-auto space-x-2 py-2 scrollbar-thin scrollbar-thumb-orange-300 scrollbar-track-orange-100">
-//     {/* 가로 스크롤 컨테이너 */}
-//     {suggestions[field.id].map((suggestion, index) => (
-//       <button
-//         key={index}
-//         type="button"
-//         onClick={() => field.setter(suggestion)}
-//         // 개선된 태그 스타일
-//         className="px-3.5 py-1.5 border border-orange-200 rounded-full text-sm font-medium text-orange-700 bg-white hover:bg-orange-50 hover:border-orange-300 hover:shadow-md transition duration-200 ease-in-out whitespace-nowrap shadow-sm"
-//       >
-//         {suggestion}
-//       </button>
-//     ))}
-//   </div>
-// )}
