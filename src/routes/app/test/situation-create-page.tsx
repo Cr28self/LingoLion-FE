@@ -8,6 +8,7 @@ import {
   Wand2,
 } from "lucide-react";
 import useRecommendFormInputStore from "@/domains/situation-create/store/use-recommend-form-input-store";
+import SituationInputField from "@/domains/situation-create/components/ssituation-input-field";
 
 // --- Mock Data & Modal Component (이전과 동일) ---
 // ... (sampleRecommendations, individualSuggestionData, RecommendationModal 코드는 변경 없음) ...
@@ -154,10 +155,6 @@ const SituationCreatePage = () => {
     (state) => state.setFormInputState
   );
 
-  // const [place, setPlace] = useState("");
-  // const [aiRole, setAiRole] = useState("");
-  // const [userRole, setUserRole] = useState("");
-  // const [goal, setGoal] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [suggestions, setSuggestions] = useState({
@@ -203,37 +200,6 @@ const SituationCreatePage = () => {
 
   const isFormFilled = place && aiRole && userRole && goal;
 
-  const fields = [
-    {
-      id: "place",
-      label: "장소 (Place)",
-      value: place,
-      setter: setPlace,
-      placeholder: "예: 활기찬 시장, 조용한 도서관",
-    },
-    {
-      id: "aiRole",
-      label: "AI 역할 (Assistant)",
-      value: aiRole,
-      setter: setAiRole,
-      placeholder: "예: 경험 많은 상인, 지식인 사서",
-    },
-    {
-      id: "userRole",
-      label: "사용자 역할 (User)",
-      value: userRole,
-      setter: setUserRole,
-      placeholder: "예: 물건 값을 깎는 손님, 정보 찾는 방문객",
-    },
-    {
-      id: "goal",
-      label: "대화 목표 (Goal)",
-      value: goal,
-      setter: setGoal,
-      placeholder: "예: 원하는 가격에 물건 구매하기, 특정 주제의 책 찾기",
-    },
-  ];
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-red-50 to-yellow-50 py-8 px-4">
       {/* Header */}
@@ -263,59 +229,44 @@ const SituationCreatePage = () => {
             {" "}
             {/* 각 필드 그룹 간 간격 조정 */}
             {/* 각 입력 필드 그룹 */}
-            {fields.map((field) => (
-              <div key={field.id}>
-                <label
-                  htmlFor={field.id}
-                  className="block text-base font-semibold text-gray-800 mb-2"
-                >
-                  {field.label}
-                </label>
-                <div className="relative group">
-                  {/* Input Field */}
-                  <input
-                    type="text"
-                    id={field.id}
-                    value={field.value}
-                    onChange={(e) => field.setter(e.target.value)}
-                    placeholder={field.placeholder}
-                    className="w-full p-2 border border-gray-200 bg-gray-50 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-transparent focus:bg-white transition duration-200 ease-in-out shadow-sm pr-14 text-gray-700 placeholder-gray-400"
-                  />
-                  {/* Individual Recommend Button */}
-                  <button
-                    type="button"
-                    onClick={() => handleIndividualRecommend(field.id)}
-                    title={`${field.label} AI 추천 받기`}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 text-orange-500 hover:text-orange-700 bg-transparent hover:bg-orange-100 rounded-full transition duration-200 opacity-70 group-hover:opacity-100"
-                  >
-                    <Wand2 size={20} />
-                  </button>
-                </div>
-
-                {/* 태그 영역 (미리 공간 확보) */}
-                <div className="mt-2 min-h-[44px] w-full overflow-hidden">
-                  {" "}
-                  {/* 최소 높이 지정 */}
-                  {suggestions[field.id].length > 0 && (
-                    <div className="flex overflow-x-auto space-x-2 py-2 scrollbar-thin scrollbar-thumb-orange-300 scrollbar-track-orange-100">
-                      {" "}
-                      {/* 가로 스크롤 컨테이너 */}
-                      {suggestions[field.id].map((suggestion, index) => (
-                        <button
-                          key={index}
-                          type="button"
-                          onClick={() => field.setter(suggestion)}
-                          // 개선된 태그 스타일
-                          className="px-3.5 py-1.5 border border-orange-200 rounded-full text-sm font-medium text-orange-700 bg-white hover:bg-orange-50 hover:border-orange-300 hover:shadow-md transition duration-200 ease-in-out whitespace-nowrap shadow-sm"
-                        >
-                          {suggestion}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
+            <SituationInputField
+              name={"place"}
+              label={"장소 (Place)"}
+              value={place}
+              placeholder={"예: 활기찬 시장, 조용한 도서관"}
+              handleValueChange={(e) =>
+                setFormInputState("place", e.target.value)
+              }
+            />
+            <SituationInputField
+              name={"aiRole"}
+              label={"AI 역할 (Assistant)"}
+              value={aiRole}
+              placeholder={"예: 경험 많은 상인, 지식인 사서"}
+              handleValueChange={(e) =>
+                setFormInputState("aiRole", e.target.value)
+              }
+            />
+            <SituationInputField
+              name={"userRole"}
+              label={"사용자 역할 (User)"}
+              value={userRole}
+              placeholder={"예: 물건 값을 깎는 손님, 정보 찾는 방문객"}
+              handleValueChange={(e) =>
+                setFormInputState("userRole", e.target.value)
+              }
+            />
+            <SituationInputField
+              name={"goal"}
+              label={"대화 목표 (Goal)"}
+              value={goal}
+              placeholder={
+                "예: 원하는 가격에 물건 구매하기, 특정 주제의 책 찾기"
+              }
+              handleValueChange={(e) =>
+                setFormInputState("goal", e.target.value)
+              }
+            />
           </div>
 
           {/* --- 나머지 버튼들 (이전과 동일) --- */}

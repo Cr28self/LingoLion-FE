@@ -25,7 +25,7 @@ export default function ConvInputForm({ convId }: { convId: string }) {
   return (
     <form
       id="Input Area"
-      className="flex p-4 bg-white border-t border-gray-200 shadow-inner h-[300px]"
+      className="flex p-4 bg-white border-t border-gray-200 shadow-inner"
       onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         handleSend();
