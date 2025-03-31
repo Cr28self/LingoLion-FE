@@ -1,7 +1,7 @@
 import { useAuthenticatedApiClient } from "@/lib/auth/use-authenticated-api-client";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosInstance } from "axios";
-import { TRecommendationCategories } from "@/domains/situation-create/reducer/types";
+import { TRecommendationCategories } from "@/domains/situation-create/types/recommendation-types.ts";
 
 export const updateSituation = async (
   apiClient: AxiosInstance,

@@ -9,7 +9,7 @@ import useCreateSituationRouteStore from "@/domains/situation-create/store/use-c
 // ! 전체 추천 렌더링 결과물, 재추천 mutate함수, isOpen, 항목 선택시 formInputState 수정되는 함수
 
 // --- 상황 생성 페이지 컴포넌트 (태그 스타일 및 레이아웃 개선) ---
-const SituationCreatePage = () => {
+export default function CreateSituationRoute() {
   const location = useLocation();
   const { metaData } = location.state || {}; // state에서 데이터 가져오기
 
@@ -58,4 +58,3 @@ const SituationCreatePage = () => {
   );
 };
 
-export default SituationCreatePage;

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { TRecommendationCategories } from "../reducer/types";
+import { TRecommendationCategories } from "../types/recommendation-types.ts";
 
 type RecommendFormInputState = {
   formInputState: {

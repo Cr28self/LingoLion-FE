@@ -1,4 +1,4 @@
-import { TRecommendationCategories } from "@/domains/situation-create/reducer/types";
+import { TRecommendationCategories } from "@/domains/situation-create/types/recommendation-types.ts";
 import { useAuthenticatedApiClient } from "@/lib/auth/use-authenticated-api-client";
 import { TSituationMode } from "@/types/api";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";

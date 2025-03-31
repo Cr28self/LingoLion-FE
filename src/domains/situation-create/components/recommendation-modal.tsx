@@ -3,8 +3,8 @@ import useRecommendFormStore from "../store/use-recommend-form-store";
 import { Sparkles } from "lucide-react";
 import useRecommendationActions from "../hooks/use-recommendation-actions";
 import useRecommendFormInputStore from "../store/use-recommend-form-input-store";
-import { TRecommendationCategories } from "../reducer/types";
-import ReRecommendButton from "./re-recommend-button";
+import { TRecommendationCategories } from "../types/recommendation-types.ts";
+import ReRecommendButton from "./button/re-recommend-button.tsx";
 import { toast } from "sonner";
 
 export default function RecommendationModal() {

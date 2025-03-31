@@ -1,15 +1,26 @@
 import { useRecommendSituations } from "../api/recommend-situations";
 import useRecommendationListStore from "../store/use-recommendation-list-store";
 import { toast } from "sonner";
-import { TRecommendationCategoriesKey } from "../reducer/types";
+import { TRecommendationCategoriesKey } from "../types/recommendation-types.ts";
 import useRecommendFormInputStore from "../store/use-recommend-form-input-store";
+import { useMakeSituation } from "../api/make-situation";
+import { useQueryClient } from "@tanstack/react-query";
+import useCreateSituationRouteStore from "../store/use-create-situation-route-store";
+import { useNavigate } from "react-router-dom";
 
 export default function useRecommendationActions() {
-  const metaData = "달리기";
+
+
+  const queryClient = useQueryClient();
+
+  const navigate = useNavigate();
 
   // ! 추천 mutate
   const { mutate: mutateRecommend, isPending } = useRecommendSituations();
-  console.log("펜딩", isPending);
+
+  //   ! Submit mutate
+  const { mutate: mutateMake, isPending: isSubmittingPending } =
+    useMakeSituation();
 
   // ! 개별 리스트 변경하는 함수
   const setRecList = useRecommendationListStore((state) => state.setRecList);
@@ -23,7 +34,7 @@ export default function useRecommendationActions() {
     onErrorCallback: () => void;
   }) => {
     mutateRecommend(
-      { type: "all", metaData },
+      { type: "all", metaData:useCreateSituationRouteStore.getState().metaData},
       {
         onSuccess: onSuccessCallback,
         onError: onErrorCallback,
@@ -40,7 +51,7 @@ export default function useRecommendationActions() {
     mutateRecommend(
       {
         type: targetType,
-        metaData,
+        metaData:useCreateSituationRouteStore.getState().metaData,
         ...formInputState,
       },
       {
@@ -55,14 +66,42 @@ export default function useRecommendationActions() {
     );
   };
 
-  const handleSubmit = () => {
+  //   ! Form제출
+  const handleCreateSituationSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const {
+      formInputState: { aiRole, goal, place, userRole },
+    } = useRecommendFormInputStore.getState();
+
+    mutateMake(
+      { aiRole, goal, place, userRole },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ["getSituationsInfinite"],
+          });
+
+          navigate(useCreateSituationRouteStore.getState().completeRedirectLink!);
+
+          toast.success("상황 생성 완료!!");
+        },
+        onError: (error) => {
+          console.error("Failed to create situation:", error);
+
+          toast.error("상황 생성에 실패했습니다. 다시 시도해주세요.");
+        },
+      }
+    );
+
     return;
   };
 
   return {
     handleAllRecommend,
     handleIndividualRecommend,
-    handleSubmit,
+    handleCreateSituationSubmit,
     isPending,
+    isSubmittingPending,
   };
 }

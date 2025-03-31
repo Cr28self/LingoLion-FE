@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils.ts";
 import { Loader2, Sparkles } from "lucide-react";
 
 // ! 1. 최초( 전체추천 안받은 상태 ) 전체 추천 버튼 클릭시, 바로 전체 fetch 기능

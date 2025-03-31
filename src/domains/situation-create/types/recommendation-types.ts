@@ -19,7 +19,6 @@ export type TRecommendationCategories = TPlaceRecommendation &
 // 전체 추천 카테고리들의 매핑 타입의 키들을 가져옵니다. ('place' | 'userRole' | 'aiRole' | 'goal')
 export type TRecommendationCategoriesKey = keyof TRecommendationCategories;
 
-// ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
 
 export type RecommendationTypeMap = {
   place: TPlaceRecommendation[];

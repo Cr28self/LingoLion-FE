@@ -9,7 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { TRecommendationCategories } from "@/domains/situation-create/reducer/types";
+import { TRecommendationCategories } from "@/domains/situation-create/types/recommendation-types.ts";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {

@@ -6,7 +6,7 @@ import {
   TPlaceRecommendation,
   TUserRoleRecommendation,
   TSetRecListParams,
-} from "../reducer/types";
+} from "../types/recommendation-types.ts";
 import { devtools } from "zustand/middleware";
 
 type RecommendationListState = {

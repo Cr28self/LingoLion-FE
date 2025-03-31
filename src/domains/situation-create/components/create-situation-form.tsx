@@ -1,10 +1,9 @@
 import { toast } from "sonner";
-import { useRecommendSituations } from "../api/recommend-situations";
 import useRecommendFormInputStore from "../store/use-recommend-form-input-store";
 import useRecommendationListStore from "../store/use-recommendation-list-store";
-import AllRecommendButton from "./all-recommend-button";
-import CreateSituationButton from "./create-situation-button";
-import SituationInputField from "./ssituation-input-field";
+import AllRecommendButton from "./button/all-recommend-button.tsx";
+import CreateSituationButton from "./button/create-situation-button.tsx";
+import SituationInputField from "./situation-input-field";
 import useRecommendFormStore from "../store/use-recommend-form-store";
 import useRecommendationActions from "../hooks/use-recommendation-actions";
 
@@ -43,17 +42,18 @@ export default function CreateSituationForm() {
     (state) => state.setAllRecList
   );
 
-  const { handleAllRecommend, handleIndividualRecommend, isPending } =
-    useRecommendationActions();
+  const {
+    handleAllRecommend,
+    handleIndividualRecommend,
+    isPending,
+    isSubmittingPending,
+    handleCreateSituationSubmit,
+  } = useRecommendationActions();
 
   // ! 개별 추천 핸들러 함수
 
-  const handleSubmit = () => {
-    return;
-  };
-
   return (
-    <form>
+    <form onSubmit={handleCreateSituationSubmit}>
       <div className="space-y-6">
         <SituationInputField
           name={"place"}
@@ -132,7 +132,7 @@ export default function CreateSituationForm() {
 
       <CreateSituationButton
         isFormFilled={!!(place && aiRole && userRole && goal)}
-        onSubmit={handleSubmit}
+        isCreating={isSubmittingPending}
       />
     </form>
   );

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useGetInfiniteSituations } from "../api/get-situations";
-import { TRecommendationCategories } from "@/domains/situation-create/reducer/types";
+import { TRecommendationCategories } from "@/domains/situation-create/types/recommendation-types.ts";
 import { TSituationMode } from "@/types/api";
 
 type TSituation = TRecommendationCategories & { id: number; createdAt: Date };
