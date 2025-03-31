@@ -6,7 +6,7 @@ import {
   TPlaceRecommendation,
   TRecommendationCategoriesKey,
   TUserRoleRecommendation,
-} from "../reducer/types";
+} from "../types/recommendation-types.ts";
 import { Button } from "@/components/ui/button";
 
 // Base props common to all variants (can be kept separate or inline)
