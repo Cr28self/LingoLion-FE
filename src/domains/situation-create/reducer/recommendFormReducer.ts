@@ -1,9 +1,9 @@
 import {
-  TAiRoleList,
-  TAllList,
-  TGoalList,
-  TPlaceList,
-  TUserRoleList,
+  TAiRoleRecommendation,
+  TRecommendationCategories,
+  TGoalRecommendation,
+  TPlaceRecommendation,
+  TUserRoleRecommendation,
 } from "./types";
 
 export type RecommendFormState = {
@@ -14,24 +14,28 @@ export type RecommendFormState = {
     goal: string;
   };
 
-  recAllList: TAllList[] | null;
-  recPlaceList: TPlaceList[] | null;
-  recUserRoleList: TUserRoleList[] | null;
-  recAiRoleList: TAiRoleList[] | null;
-  recGoalList: TGoalList[] | null;
+  recAllList: TRecommendationCategories[] | null;
+  recPlaceList: TPlaceRecommendation[] | null;
+  recUserRoleList: TUserRoleRecommendation[] | null;
+  recAiRoleList: TAiRoleRecommendation[] | null;
+  recGoalList: TGoalRecommendation[] | null;
   isInitialAllRec: boolean;
   isAllRecLoading: boolean;
   isSubmitting: boolean;
-  currentRecommendLoading: keyof TAllList | "all" | null;
+  currentRecommendLoading: keyof TRecommendationCategories | "all" | null;
 };
 
 export type recommendFormAction =
-  | { type: "SET_FORM_VALUE"; name: keyof TAllList; value: string }
-  | { type: "SET_REC_PLACE_LIST"; payload: TPlaceList[] | null }
-  | { type: "SET_REC_AIROLE_LIST"; payload: TAiRoleList[] | null }
-  | { type: "SET_REC_USERROLE_LIST"; payload: TUserRoleList[] | null }
-  | { type: "SET_REC_GOAL_LIST"; payload: TGoalList[] | null }
-  | { type: "SET_REC_ALL_LIST"; payload: TAllList[] | null }
+  | {
+      type: "SET_FORM_VALUE";
+      name: keyof TRecommendationCategories;
+      value: string;
+    }
+  | { type: "SET_REC_PLACE_LIST"; payload: TPlaceRecommendation[] | null }
+  | { type: "SET_REC_AIROLE_LIST"; payload: TAiRoleRecommendation[] | null }
+  | { type: "SET_REC_USERROLE_LIST"; payload: TUserRoleRecommendation[] | null }
+  | { type: "SET_REC_GOAL_LIST"; payload: TGoalRecommendation[] | null }
+  | { type: "SET_REC_ALL_LIST"; payload: TRecommendationCategories[] | null }
   | {
       type: "SET_LOADING";
       name: "isAllRecLoading" | "isSubmitting";
@@ -39,7 +43,7 @@ export type recommendFormAction =
     }
   | {
       type: "SET_CURRENT_RECOMMEND_LOADING";
-      field: keyof TAllList | "all" | null;
+      field: keyof TRecommendationCategories | "all" | null;
     };
 export const initialState: RecommendFormState = {
   formState: {

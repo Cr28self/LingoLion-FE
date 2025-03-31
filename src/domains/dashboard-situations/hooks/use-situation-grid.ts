@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useGetInfiniteSituations } from "../api/get-situations";
-import { TAllList } from "@/domains/situation-create/reducer/types";
+import { TRecommendationCategories } from "@/domains/situation-create/reducer/types";
 import { TSituationMode } from "@/types/api";
 
-type TSituation = TAllList & { id: number; createdAt: Date };
+type TSituation = TRecommendationCategories & { id: number; createdAt: Date };
 
 export function useSituationGrid(mode: TSituationMode) {
   const {
@@ -44,7 +44,7 @@ export function useSituationGrid(mode: TSituationMode) {
   };
 
   // 아이콘 선택 함수
-  const getIconForSituation = (situation: TAllList) => {
+  const getIconForSituation = (situation: TRecommendationCategories) => {
     const place = situation.place.toLowerCase();
 
     if (place.includes("헬스장") || place.includes("운동")) return "💪";

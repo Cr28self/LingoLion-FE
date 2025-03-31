@@ -1,7 +1,7 @@
-import { TAllList } from "../reducer/types";
+import { TRecommendationCategories } from "../reducer/types";
 
 type RecommendFormState = {
-  isInitialAllRec: boolean;
+  hasRequestedAllRecommendations: boolean;
   isAllRecLoading: boolean;
-  currentRecommendLoading: keyof TAllList | "all" | null;
+  currentRecommendLoading: keyof TRecommendationCategories | "all" | null;
 };

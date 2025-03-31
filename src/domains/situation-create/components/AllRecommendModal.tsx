@@ -10,7 +10,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 
-import { TAllList } from "../reducer/types";
+import { TRecommendationCategories } from "../reducer/types";
 import {
   Carousel,
   CarouselContent,
@@ -22,19 +22,22 @@ import { Loader2, WandSparkles } from "lucide-react";
 import { DrawerTriggerButton } from "./CustomButton";
 
 type TAllRecommendDrawer = {
-  initialData: TAllList[] | null;
+  initialData: TRecommendationCategories[] | null;
   onRecommendAll: () => void;
   isAllRec: boolean;
   isLoading: boolean;
-  onFormStateChange: (name: keyof TAllList, value: string) => void;
+  onFormStateChange: (
+    name: keyof TRecommendationCategories,
+    value: string
+  ) => void;
 };
 
 const SelectCard = ({
   item,
   onSelect,
 }: {
-  item: TAllList;
-  onSelect: (item: TAllList) => void;
+  item: TRecommendationCategories;
+  onSelect: (item: TRecommendationCategories) => void;
 }) => {
   return (
     <button
@@ -66,7 +69,7 @@ const AllRecommendDrawer = ({
   isLoading,
   onFormStateChange,
 }: TAllRecommendDrawer) => {
-  const handleFormStateChange = (item: TAllList) => {
+  const handleFormStateChange = (item: TRecommendationCategories) => {
     onFormStateChange("place", item.place);
     onFormStateChange("aiRole", item.aiRole);
     onFormStateChange("userRole", item.userRole);

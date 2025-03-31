@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 // lucide-react 아이콘 사용
-import {
-  ArrowLeft,
-  Sparkles,
-  CheckCircle2,
-  Loader2,
-  Wand2,
-} from "lucide-react";
+import { ArrowLeft, Sparkles, CheckCircle2, Loader2 } from "lucide-react";
 import useRecommendFormInputStore from "@/domains/situation-create/store/use-recommend-form-input-store";
 import SituationInputField from "@/domains/situation-create/components/ssituation-input-field";
 
@@ -226,9 +220,6 @@ const SituationCreatePage = () => {
       <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl p-6 md:p-8">
         <form>
           <div className="space-y-6">
-            {" "}
-            {/* 각 필드 그룹 간 간격 조정 */}
-            {/* 각 입력 필드 그룹 */}
             <SituationInputField
               name={"place"}
               label={"장소 (Place)"}

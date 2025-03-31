@@ -5,11 +5,11 @@ import {
   initialState,
   recommendFormReducer,
 } from "./reducer/recommendFormReducer";
-import { TAllList } from "./reducer/types";
+import { TRecommendationCategories } from "./reducer/types";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 
-type TFormFieldName = keyof TAllList;
+type TFormFieldName = keyof TRecommendationCategories;
 
 type UseRecommendFormProps = {
   metaData?: string;

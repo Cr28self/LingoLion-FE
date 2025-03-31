@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { TAllList } from "../reducer/types";
+import { TRecommendationCategories } from "../reducer/types";
 
 type RecommendFormInputState = {
   formInputState: {
@@ -10,7 +10,10 @@ type RecommendFormInputState = {
     goal: string;
   };
 
-  setFormInputState: (name: keyof TAllList, value: string) => void;
+  setFormInputState: (
+    name: keyof TRecommendationCategories,
+    value: string
+  ) => void;
 
   resetFormInputState: () => void;
 };
