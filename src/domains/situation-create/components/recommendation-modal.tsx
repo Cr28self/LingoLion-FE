@@ -2,7 +2,7 @@ import useRecommendationListStore from "../store/use-recommendation-list-store";
 import useRecommendFormStore from "../store/use-recommend-form-store";
 import { Sparkles } from "lucide-react";
 
-export default function RecommendationModal({ onSelect }) {
+export default function RecommendationModal() {
   // 최종적으로 모달에서만 사용됨 ㅇㅇ
   const allRecCategoryList = useRecommendationListStore(
     (state) => state.allRecCategoryList
@@ -36,7 +36,7 @@ export default function RecommendationModal({ onSelect }) {
             <div
               key={index}
               className="border border-gray-200 rounded-lg p-5 bg-white hover:border-orange-400 hover:shadow-lg cursor-pointer transition duration-300 ease-in-out transform hover:-translate-y-1"
-              onClick={() => onSelect(rec)}
+              onClick={() => {}}
             >
               <p className="mb-2">
                 <span className="font-semibold text-orange-600">장소:</span>{" "}
@@ -60,21 +60,6 @@ export default function RecommendationModal({ onSelect }) {
           ))}
         </div>
       </div>
-      <style jsx global>{`
-        @keyframes fade-in-scale {
-          from {
-            opacity: 0;
-            transform: scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-        .animate-fade-in-scale {
-          animation: fade-in-scale 0.3s ease-out forwards;
-        }
-      `}</style>
     </div>
   );
 }
