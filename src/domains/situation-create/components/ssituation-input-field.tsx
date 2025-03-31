@@ -8,6 +8,39 @@ type SituationInputField = {
   placeholder: string;
 };
 
+const individualSuggestionData = {
+  place: [
+    "공원 달리기 트랙",
+    "조용한 해변 산책로",
+    "운동 시설의 피트니스 센터",
+    "산책하기 좋은 산길",
+    "번화한 도심 거리",
+    "조용한 시골길",
+  ],
+  aiRole: [
+    "친절한 트레이너",
+    "경험 많은 선배 러너",
+    "데이터 분석가",
+    "재활 전문가",
+    "동기부여 코치",
+  ],
+  userRole: [
+    "초보 러너",
+    "마라톤 준비생",
+    "부상에서 회복 중인 사람",
+    "기록 단축 목표 선수",
+    "즐겁게 달리는 사람",
+  ],
+  goal: [
+    "5km 완주하기",
+    "하프 마라톤 준비",
+    "달리기 자세 교정",
+    "부상 없이 달리기",
+    "스트레스 해소",
+    "새로운 달리기 코스 찾기",
+  ],
+};
+
 export default function SituationInputField({
   name,
   label,
