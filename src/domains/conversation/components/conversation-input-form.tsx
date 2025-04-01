@@ -5,7 +5,7 @@ import React, { MutableRefObject, useRef, useState } from "react";
 import { useConvInputStore } from "../store/use-conv-input-store";
 import { useSendSSEMessage } from "../api/send-sse-message";
 
-export default function ConvInputForm({ convId }: { convId: string }) {
+export default function ConversationInputForm({ convId }: { convId: string }) {
   const { inputMessage, setInputMessage } = useConvInputStore();
   const [isComposing, setIsComposing] = useState(false); // 추가된 부분
 

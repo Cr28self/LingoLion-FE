@@ -28,7 +28,7 @@ type MakeConvSetupModalProps = {
   situation: TRecommendationCategories & { id: number };
 };
 
-const MakeConvSetupModal = ({
+const MakeConversationSetupModal = ({
   children,
   situation,
 }: MakeConvSetupModalProps) => {
@@ -212,4 +212,4 @@ const MakeConvSetupModal = ({
   );
 };
 
-export default MakeConvSetupModal;
+export default MakeConversationSetupModal;

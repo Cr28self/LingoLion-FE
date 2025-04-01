@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button.tsx";
 import clsx from "clsx";
 import { Loader2 } from "lucide-react";
 

@@ -1,6 +1,6 @@
 import MakeConversationSetupModal from "@/domains/dashboard-conversations/components/modal/make-conversation-setup-modal.tsx";
-import DeleteConfirmDialog from "./modal/DeleteConfirmDialog";
-import EditSituationModal from "./modal/EditSituationModal";
+import DeleteConfirmDialog from "./modal/delete-confirm-dialog.tsx";
+import EditSituationModal from "./modal/edit-situation-modal.tsx";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 import { Pencil, Trash2, ArrowRight, Clock } from "lucide-react";

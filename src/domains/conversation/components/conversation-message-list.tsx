@@ -34,7 +34,7 @@ const NoMessagePlaceholder = () => {
   );
 };
 
-export default function ConvMessageList({ convId }: { convId: string }) {
+export default function ConversationMessageList({ convId }: { convId: string }) {
   const pageLimit = 7;
   const liveMessages = useLiveMessagesStore((state) => state.liveMessages);
 

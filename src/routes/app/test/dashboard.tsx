@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 // lucide-react 아이콘 라이브러리 사용 (설치 필요)
 import {
   Home,
@@ -15,8 +15,6 @@ import {
   Trophy,
   Users,
   Sparkles, // 탭 활성 표시
-  ArrowLeft,
-  CheckCircle2,
   Target, // 목표 아이콘
 } from "lucide-react";
 

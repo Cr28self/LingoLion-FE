@@ -46,7 +46,7 @@ const SendMsgBox = React.forwardRef<HTMLDivElement, { text: string }>(
 );
 
 // ! 여기서 메시지 박스 렌더링
-function ConvMessageBox(
+function ConversationMessageBox(
   { message }: MessageItemProps,
   ref: React.Ref<HTMLDivElement>
 ) {
@@ -64,4 +64,4 @@ function ConvMessageBox(
   }
 }
 
-export default React.forwardRef(ConvMessageBox);
+export default React.forwardRef(ConversationMessageBox);

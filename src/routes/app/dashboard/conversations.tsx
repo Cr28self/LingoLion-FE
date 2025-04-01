@@ -1,6 +1,6 @@
 import DashboardLayout from "@/components/layout/dashboard-layout";
-import { SkeletonCardConv } from "@/domains/dashboard-common/components/Contents-skeleton-loading";
-import ConversationGrid from "@/domains/dashboard-conversations/components/ConversationGrid";
+import { SkeletonCardConv } from "@/domains/dashboard-common/components/contents-skeleton-loading";
+import ConversationGrid from "@/domains/dashboard-conversations/components/conversation-grid";
 
 import { Suspense } from "react";
 

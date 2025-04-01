@@ -11,7 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { z } from "zod";
-import SubmitButton from "./submit-button";
+import SubmitButton from "./button/submit-button.tsx";
 import { useState } from "react";
 import { useRegister } from "../hooks/use-register";
 import { registerSchema, TRegisterSchema } from "../schema/register-schema";

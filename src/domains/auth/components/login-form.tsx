@@ -13,10 +13,10 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { useState } from "react";
-import SubmitButton from "./submit-button";
+import SubmitButton from "./button/submit-button.tsx";
 import useLogin from "../hooks/use-login";
 import { loginSchema, TLoginSchema } from "../schema/login-schema";
-import CustomGoogleLoginButton from "./custom-google-login-button";
+import CustomGoogleLoginButton from "./button/custom-google-login-button.tsx";
 
 type LoginFormProps = {
   onSuccessNavigate: () => void;

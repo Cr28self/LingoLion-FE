@@ -1,7 +1,7 @@
 // UI 컴포넌트 및 아이콘 import
 import ConversationLayout from "@/components/layout/conversation-layout";
-import ConvInputForm from "@/domains/conversation/components/conv-input-form";
-import ConvMessageList from "@/domains/conversation/components/conv-message-list";
+import ConversationInputForm from "@/domains/conversation/components/conversation-input-form.tsx";
+import ConversationMessageList from "@/domains/conversation/components/conversation-message-list.tsx";
 import { Suspense } from "react";
 
 import { useParams } from "react-router-dom";
@@ -20,9 +20,9 @@ const ConversationRoute = () => {
       )}
     >
       <Suspense fallback={<div>Loading...</div>}>
-        <ConvMessageList convId={conversationId as string} />
+        <ConversationMessageList convId={conversationId as string} />
 
-        <ConvInputForm convId={conversationId as string} />
+        <ConversationInputForm convId={conversationId as string} />
       </Suspense>
     </ConversationLayout>
   );
