@@ -1,4 +1,4 @@
-import MakeConvSetupModal from "@/domains/dashboard-conversations/components/modal/MakeConvSetupModal";
+import MakeConversationSetupModal from "@/domains/dashboard-conversations/components/modal/make-conversation-setup-modal.tsx";
 import DeleteConfirmDialog from "./modal/DeleteConfirmDialog";
 import EditSituationModal from "./modal/EditSituationModal";
 import { formatDistanceToNow } from "date-fns";
@@ -9,7 +9,7 @@ import { TSituationMode } from "@/types/api";
 import useInfiniteScroll from "@/hooks/use-infinite-scroll";
 import { Button } from "@/components/ui/button";
 import { Suspense, useState } from "react";
-import { SkeletonCardSitu } from "../../dashboard-common/components/Contents-skeleton-loading";
+import { SkeletonCardSitu } from "../../dashboard-common/components/contents-skeleton-loading.tsx";
 
 type SituationGridProps = {
   mode: TSituationMode;
@@ -68,7 +68,7 @@ const SituationGridContents = ({ mode }: SituationGridProps) => {
               className={"relative group h-full"}
               ref={isLastItem ? targetRef : null}
             >
-              <MakeConvSetupModal situation={situation}>
+              <MakeConversationSetupModal situation={situation}>
                 <div className="relative bg-white/90 p-5 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-orange-100 w-full text-left h-full flex flex-col cursor-pointer overflow-hidden">
                   {/* 배경 효과 - 호버 시 나타남 */}
                   <div className="absolute inset-0 bg-gradient-to-r from-orange-50 to-orange-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -125,7 +125,7 @@ const SituationGridContents = ({ mode }: SituationGridProps) => {
                     </div>
                   </div>
                 </div>
-              </MakeConvSetupModal>
+              </MakeConversationSetupModal>
 
               {/* 액션 버튼 그룹 - 호버 시 표시 */}
               <div className="absolute top-3 right-3 flex space-x-1 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0 z-20">
