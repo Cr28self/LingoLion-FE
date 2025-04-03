@@ -7,19 +7,18 @@ import ConversationVoiceRecordButton from "@/domains/conversation/components/con
 import { useParams } from "react-router-dom";
 import useRecordVoice from "@/domains/conversation/hooks/use-record-voice.tsx";
 
-export default function ConversationInputForm({ convId }: { convId: string }) {
-
-  const [inputMessage,setInputMessage] = useState<string>("")
+export default function ConversationInputForm() {
+  const [inputMessage, setInputMessage] = useState<string>("");
   const [isComposing, setIsComposing] = useState(false); // 추가된 부분
 
   const { conversationId } = useParams();
-
+  const convId = conversationId as string;
 
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const handleAbort = () => {};
 
-  const { handleSend, isStreaming } = useSendSSEMessage(conversationId as string);
+  const { handleSend, isStreaming } = useSendSSEMessage(convId);
 
   const adjustTextareaHeight = (
     textarea: MutableRefObject<HTMLTextAreaElement>
@@ -28,9 +27,7 @@ export default function ConversationInputForm({ convId }: { convId: string }) {
     textarea.current.style.height = `${textarea.current.scrollHeight}px`; // 스크롤 높이에 맞춰 높이 조정
   };
 
-
-  const { handleOnRecord, isActive } =
-      useRecordVoice(convId);
+  const { handleOnRecord, isActive } = useRecordVoice(convId);
   return (
     <form
       id="Input Area"
@@ -38,8 +35,7 @@ export default function ConversationInputForm({ convId }: { convId: string }) {
       onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         handleSend(inputMessage);
-        setInputMessage("")
-
+        setInputMessage("");
       }}
     >
       <div className="flex items-center w-full bg-gray-100 rounded-xl px-4 py-2 focus-within:ring-2 focus-within:ring-orange-300 focus-within:bg-white transition-all duration-300">
@@ -59,7 +55,7 @@ export default function ConversationInputForm({ convId }: { convId: string }) {
             if (e.key === "Enter" && !e.shiftKey && !isComposing) {
               e.preventDefault();
               handleSend(inputMessage);
-              setInputMessage("")
+              setInputMessage("");
             }
           }}
           ref={textAreaRef}
@@ -79,7 +75,10 @@ export default function ConversationInputForm({ convId }: { convId: string }) {
           <Send className="h-5 w-5" />
         </Button>
 
-        <ConversationVoiceRecordButton onRecord={handleOnRecord} onActive={isActive} />
+        <ConversationVoiceRecordButton
+          onRecord={handleOnRecord}
+          onActive={isActive}
+        />
 
         {isStreaming && (
           <button onClick={handleAbort} style={{ marginLeft: "8px" }}>

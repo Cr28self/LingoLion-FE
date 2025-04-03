@@ -7,6 +7,7 @@ import { useMemo } from "react";
 import { useConvScrollManager } from "../hooks/use-conv-scroll-manager";
 import ConvMessageBox from "./conversation-message-box.tsx";
 import useGetAllInfiniteMessage from "../api/get-all-message";
+import { useParams } from "react-router-dom";
 
 const NoMessagePlaceholder = () => {
   return (
@@ -34,8 +35,12 @@ const NoMessagePlaceholder = () => {
   );
 };
 
-export default function ConversationMessageList({ convId }: { convId: string }) {
+export default function ConversationMessageList() {
   const pageLimit = 7;
+
+  const { conversationId } = useParams();
+  const convId = conversationId as string;
+
   const liveMessages = useLiveMessagesStore((state) => state.liveMessages);
 
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isFetching } =
@@ -67,7 +72,7 @@ export default function ConversationMessageList({ convId }: { convId: string }) 
   return (
     <div
       id="Msg Area"
-      className="relative overflow-y-auto space-y-6 p-6 bg-opacity-5"
+      className="relative overflow-y-auto space-y-6 p-6 bg-opacity-5 flex-1"
       ref={rootRef}
     >
       {/* Loading Indicator at the top */}
