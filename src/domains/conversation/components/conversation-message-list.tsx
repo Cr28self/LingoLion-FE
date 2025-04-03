@@ -67,7 +67,7 @@ export default function ConversationMessageList({ convId }: { convId: string }) 
   return (
     <div
       id="Msg Area"
-      className="relative flex-1 overflow-y-auto space-y-6 p-6 bg-[url('/chat-bg-pattern.png')] bg-opacity-5"
+      className="relative overflow-y-auto space-y-6 p-6 bg-opacity-5"
       ref={rootRef}
     >
       {/* Loading Indicator at the top */}

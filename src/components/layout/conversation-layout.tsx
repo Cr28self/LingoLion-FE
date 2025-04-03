@@ -1,43 +1,24 @@
-import { useLiveMessagesStore } from "@/domains/conversation/store/use-live-messages-store";
-import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
 type ConversationLayoutProps = {
   children: React.ReactNode;
   title: string;
-  convId: string;
+  onExitConversation: () => void;
 };
 
 const ConversationLayout = ({
   title,
-  convId,
   children,
+  onExitConversation,
 }: ConversationLayoutProps) => {
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
-
-  const resetLiveMessages = useLiveMessagesStore(
-    (state) => state.resetLiveMessages
-  );
-
-  function handleExitConversation() {
-    navigate("/app/dashboard/conversations");
-    resetLiveMessages();
-
-    queryClient.invalidateQueries({
-      queryKey: ["getAllMessage", convId],
-    });
-  }
-
   return (
-    <div className="flex h-screen flex-col bg-gradient-to-br from-white to-orange-50 border border-gray-200 rounded-lg shadow-lg overflow-hidden">
+    <div className="flex h-dvh flex-col bg-gradient-to-br from-white to-orange-50 border border-gray-200 rounded-lg shadow-lg ">
       {/* 채팅 헤더 */}
       <header className="flex items-center justify-between bg-gradient-to-r from-orange-500 via-orange-400 to-orange-500 text-white px-6 py-5 shadow-lg relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/path/to/pattern.png')] opacity-10"></div>
+        <div className="absolute inset-0 opacity-10"></div>
         <div className="flex items-center relative z-10">
           <button
-            onClick={handleExitConversation}
+            onClick={onExitConversation}
             className="p-2.5 hover:bg-white/20 rounded-full transition-all duration-300 mr-3 hover:scale-110"
           >
             <svg

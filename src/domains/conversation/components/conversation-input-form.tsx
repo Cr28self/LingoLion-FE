@@ -2,18 +2,24 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Send } from "lucide-react";
 import React, { MutableRefObject, useRef, useState } from "react";
-import { useConvInputStore } from "../store/use-conv-input-store";
 import { useSendSSEMessage } from "../api/send-sse-message";
+import ConversationVoiceRecordButton from "@/domains/conversation/components/conversation-voice-record-button.tsx";
+import { useParams } from "react-router-dom";
+import useRecordVoice from "@/domains/conversation/hooks/use-record-voice.tsx";
 
 export default function ConversationInputForm({ convId }: { convId: string }) {
-  const { inputMessage, setInputMessage } = useConvInputStore();
+
+  const [inputMessage,setInputMessage] = useState<string>("")
   const [isComposing, setIsComposing] = useState(false); // 추가된 부분
+
+  const { conversationId } = useParams();
+
 
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const handleAbort = () => {};
 
-  const { handleSend, isStreaming } = useSendSSEMessage(convId);
+  const { handleSend, isStreaming } = useSendSSEMessage(conversationId as string);
 
   const adjustTextareaHeight = (
     textarea: MutableRefObject<HTMLTextAreaElement>
@@ -22,13 +28,18 @@ export default function ConversationInputForm({ convId }: { convId: string }) {
     textarea.current.style.height = `${textarea.current.scrollHeight}px`; // 스크롤 높이에 맞춰 높이 조정
   };
 
+
+  const { handleOnRecord, isActive } =
+      useRecordVoice(convId);
   return (
     <form
       id="Input Area"
-      className="flex p-4 bg-white border-t border-gray-200 shadow-inner"
+      className="flex  flex-shrink-0 p-4 bg-white border-t border-gray-200 shadow-inner"
       onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        handleSend();
+        handleSend(inputMessage);
+        setInputMessage("")
+
       }}
     >
       <div className="flex items-center w-full bg-gray-100 rounded-xl px-4 py-2 focus-within:ring-2 focus-within:ring-orange-300 focus-within:bg-white transition-all duration-300">
@@ -47,7 +58,8 @@ export default function ConversationInputForm({ convId }: { convId: string }) {
           onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
             if (e.key === "Enter" && !e.shiftKey && !isComposing) {
               e.preventDefault();
-              handleSend();
+              handleSend(inputMessage);
+              setInputMessage("")
             }
           }}
           ref={textAreaRef}
@@ -66,6 +78,8 @@ export default function ConversationInputForm({ convId }: { convId: string }) {
         >
           <Send className="h-5 w-5" />
         </Button>
+
+        <ConversationVoiceRecordButton onRecord={handleOnRecord} onActive={isActive} />
 
         {isStreaming && (
           <button onClick={handleAbort} style={{ marginLeft: "8px" }}>

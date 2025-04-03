@@ -86,3 +86,47 @@ textarea:focus {
   border: none !important;
   outline: none !important;
 }
+
+
+
+/* modal open/close */
+@keyframes fade-in-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.animate-fade-in-scale {
+  animation: fade-in-scale 0.3s ease-out forwards;
+}
+
+
+
+
+/* tailwind-scrollbar */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #fdba74 #fed7aa;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  height: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: #fed7aa;
+  border-radius: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #fdba74;
+  border-radius: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background-color: #fb923c;
+}

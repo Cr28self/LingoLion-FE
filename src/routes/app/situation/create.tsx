@@ -33,27 +33,6 @@ export default function CreateSituationRoute() {
       {/* 추천 모달 */}
       <RecommendationModal />
 
-      {/* 스크롤바 스타일 (선택적, tailwind-scrollbar 플러그인 필요) */}
-      <style jsx global>{`
-        .scrollbar-thin {
-          scrollbar-width: thin;
-          scrollbar-color: #fdba74 #fed7aa;
-        } /* thumb track */
-        .scrollbar-thin::-webkit-scrollbar {
-          height: 6px;
-        }
-        .scrollbar-thin::-webkit-scrollbar-track {
-          background: #fed7aa;
-          border-radius: 3px;
-        } /* orange-100 */
-        .scrollbar-thin::-webkit-scrollbar-thumb {
-          background-color: #fdba74;
-          border-radius: 3px;
-        } /* orange-300 */
-        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-          background-color: #fb923c;
-        } /* orange-400 */
-      `}</style>
     </CreateSituationLayout>
   );
 };

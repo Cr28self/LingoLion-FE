@@ -60,6 +60,7 @@ export default function useRecommendationActions() {
         },
         onError: (err) => {
           // 오류 발생 시에도 로딩 상태 초기화
+          console.error(err.message);
           toast.error("전체 추천 중 에러 발생");
         },
       }
