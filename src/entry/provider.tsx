@@ -6,6 +6,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { Toaster } from "sonner";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { GlobalAppErrorFallback } from "@/components/errors/global";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
   // ! useState는 초기값을 함수로 전달하면, 해당 함수의 실행 결과를 상태의 초기값으로 설정합니다.
@@ -18,7 +19,11 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
     <ErrorBoundary FallbackComponent={GlobalAppErrorFallback}>
       <QueryClientProvider client={queryClient}>
         {import.meta.env.DEV && <ReactQueryDevtools />}
-        <AuthProvider>{children}</AuthProvider>
+
+        <GoogleOAuthProvider clientId={"DUMMY_CLIENT_ID_FOR_UI_ONLY"}>
+          <AuthProvider>{children}</AuthProvider>
+        </GoogleOAuthProvider>
+
         <Toaster />
       </QueryClientProvider>
     </ErrorBoundary>

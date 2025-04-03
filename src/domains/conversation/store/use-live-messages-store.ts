@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { LiveMessage } from "../types/message";
 
-interface LiveMessagesState {
+type LiveMessagesState = {
   liveMessages: LiveMessage[];
 
   addUserLiveMessage: (message: string, order: number) => void;
@@ -10,7 +10,7 @@ interface LiveMessagesState {
   realtimeAddLiveMessage: (message: string, order: number) => void;
 
   resetLiveMessages: () => void;
-}
+};
 
 export const useLiveMessagesStore = create<LiveMessagesState>()(
   devtools(

@@ -1,7 +1,7 @@
 import { formatDate } from "@/lib/utils";
 import { Pencil, Trash2, ArrowRight, Clock } from "lucide-react";
-import DeleteConversationDialog from "./modal/DeleteConversationDialog";
-import EditConversationModal from "./modal/EditConversationModal";
+import DeleteConversationDialog from "./modal/delete-conversation-dialog.tsx";
+import EditConversationModal from "./modal/edit-conversation-modal.tsx";
 import { useConversationGrid } from "../hooks/use-conversation-grid";
 import useInfiniteScroll from "@/hooks/use-infinite-scroll";
 

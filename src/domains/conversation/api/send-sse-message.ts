@@ -1,8 +1,9 @@
 import { useAuthStore } from "@/lib/auth/use-auth-store";
-import { useRef, useState } from "react";
+import {  useState } from "react";
 
-import { useLiveMessagesStore } from "../store/use-live-messages-store";
-import { useConvInputStore } from "../store/use-conv-input-store";
+import { useLiveMessagesStore } from "../store/use-live-messages-store";
+import usePlayVoice from "@/domains/conversation/hooks/use-play-voice.tsx";
+
 
 async function fetchSSEStream({
   url,
@@ -50,7 +51,6 @@ async function fetchSSEStream({
         if (line.startsWith("data: ")) {
           const jsonStr = line.replace(/^data:\s*/, "");
           if (jsonStr === "[DONE]") {
-            onDone?.();
             continue;
           }
           onMessage(jsonStr);
@@ -67,11 +67,6 @@ async function fetchSSEStream({
 export const useSendSSEMessage = (convId: string) => {
   const { getAccessToken } = useAuthStore();
 
-  const getInputMessage = useConvInputStore((state) => state.getInputMessage);
-  const resetInputMessage = useConvInputStore(
-    (state) => state.resetInputMessage
-  );
-  // 사용자의 입력 메시지
 
   const addUserLiveMessage = useLiveMessagesStore(
     (state) => state.addUserLiveMessage
@@ -80,19 +75,26 @@ export const useSendSSEMessage = (convId: string) => {
     (state) => state.realtimeAddLiveMessage
   );
 
+  const {triggerSpeak}=usePlayVoice();
+
   // 스트림 연결 중 여부 (UI 제어용)
   const [isStreaming, setIsStreaming] = useState(false);
-  const orderRef = useRef(0); // 메시지 순서 관리용
 
-  const handleSend = async () => {
-    const submitInput = getInputMessage();
+
+  const handleSend = async (submitInput:string) => {
     if (!submitInput.trim()) return;
 
-    addUserLiveMessage(submitInput, orderRef.current++);
-    setIsStreaming(true);
-    resetInputMessage();
 
-    const receiveOrder = orderRef.current++;
+    // 메시지 순서 관리용
+    const { liveMessages}=useLiveMessagesStore.getState();
+    let orderNumber = liveMessages.length;
+
+
+    addUserLiveMessage(submitInput, orderNumber++);
+    setIsStreaming(true);
+
+
+    const receiveOrder = orderNumber;
 
     try {
       await fetchSSEStream({
@@ -108,6 +110,7 @@ export const useSendSSEMessage = (convId: string) => {
           try {
             const parsed: { content?: string } = JSON.parse(jsonStr);
             if (parsed.content) {
+
               realtimeAddLiveMessage(parsed.content, receiveOrder);
             }
           } catch {
@@ -116,6 +119,14 @@ export const useSendSSEMessage = (convId: string) => {
         },
         onDone: () => {
           // Optional: 전송 완료 처리
+          const { liveMessages}=useLiveMessagesStore.getState();
+          console.log('NEW liveMessages', liveMessages)
+
+          if(liveMessages[liveMessages.length-1].role=="assistant"){
+            triggerSpeak(liveMessages[liveMessages.length-1].content);
+          }
+
+          console.log('DDDDDDOOOOOOONNNNNNNNNNNN')
         },
       });
     } catch (err) {

@@ -1,13 +1,13 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button.tsx";
 import clsx from "clsx";
 import { Loader2 } from "lucide-react";
 
-interface SubmitButtonProps {
+type SubmitButtonProps = {
   isLoading?: boolean;
   children: React.ReactNode;
   className?: string;
   [key: string]: any;
-}
+};
 
 export const SubmitButton = ({
   isLoading,

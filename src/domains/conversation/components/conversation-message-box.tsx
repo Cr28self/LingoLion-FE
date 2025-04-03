@@ -46,10 +46,10 @@ const SendMsgBox = React.forwardRef<HTMLDivElement, { text: string }>(
 );
 
 // ! 여기서 메시지 박스 렌더링
-export const ConvMessageBox = React.forwardRef<
-  HTMLDivElement,
-  MessageItemProps
->(({ message }, ref) => {
+function ConversationMessageBox(
+  { message }: MessageItemProps,
+  ref: React.Ref<HTMLDivElement>
+) {
   // Determine sender type and text content
   const isAssistant =
     "sender" in message
@@ -62,4 +62,6 @@ export const ConvMessageBox = React.forwardRef<
   } else {
     return <SendMsgBox ref={ref} text={text} />;
   }
-});
+}
+
+export default React.forwardRef(ConversationMessageBox);

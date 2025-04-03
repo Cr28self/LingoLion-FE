@@ -1,9 +1,9 @@
 import { useEffect, useRef } from "react";
 
-interface AnimatedGradientTextProps {
+type AnimatedGradientTextProps = {
   text: string;
   className?: string;
-}
+};
 
 export function AnimatedGradientText({
   text,

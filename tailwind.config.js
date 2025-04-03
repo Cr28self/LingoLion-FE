@@ -63,7 +63,7 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"),require("tailwind-scrollbar")],
 };
 
 // 애니메이션을 위한 스타일을 추가하려면 tailwind.config.js에 다음을 추가하세요:

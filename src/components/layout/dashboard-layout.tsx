@@ -1,16 +1,16 @@
 import { Button } from "@/components/ui/button";
-import DashboardSidebar from "@/domains/dashboard-common/components/Dashboard-Sidebar";
+import DashboardSidebar from "@/domains/dashboard-common/components/dashboard-sidebar";
 import { useLogout } from "@/lib/auth/use-logout";
 import { ReactNode, Suspense } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSidebarStore } from "@/domains/dashboard-common/store/sidebar-store";
 import { Menu } from "lucide-react";
 import { useGetUsersMy } from "@/domains/dashboard-common/api/get-users-my";
-import { SkeletonUserProfile } from "@/domains/dashboard-common/components/Contents-skeleton-loading";
+import { SkeletonUserProfile } from "@/domains/dashboard-common/components/contents-skeleton-loading";
 
-interface DashboardLayoutProps {
+type DashboardLayoutProps = {
   children: ReactNode;
-}
+};
 
 const SidebarUserInfo = ({ isOpen }: { isOpen: boolean }) => {
   const { data } = useGetUsersMy();

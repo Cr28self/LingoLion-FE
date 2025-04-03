@@ -1,11 +1,11 @@
-import { TAllList } from "@/domains/situation-create/reducer/types";
+import { TRecommendationCategories } from "@/domains/situation-create/types/recommendation-types.ts";
 import { useAuthenticatedApiClient } from "@/lib/auth/use-authenticated-api-client";
 import { TSituationMode } from "@/types/api";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { AxiosInstance } from "axios";
 
 export type TSituationsResponse = {
-  data: (TAllList & { id: number; createdAt: Date })[];
+  data: (TRecommendationCategories & { id: number; createdAt: Date })[];
   pageInfo: { hasNextPage: boolean; endCursor: string };
 };
 

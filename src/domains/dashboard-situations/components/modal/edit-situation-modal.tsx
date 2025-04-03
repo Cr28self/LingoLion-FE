@@ -10,18 +10,18 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { TAllList } from "@/domains/situation-create/reducer/types";
+import { TRecommendationCategories } from "@/domains/situation-create/types/recommendation-types.ts";
 import { useUpdateSituation } from "../../api/update-situation";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 
-type TSituation = TAllList & { id: number; createdAt: Date };
+type TSituation = TRecommendationCategories & { id: number; createdAt: Date };
 
-interface EditSituationModalProps {
+type EditSituationModalProps = {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   situation: TSituation;
-}
+};
 
 const EditSituationModal: React.FC<EditSituationModalProps> = ({
   isOpen,
@@ -31,7 +31,9 @@ const EditSituationModal: React.FC<EditSituationModalProps> = ({
   const queryClient = useQueryClient();
   const { mutate, isPending } = useUpdateSituation();
 
-  const [formData, setFormData] = useState<Partial<TAllList>>({});
+  const [formData, setFormData] = useState<Partial<TRecommendationCategories>>(
+    {}
+  );
 
   // 모달이 열릴 때마다 상황 데이터로 폼 초기화
   React.useEffect(() => {

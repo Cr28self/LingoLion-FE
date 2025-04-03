@@ -8,32 +8,31 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { useDeleteSituAtModal } from "../../../dashboard-common/hooks/use-delete-at-modal";
 
-import { useDeleteConvAtModal } from "../../../dashboard-common/hooks/use-delete-at-modal";
-
-interface DeleteConversationDialogProps {
+type DeleteConfirmDialogProps = {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  conversationId: number | null;
-}
+  situationId: number | null;
+};
 
-const DeleteConversationDialog: React.FC<DeleteConversationDialogProps> = ({
+const DeleteConfirmDialog: React.FC<DeleteConfirmDialogProps> = ({
   isOpen,
   onOpenChange,
-  conversationId,
+  situationId,
 }) => {
-  const { isPending, handleConfirmDeleteConv } = useDeleteConvAtModal(
+  const { isPending, handleConfirmDeleteSitu } = useDeleteSituAtModal(
     onOpenChange,
-    conversationId
+    situationId
   );
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>대화 삭제</DialogTitle>
+          <DialogTitle>상황 삭제</DialogTitle>
           <DialogDescription>
-            이 대화를 정말로 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.
+            이 상황을 정말로 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="flex justify-end space-x-2 mt-4">
@@ -46,7 +45,7 @@ const DeleteConversationDialog: React.FC<DeleteConversationDialogProps> = ({
           </Button>
           <Button
             variant="destructive"
-            onClick={handleConfirmDeleteConv}
+            onClick={handleConfirmDeleteSitu}
             className="bg-red-500 hover:bg-red-600"
             disabled={isPending}
           >
@@ -58,4 +57,4 @@ const DeleteConversationDialog: React.FC<DeleteConversationDialogProps> = ({
   );
 };
 
-export default DeleteConversationDialog;
+export default DeleteConfirmDialog;

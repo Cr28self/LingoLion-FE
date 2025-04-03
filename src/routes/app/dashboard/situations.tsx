@@ -1,6 +1,6 @@
 import DashboardLayout from "@/components/layout/dashboard-layout";
-import SituationSetupModal from "@/domains/dashboard-situations/components/modal/SituationSetupModal";
-import SituationGrid from "@/domains/dashboard-situations/components/SituationGrid";
+import SituationSetupModal from "@/domains/dashboard-situations/components/modal/situation-setup-modal.tsx";
+import SituationGrid from "@/domains/dashboard-situations/components/situation-grid.tsx";
 
 const DashboardSituationsRoute = () => {
   // 상황 목록 데이터 (나중에 API로 대체)

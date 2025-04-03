@@ -9,7 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { TAllList } from "@/domains/situation-create/reducer/types";
+import { TRecommendationCategories } from "@/domains/situation-create/types/recommendation-types.ts";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -25,10 +25,10 @@ import { useMakeConversation } from "../../api/make-conversation";
 import { useQueryClient } from "@tanstack/react-query";
 type MakeConvSetupModalProps = {
   children: React.ReactNode;
-  situation: TAllList & { id: number };
+  situation: TRecommendationCategories & { id: number };
 };
 
-const MakeConvSetupModal = ({
+const MakeConversationSetupModal = ({
   children,
   situation,
 }: MakeConvSetupModalProps) => {
@@ -212,4 +212,4 @@ const MakeConvSetupModal = ({
   );
 };
 
-export default MakeConvSetupModal;
+export default MakeConversationSetupModal;
