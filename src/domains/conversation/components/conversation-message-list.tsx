@@ -72,7 +72,7 @@ export default function ConversationMessageList() {
   return (
     <div
       id="Msg Area"
-      className="relative overflow-y-auto space-y-6 p-6 bg-opacity-5 flex-1"
+      className="relative space-y-6 overflow-y-auto p-6 bg-opacity-5 flex-1 "
       ref={rootRef}
     >
       {/* Loading Indicator at the top */}

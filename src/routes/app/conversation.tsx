@@ -47,11 +47,11 @@ const ConversationRoute = () => {
       )}
       onExitConversation={handleExitConversation}
     >
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div className="flex-1"></div>}>
         <ConversationMessageList />
       </Suspense>
 
-      <ConversationInputForm convId={conversationId as string} />
+      <ConversationInputForm />
     </ConversationLayout>
   );
 };
