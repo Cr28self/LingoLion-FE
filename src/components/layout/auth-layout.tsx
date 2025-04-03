@@ -41,21 +41,24 @@ const HomeLogo = () => {
 // ! 사용자 인증 페이지 레이아웃
 const AuthLayout = ({ title, children }: AuthLayoutProps) => {
   return (
-    <div className="min-h-screen flex flex-row  bg-orange-100">
-      <div className="bg-white p-8 rounded-lg shadow-md md:w-96 w-full flex flex-col  justify-center relative">
+    <div className="min-h-screen flex flex-  bg-orange-100">
+      <div className="bg-white p-8 rounded-lg shadow-md md:w-96 w-full flex flex-col justify-center  relative gap-7">
         {/* 로고를 화면 기준으로 고정 */}
-        <div className="absolute top-28">
-          <HomeLogo />
-        </div>
-        {/* 제목 */}
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold">{title}</h1>
-        </div>
-        {/* ! ErrorBoundary는 렌더링 과정에서 발생하는 에러를 잡음, 
+
+        <HomeLogo />
+
+        <section>
+          {/* 제목 */}
+          <div className="mb-6">
+            <h1 className="text-3xl font-bold">{title}</h1>
+          </div>
+
+          {/* ! ErrorBoundary는 렌더링 과정에서 발생하는 에러를 잡음, 
         컴포넌트가 다 그려지고 내부 로직에서 발생하는 에러는 try..catch로 에러를 잡아야함 */}
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
-          {children}
-        </ErrorBoundary>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            {children}
+          </ErrorBoundary>
+        </section>
       </div>
 
       {/* 브랜딩 이미지 섹션 */}
