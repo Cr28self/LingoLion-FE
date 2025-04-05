@@ -1,13 +1,22 @@
 import path from "path";
 import react from "@vitejs/plugin-react";
 import { defineConfig, loadEnv } from "vite";
+import { visualizer } from "rollup-plugin-visualizer";
 
 export default defineConfig(({ mode }) => {
   // process.cwd()를 기준으로 env 파일 로드
   const env = loadEnv(mode, process.cwd());
 
   return {
-    plugins: [react()],
+    plugins: [
+      react(),
+      visualizer({
+        filename: "./dist/bundle-analysis.html",
+        open: true, // 빌드 후 브라우저 자동 열기
+        gzipSize: true,
+        brotliSize: true,
+      }),
+    ],
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),

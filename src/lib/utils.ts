@@ -14,3 +14,17 @@ export const formatDate = (dateString: string | Date) => {
     day: "numeric",
   });
 };
+
+// n일전 형태로 변환하는 함수
+export const getDaysAgo = (dateString: string | Date) => {
+  const createdAt = new Date(dateString);
+  const now = new Date();
+
+  // 시간 차이 (밀리초)
+  const diffTime = now.getTime() - createdAt.getTime();
+
+  // 일(day) 단위로 변환
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+  return `${diffDays}일 전`;
+};

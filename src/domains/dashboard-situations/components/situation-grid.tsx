@@ -1,8 +1,6 @@
 import MakeConversationSetupModal from "@/domains/dashboard-conversations/components/modal/make-conversation-setup-modal.tsx";
 import DeleteConfirmDialog from "./modal/delete-confirm-dialog.tsx";
 import EditSituationModal from "./modal/edit-situation-modal.tsx";
-import { formatDistanceToNow } from "date-fns";
-import { ko } from "date-fns/locale";
 import { Pencil, Trash2, ArrowRight, Clock } from "lucide-react";
 import { useSituationGrid } from "../hooks/use-situation-grid";
 import { TSituationMode } from "@/types/api";
@@ -10,6 +8,7 @@ import useInfiniteScroll from "@/hooks/use-infinite-scroll";
 import { Button } from "@/components/ui/button";
 import { Suspense, useState } from "react";
 import { SkeletonCardSitu } from "../../dashboard-common/components/contents-skeleton-loading.tsx";
+import { getDaysAgo } from "@/lib/utils.ts";
 
 type SituationGridProps = {
   mode: TSituationMode;
@@ -31,19 +30,6 @@ const SituationGridContents = ({ mode }: SituationGridProps) => {
     situationToEdit,
     situations,
   } = useSituationGrid(mode);
-
-  // 날짜 포맷팅 함수
-  const formatDate = (dateString: string | Date) => {
-    try {
-      return formatDistanceToNow(new Date(dateString), {
-        addSuffix: true,
-        locale: ko,
-      });
-    } catch (error) {
-      console.error(error);
-      return "날짜 정보 없음";
-    }
-  };
 
   // situations = [ page1, page2, page3, ... ] 형태
   // 각 page는 TSituationsResponse 타입
@@ -85,7 +71,7 @@ const SituationGridContents = ({ mode }: SituationGridProps) => {
                         </h3>
                         <div className="flex items-center text-xs text-gray-500 mt-1">
                           <Clock className="h-3 w-3 mr-1" />
-                          {formatDate(situation.createdAt)}
+                          {getDaysAgo(situation.createdAt)}
                         </div>
                       </div>
                     </div>
