@@ -1,30 +1,29 @@
-export type TPlaceRecommendation = {
+export type TSituationPlaceField = {
   place: string;
 };
-export type TAiRoleRecommendation = {
+export type TSituationAiRoleField = {
   aiRole: string;
 };
-export type TUserRoleRecommendation = {
+export type TSituationUserRoleField = {
   userRole: string;
 };
-export type TGoalRecommendation = {
+export type TSituationGoalField = {
   goal: string;
 };
 
-export type TRecommendationCategories = TPlaceRecommendation &
-  TAiRoleRecommendation &
-  TUserRoleRecommendation &
-  TGoalRecommendation;
+export type TSituation = TSituationPlaceField &
+  TSituationAiRoleField &
+  TSituationUserRoleField &
+  TSituationGoalField;
 
 // 전체 추천 카테고리들의 매핑 타입의 키들을 가져옵니다. ('place' | 'userRole' | 'aiRole' | 'goal')
-export type TRecommendationCategoriesKey = keyof TRecommendationCategories;
-
+export type TRecommendationCategoriesKey = keyof TSituation;
 
 export type RecommendationTypeMap = {
-  place: TPlaceRecommendation[];
-  userRole: TUserRoleRecommendation[];
-  aiRole: TAiRoleRecommendation[];
-  goal: TGoalRecommendation[];
+  place: TSituationPlaceField[];
+  userRole: TSituationUserRoleField[];
+  aiRole: TSituationAiRoleField[];
+  goal: TSituationGoalField[];
 };
 
 // 4. Mapped Type을 사용하여 각 키(K)를 해당 액션 객체 타입으로 변환하는 객체 생성
