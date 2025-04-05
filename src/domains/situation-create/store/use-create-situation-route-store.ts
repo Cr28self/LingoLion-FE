@@ -1,5 +1,5 @@
-import { create } from "zustand";
-import { devtools } from "zustand/middleware";
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
 
 type CreateSituationRouteState = {
   metaData: string | undefined;
@@ -28,7 +28,7 @@ const useCreateSituationRouteStore = create<CreateSituationRouteState>()(
         set({ metaData, completeRedirectLink });
       },
     }),
-    { name: "Create-Situation-Route" }
+    { name: 'Create-Situation-Route' }
   )
 );
 

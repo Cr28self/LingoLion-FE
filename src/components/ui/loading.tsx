@@ -1,10 +1,10 @@
 export default function Loading() {
   return (
-    <div className="flex flex-col items-center space-y-4 p-8 justify-center h-screen w-full">
+    <div className="flex h-screen w-full flex-col items-center justify-center space-y-4 p-8">
       <img
         src="/lingo-lion-logo-noBG.webp"
         alt="Lingo Lion Logo"
-        className="w-28 h-28"
+        className="h-28 w-28"
       />
       {/* 스피너 */}
       <div className="h-14 w-14 animate-spin rounded-full border-4 border-gray-200 border-t-orange-400" />

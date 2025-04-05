@@ -1,5 +1,5 @@
-import { Skeleton } from "@/components/ui/skeleton";
-import { cn } from "@/lib/utils";
+import { Skeleton } from '@/components/ui/skeleton';
+import { cn } from '@/lib/utils';
 
 const SkeletonCard = ({ className }: { className?: string }) => {
   return (
@@ -15,7 +15,7 @@ const SkeletonCard = ({ className }: { className?: string }) => {
 
 export const SkeletonChatConv = () => {
   return (
-    <div className="flex-1 overflow-y-auto space-y-6 p-6">
+    <div className="flex-1 space-y-6 overflow-y-auto p-6">
       <SkeletonCard />
       <SkeletonCard />
       <SkeletonCard />

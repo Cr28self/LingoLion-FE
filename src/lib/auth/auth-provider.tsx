@@ -1,10 +1,10 @@
-import { useEffect } from "react";
-import { refreshTokenFn } from "./api";
-import { useMutation } from "@tanstack/react-query";
-import { useAuthStore } from "./use-auth-store";
+import { useEffect } from 'react';
+import { refreshTokenFn } from './api';
+import { useMutation } from '@tanstack/react-query';
+import { useAuthStore } from './use-auth-store';
 
 // sessionStorage 키 상수
-const ACCESS_TOKEN_KEY = "accessToken";
+const ACCESS_TOKEN_KEY = 'accessToken';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const {
@@ -24,7 +24,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       finishCheckingAuth(); // 토큰 갱신 끝났으니 false
     },
     onError: () => {
-      console.error("토큰 갱신 실패");
+      console.error('토큰 갱신 실패');
       setIsLoggedIn(false);
       finishCheckingAuth(); // 토큰 갱신 끝났으니 false
     },
@@ -54,10 +54,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+    window.addEventListener('beforeunload', handleBeforeUnload);
 
     return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, []);
 

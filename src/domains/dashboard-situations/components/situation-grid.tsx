@@ -1,14 +1,14 @@
-import MakeConversationSetupModal from "@/domains/dashboard-conversations/components/modal/make-conversation-setup-modal.tsx";
-import DeleteConfirmDialog from "./modal/delete-confirm-dialog.tsx";
-import EditSituationModal from "./modal/edit-situation-modal.tsx";
-import { Pencil, Trash2, ArrowRight, Clock } from "lucide-react";
-import { useSituationGrid } from "../hooks/use-situation-grid";
-import { TSituationMode } from "@/types/api";
-import useInfiniteScroll from "@/hooks/use-infinite-scroll";
-import { Button } from "@/components/ui/button";
-import { Suspense, useState } from "react";
-import { SkeletonCardSitu } from "../../dashboard-common/components/contents-skeleton-loading.tsx";
-import { getDaysAgo } from "@/lib/utils.ts";
+import MakeConversationSetupModal from '@/domains/dashboard-conversations/components/modal/make-conversation-setup-modal.tsx';
+import DeleteConfirmDialog from './modal/delete-confirm-dialog.tsx';
+import EditSituationModal from './modal/edit-situation-modal.tsx';
+import { Pencil, Trash2, ArrowRight, Clock } from 'lucide-react';
+import { useSituationGrid } from '../hooks/use-situation-grid';
+import useInfiniteScroll from '@/hooks/use-infinite-scroll';
+import { Button } from '@/components/ui/button';
+import { Suspense, useState } from 'react';
+import { SkeletonCardSitu } from '../../dashboard-common/components/contents-skeleton-loading.tsx';
+import { getDaysAgo } from '@/lib/utils.ts';
+import { TSituationMode } from '@/types/situation.ts';
 
 type SituationGridProps = {
   mode: TSituationMode;
@@ -41,72 +41,72 @@ const SituationGridContents = ({ mode }: SituationGridProps) => {
 
   return (
     <div
-      className="relative h-[600px] overflow-y-auto border rounded-md"
+      className="relative h-[600px] overflow-y-auto rounded-md border"
       ref={rootRef}
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         {situations.map((situation, situationIndex) => {
           const isLastItem = situationIndex === situations.length - 1;
 
           return (
             <div
               key={situation.id}
-              className={"relative group h-full"}
+              className={'group relative h-full'}
               ref={isLastItem ? targetRef : null}
             >
               <MakeConversationSetupModal situation={situation}>
-                <div className="relative bg-white/90 p-5 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-orange-100 w-full text-left h-full flex flex-col cursor-pointer overflow-hidden">
+                <div className="relative flex h-full w-full cursor-pointer flex-col overflow-hidden rounded-xl border border-orange-100 bg-white/90 p-5 text-left shadow-sm transition-all duration-300 hover:shadow-lg">
                   {/* 배경 효과 - 호버 시 나타남 */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-orange-50 to-orange-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-orange-50 to-orange-100 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 
                   {/* 콘텐츠 */}
-                  <div className="relative z-10 flex-1 flex flex-col">
-                    <div className="flex items-start mb-3">
-                      <div className="text-3xl mr-4 bg-gradient-to-br from-orange-100 to-orange-200 p-3 rounded-lg shadow-sm group-hover:scale-110 transition-transform duration-300">
+                  <div className="relative z-10 flex flex-1 flex-col">
+                    <div className="mb-3 flex items-start">
+                      <div className="mr-4 rounded-lg bg-gradient-to-br from-orange-100 to-orange-200 p-3 text-3xl shadow-sm transition-transform duration-300 group-hover:scale-110">
                         {getIconForSituation(situation)}
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-medium text-lg text-gray-800 group-hover:text-orange-700 transition-colors duration-300 line-clamp-1">
+                        <h3 className="line-clamp-1 text-lg font-medium text-gray-800 transition-colors duration-300 group-hover:text-orange-700">
                           {situation.place}
                         </h3>
-                        <div className="flex items-center text-xs text-gray-500 mt-1">
-                          <Clock className="h-3 w-3 mr-1" />
+                        <div className="mt-1 flex items-center text-xs text-gray-500">
+                          <Clock className="mr-1 h-3 w-3" />
                           {getDaysAgo(situation.createdAt)}
                         </div>
                       </div>
                     </div>
 
                     {/* 구분선 */}
-                    <div className="h-px bg-gradient-to-r from-transparent via-orange-200 to-transparent my-3 opacity-50 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="my-3 h-px bg-gradient-to-r from-transparent via-orange-200 to-transparent opacity-50 transition-opacity duration-300 group-hover:opacity-100"></div>
 
                     <div className="flex-1">
-                      <div className="mb-2 group-hover:translate-x-1 transition-transform duration-300">
-                        <span className="text-sm text-gray-600 font-medium">
+                      <div className="mb-2 transition-transform duration-300 group-hover:translate-x-1">
+                        <span className="text-sm font-medium text-gray-600">
                           역할:
                         </span>
-                        <span className="text-sm text-gray-800 ml-1">
+                        <span className="ml-1 text-sm text-gray-800">
                           {situation.userRole}
                         </span>
                       </div>
-                      <div className="mb-3 group-hover:translate-x-1 transition-transform duration-300">
-                        <span className="text-sm text-gray-600 font-medium">
+                      <div className="mb-3 transition-transform duration-300 group-hover:translate-x-1">
+                        <span className="text-sm font-medium text-gray-600">
                           AI:
                         </span>
-                        <span className="text-sm text-gray-800 ml-1">
+                        <span className="ml-1 text-sm text-gray-800">
                           {situation.aiRole}
                         </span>
                       </div>
-                      <div className="transform group-hover:scale-[1.02] transition-transform duration-300 origin-left">
-                        <p className="text-sm text-gray-700 bg-orange-50 p-2 rounded-md line-clamp-2 italic shadow-sm group-hover:bg-orange-100/70 transition-colors duration-300">
-                          {situation.goal || "목표가 설정되지 않았습니다."}
+                      <div className="origin-left transform transition-transform duration-300 group-hover:scale-[1.02]">
+                        <p className="line-clamp-2 rounded-md bg-orange-50 p-2 text-sm italic text-gray-700 shadow-sm transition-colors duration-300 group-hover:bg-orange-100/70">
+                          {situation.goal || '목표가 설정되지 않았습니다.'}
                         </p>
                       </div>
                     </div>
 
                     <div className="mt-4 flex justify-end">
-                      <span className="px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-md text-sm hover:from-orange-600 hover:to-orange-700 transition-colors shadow-sm flex items-center gap-2 group-hover:shadow-md transform group-hover:translate-x-0 translate-x-2 opacity-90 group-hover:opacity-100">
+                      <span className="flex translate-x-2 transform items-center gap-2 rounded-md bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-2 text-sm text-white opacity-90 shadow-sm transition-colors hover:from-orange-600 hover:to-orange-700 group-hover:translate-x-0 group-hover:opacity-100 group-hover:shadow-md">
                         대화 생성
-                        <ArrowRight className="h-4 w-4 transform group-hover:translate-x-1 transition-transform duration-300" />
+                        <ArrowRight className="h-4 w-4 transform transition-transform duration-300 group-hover:translate-x-1" />
                       </span>
                     </div>
                   </div>
@@ -114,10 +114,10 @@ const SituationGridContents = ({ mode }: SituationGridProps) => {
               </MakeConversationSetupModal>
 
               {/* 액션 버튼 그룹 - 호버 시 표시 */}
-              <div className="absolute top-3 right-3 flex space-x-1 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0 z-20">
+              <div className="absolute right-3 top-3 z-20 flex translate-y-1 transform space-x-1 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
                 {/* 편집 버튼 */}
                 <button
-                  className="p-2 bg-white rounded-full shadow-sm hover:bg-blue-50 transition-colors"
+                  className="rounded-full bg-white p-2 shadow-sm transition-colors hover:bg-blue-50"
                   onClick={(e) => handleEditClick(situation, e)}
                   aria-label="편집"
                 >
@@ -126,7 +126,7 @@ const SituationGridContents = ({ mode }: SituationGridProps) => {
 
                 {/* 삭제 버튼 */}
                 <button
-                  className="p-2 bg-white rounded-full shadow-sm hover:bg-red-50 transition-colors"
+                  className="rounded-full bg-white p-2 shadow-sm transition-colors hover:bg-red-50"
                   onClick={(e) => handleDeleteClick(situation.id, e)}
                   aria-label="삭제"
                 >
@@ -156,50 +156,44 @@ const SituationGridContents = ({ mode }: SituationGridProps) => {
 };
 
 const SituationGrid = () => {
-  const [state, setState] = useState<"all" | "my">("all");
+  const [state, setState] = useState<TSituationMode>('all');
 
   return (
-    <div className="bg-white/70 backdrop-blur-md p-6 rounded-xl shadow-sm border border-white/50">
-      <div className="flex items-center justify-between mb-6">
-        <div className="p-1 bg-gray-100/80 rounded-lg">
+    <div className="rounded-xl border border-white/50 bg-white/70 p-6 shadow-sm backdrop-blur-md">
+      <div className="mb-6 flex items-center justify-between">
+        <div className="rounded-lg bg-gray-100/80 p-1">
           <div className="flex items-center space-x-1">
             <Button
-              variant={state === "all" ? "default" : "ghost"}
-              onClick={() => setState("all")}
-              className={`
-              relative px-6 py-2 transition-all duration-200
-              ${
-                state === "all"
-                  ? "bg-white text-orange-600 shadow-sm hover:bg-white/90"
-                  : "hover:bg-white/50 text-gray-600"
-              }
-            `}
+              variant={state === 'all' ? 'default' : 'ghost'}
+              onClick={() => setState('all')}
+              className={`relative px-6 py-2 transition-all duration-200 ${
+                state === 'all'
+                  ? 'bg-white text-orange-600 shadow-sm hover:bg-white/90'
+                  : 'text-gray-600 hover:bg-white/50'
+              } `}
             >
               <span className="font-medium">전체 상황 목록</span>
-              {state === "all" && (
-                <span className="absolute -top-1 -right-1 flex h-4 w-4">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-200 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-4 w-4 bg-orange-400"></span>
+              {state === 'all' && (
+                <span className="absolute -right-1 -top-1 flex h-4 w-4">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-200 opacity-75"></span>
+                  <span className="relative inline-flex h-4 w-4 rounded-full bg-orange-400"></span>
                 </span>
               )}
             </Button>
             <Button
-              variant={state === "my" ? "default" : "ghost"}
-              onClick={() => setState("my")}
-              className={`
-              relative px-6 py-2 transition-all duration-200
-              ${
-                state === "my"
-                  ? "bg-white text-orange-600 shadow-sm hover:bg-white/90"
-                  : "hover:bg-white/50 text-gray-600"
-              }
-            `}
+              variant={state === 'my' ? 'default' : 'ghost'}
+              onClick={() => setState('my')}
+              className={`relative px-6 py-2 transition-all duration-200 ${
+                state === 'my'
+                  ? 'bg-white text-orange-600 shadow-sm hover:bg-white/90'
+                  : 'text-gray-600 hover:bg-white/50'
+              } `}
             >
               <span className="font-medium">내 상황 목록</span>
-              {state === "my" && (
-                <span className="absolute -top-1 -right-1 flex h-4 w-4">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-200 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-4 w-4 bg-orange-400"></span>
+              {state === 'my' && (
+                <span className="absolute -right-1 -top-1 flex h-4 w-4">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-200 opacity-75"></span>
+                  <span className="relative inline-flex h-4 w-4 rounded-full bg-orange-400"></span>
                 </span>
               )}
             </Button>
@@ -208,8 +202,8 @@ const SituationGrid = () => {
       </div>
 
       <Suspense fallback={<SkeletonCardSitu />}>
-        {state === "all" && <SituationGridContents mode="all" />}
-        {state === "my" && <SituationGridContents mode="my" />}
+        {state === 'all' && <SituationGridContents mode="all" />}
+        {state === 'my' && <SituationGridContents mode="my" />}
       </Suspense>
     </div>
   );

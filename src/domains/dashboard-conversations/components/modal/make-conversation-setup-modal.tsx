@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -7,25 +7,25 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { TRecommendationCategories } from "@/domains/situation-create/types/recommendation-types.ts";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { TSituation } from '@/types/situation.ts';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 
-import { toast } from "sonner";
-import { useMakeConversation } from "../../api/make-conversation";
-import { useQueryClient } from "@tanstack/react-query";
+import { toast } from 'sonner';
+import { useMakeConversation } from '../../api/make-conversation';
+import { useQueryClient } from '@tanstack/react-query';
 type MakeConvSetupModalProps = {
   children: React.ReactNode;
-  situation: TRecommendationCategories & { id: number };
+  situation: TSituation & { id: number };
 };
 
 const MakeConversationSetupModal = ({
@@ -35,38 +35,38 @@ const MakeConversationSetupModal = ({
   const navigate = useNavigate();
   const { mutate, isPending } = useMakeConversation();
   const queryClient = useQueryClient();
-  const [difficulty, setDifficulty] = useState<"상" | "중" | "하">("중");
-  const [request, setRequest] = useState("");
-  const [title, setTitle] = useState("");
-  const [icon, setIcon] = useState("");
+  const [difficulty, setDifficulty] = useState<'상' | '중' | '하'>('중');
+  const [request, setRequest] = useState('');
+  const [title, setTitle] = useState('');
+  const [icon, setIcon] = useState('');
 
   // 모달이 열릴 때 상황 정보를 기반으로 제목 자동 설정
   useEffect(() => {
     if (situation) {
       // 상황에 맞는 이모지 설정
       const place = situation.place.toLowerCase();
-      let defaultIcon = "🗣️";
+      let defaultIcon = '🗣️';
 
-      if (place.includes("헬스장") || place.includes("운동"))
-        defaultIcon = "💪";
-      else if (place.includes("카페") || place.includes("커피"))
-        defaultIcon = "☕";
-      else if (place.includes("식당") || place.includes("레스토랑"))
-        defaultIcon = "🍽️";
-      else if (place.includes("학교") || place.includes("교실"))
-        defaultIcon = "🏫";
-      else if (place.includes("병원") || place.includes("의사"))
-        defaultIcon = "🏥";
-      else if (place.includes("공항") || place.includes("비행기"))
-        defaultIcon = "✈️";
-      else if (place.includes("호텔") || place.includes("숙소"))
-        defaultIcon = "🏨";
-      else if (place.includes("쇼핑") || place.includes("마트"))
-        defaultIcon = "🛒";
-      else if (place.includes("면접") || place.includes("사무실"))
-        defaultIcon = "💼";
-      else if (place.includes("스포츠") || place.includes("경기"))
-        defaultIcon = "🏆";
+      if (place.includes('헬스장') || place.includes('운동'))
+        defaultIcon = '💪';
+      else if (place.includes('카페') || place.includes('커피'))
+        defaultIcon = '☕';
+      else if (place.includes('식당') || place.includes('레스토랑'))
+        defaultIcon = '🍽️';
+      else if (place.includes('학교') || place.includes('교실'))
+        defaultIcon = '🏫';
+      else if (place.includes('병원') || place.includes('의사'))
+        defaultIcon = '🏥';
+      else if (place.includes('공항') || place.includes('비행기'))
+        defaultIcon = '✈️';
+      else if (place.includes('호텔') || place.includes('숙소'))
+        defaultIcon = '🏨';
+      else if (place.includes('쇼핑') || place.includes('마트'))
+        defaultIcon = '🛒';
+      else if (place.includes('면접') || place.includes('사무실'))
+        defaultIcon = '💼';
+      else if (place.includes('스포츠') || place.includes('경기'))
+        defaultIcon = '🏆';
 
       setIcon(defaultIcon);
     }
@@ -75,7 +75,7 @@ const MakeConversationSetupModal = ({
   // 대화 생성 버튼 클릭 시 실행될 함수
   const handleCreateConversation = () => {
     if (!title.trim()) {
-      toast.error("대화방 제목을 입력해주세요.");
+      toast.error('대화방 제목을 입력해주세요.');
       return;
     }
 
@@ -91,12 +91,12 @@ const MakeConversationSetupModal = ({
       },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ["getAllConversations"] });
-          toast.success("대화방 생성 완료!!");
-          navigate("/app/dashboard/conversations");
+          queryClient.invalidateQueries({ queryKey: ['getAllConversations'] });
+          toast.success('대화방 생성 완료!!');
+          navigate('/app/dashboard/conversations');
         },
         onError: () => {
-          toast.error("대화방 만들기에 실패했습니다.");
+          toast.error('대화방 만들기에 실패했습니다.');
         },
       }
     );
@@ -114,8 +114,8 @@ const MakeConversationSetupModal = ({
         </DialogHeader>
 
         {/* 상황 정보 요약 (접혀있는 상태) */}
-        <details className="mb-4 bg-orange-50 p-3 rounded-lg">
-          <summary className="font-medium cursor-pointer">
+        <details className="mb-4 rounded-lg bg-orange-50 p-3">
+          <summary className="cursor-pointer font-medium">
             상황 정보 보기
           </summary>
           <div className="mt-2 pl-2">
@@ -170,7 +170,7 @@ const MakeConversationSetupModal = ({
             <Select
               value={difficulty}
               onValueChange={(value) =>
-                setDifficulty(value as "상" | "중" | "하")
+                setDifficulty(value as '상' | '중' | '하')
               }
             >
               <SelectTrigger className="col-span-3">
@@ -204,7 +204,7 @@ const MakeConversationSetupModal = ({
             disabled={isPending}
             className="bg-orange-500 hover:bg-orange-600"
           >
-            {isPending ? "생성 중..." : "대화 생성"}
+            {isPending ? '생성 중...' : '대화 생성'}
           </Button>
         </DialogFooter>
       </DialogContent>

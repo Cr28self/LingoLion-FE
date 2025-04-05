@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Search, ArrowLeft, Sparkles } from "lucide-react";
-import { useEffect, useState } from "react";
-import { AnimatedGradientText } from "@/components/animated-gradient-text";
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Search, ArrowLeft, Sparkles } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { AnimatedGradientText } from '@/components/animated-gradient-text';
 
 export const NotFoundRoute = () => {
   const [searchPosition, setSearchPosition] = useState({ x: 0, y: 0 });
@@ -10,14 +10,14 @@ export const NotFoundRoute = () => {
   const [wordIndex, setWordIndex] = useState(0);
 
   const lostWords = [
-    "Hello?",
-    "Where am I?",
-    "Lost in translation...",
-    "Page not found",
-    "404",
-    "Oops!",
+    'Hello?',
+    'Where am I?',
+    'Lost in translation...',
+    'Page not found',
+    '404',
+    'Oops!',
     "Let's learn something else",
-    "Back to studying?",
+    'Back to studying?',
   ];
 
   useEffect(() => {
@@ -53,23 +53,23 @@ export const NotFoundRoute = () => {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
-      <div className="flex-1 flex flex-col items-center justify-center px-4 md:px-6 py-12 md:py-24 lg:py-32">
+    <div className="flex min-h-screen flex-col bg-background">
+      <div className="flex flex-1 flex-col items-center justify-center px-4 py-12 md:px-6 md:py-24 lg:py-32">
         {/* Main content */}
-        <div className="max-w-md w-full mx-auto flex flex-col items-center text-center space-y-12">
+        <div className="mx-auto flex w-full max-w-md flex-col items-center space-y-12 text-center">
           <div className="relative">
             <div
-              className="relative p-8 rounded-full bg-muted border-4 border-primary/20 shadow-xl transition-all duration-500 ease-in-out"
+              className="relative rounded-full border-4 border-primary/20 bg-muted p-8 shadow-xl transition-all duration-500 ease-in-out"
               style={{
                 transform: `translate(${searchPosition.x}px, ${searchPosition.y}px)`,
               }}
             >
-              <Search className="h-16 w-16 text-primary animate-bounce" />
+              <Search className="h-16 w-16 animate-bounce text-primary" />
               {showSparkle && (
-                <Sparkles className="absolute top-0 right-0 h-8 w-8 text-primary animate-spin" />
+                <Sparkles className="absolute right-0 top-0 h-8 w-8 animate-spin text-primary" />
               )}
             </div>
-            <div className="absolute -top-2 -right-2 bg-primary text-primary-foreground rounded-full h-10 w-10 flex items-center justify-center animate-pulse">
+            <div className="absolute -right-2 -top-2 flex h-10 w-10 animate-pulse items-center justify-center rounded-full bg-primary text-primary-foreground">
               404
             </div>
           </div>
@@ -77,9 +77,9 @@ export const NotFoundRoute = () => {
           <div className="space-y-4">
             <AnimatedGradientText
               text="Oops! Page Not Found"
-              className="text-4xl md:text-5xl tracking-tighter"
+              className="text-4xl tracking-tighter md:text-5xl"
             />
-            <p className="text-xl text-muted-foreground min-h-[2em] transition-all duration-500">
+            <p className="min-h-[2em] text-xl text-muted-foreground transition-all duration-500">
               {lostWords[wordIndex]}
             </p>
             <p className="text-muted-foreground">
@@ -89,16 +89,16 @@ export const NotFoundRoute = () => {
             </p>
           </div>
 
-          <div className="flex flex-col gap-4 w-full max-w-xs">
+          <div className="flex w-full max-w-xs flex-col gap-4">
             <Button
               asChild
               size="lg"
-              className="group relative overflow-hidden w-full"
+              className="group relative w-full overflow-hidden"
             >
               <Link to="/">
                 <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
                 <span>Go Home</span>
-                <span className="absolute inset-0 bg-primary-foreground/10 scale-x-0 group-hover:scale-x-100 origin-left transition-transform" />
+                <span className="absolute inset-0 origin-left scale-x-0 bg-primary-foreground/10 transition-transform group-hover:scale-x-100" />
               </Link>
             </Button>
           </div>
@@ -107,7 +107,7 @@ export const NotFoundRoute = () => {
 
       {/* Footer */}
       <footer className="w-full border-t py-6">
-        <div className="container flex flex-col items-center justify-between gap-4 md:h-16 md:flex-row mx-auto">
+        <div className="container mx-auto flex flex-col items-center justify-between gap-4 md:h-16 md:flex-row">
           <div className="flex items-center gap-2">
             <img
               src="/lingo-lion-logo-noBG.webp"

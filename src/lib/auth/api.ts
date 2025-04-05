@@ -1,10 +1,10 @@
-import { apiClient } from "../api-client";
-import { AxiosInstance } from "axios";
+import { apiClient } from '../api-client';
+import { AxiosInstance } from 'axios';
 
 // ! 로그아웃 함수
 export const logoutFn = async (apiClient: AxiosInstance): Promise<void> => {
   const response = await apiClient.post(
-    "/auth/logout",
+    '/auth/logout',
     {},
     { withCredentials: true }
   );
@@ -13,7 +13,7 @@ export const logoutFn = async (apiClient: AxiosInstance): Promise<void> => {
 
 export const refreshTokenFn = async (): Promise<{ accessToken: string }> => {
   const response = await apiClient.post(
-    "/auth/refresh",
+    '/auth/refresh',
     {},
     { withCredentials: true }
   );

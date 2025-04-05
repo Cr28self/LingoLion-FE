@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
 type UseChatScrollManagerProps = {
   /** Ref attached to the scrollable chat container element. */
@@ -85,14 +85,14 @@ export const useConvScrollManager = ({
       (messageCount > pageLimit || messageCount === 0); // Enough messages to scroll OR no messages
 
     if (shouldScrollToBottom) {
-      console.log("Attempting initial scroll...");
+      console.log('Attempting initial scroll...');
       if (messageCount > pageLimit) {
         console.log(`Scrolling to bottom (${rootElement.scrollHeight})`);
         // Use 'auto' behavior for initial scroll to avoid potential conflicts
         // or jarring jumps if content is still settling. 'smooth' can be used if preferred.
         rootElement.scrollTo({
           top: rootElement.scrollHeight,
-          behavior: "auto", // Consider 'auto' for initial load
+          behavior: 'auto', // Consider 'auto' for initial load
         });
       } else {
         // Even if there are few messages (<= pageLimit and > 0), or zero messages,

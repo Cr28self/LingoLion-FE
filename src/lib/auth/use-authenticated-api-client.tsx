@@ -1,9 +1,9 @@
-import { useMemo } from "react";
-import axios, { AxiosError, AxiosInstance } from "axios";
-import { apiClient } from "../api-client";
-import { UnAuthorizedResponse } from "./types";
-import { refreshTokenFn } from "./api";
-import { useAuthStore } from "./use-auth-store";
+import { useMemo } from 'react';
+import axios, { AxiosError, AxiosInstance } from 'axios';
+import { apiClient } from '../api-client';
+import { UnAuthorizedResponse } from './types';
+import { refreshTokenFn } from './api';
+import { useAuthStore } from './use-auth-store';
 
 // accessToken을 AuthContext에서 불러와, 요청 header에 담아주는 hook / 토큰이 만료될 경우, refreshToken을 호출하여 새롭게 갱신
 export function useAuthenticatedApiClient(): AxiosInstance {
@@ -22,7 +22,7 @@ export function useAuthenticatedApiClient(): AxiosInstance {
         const accessToken = getAccessToken();
 
         if (accessToken)
-          config.headers["Authorization"] = `Bearer ${accessToken}`;
+          config.headers['Authorization'] = `Bearer ${accessToken}`;
 
         return config; // 반드시 config를 반환해야 요청이 정상적으로 진행됨
       },
@@ -51,9 +51,8 @@ export function useAuthenticatedApiClient(): AxiosInstance {
             // 🔥 이전 요청 재시도
             //  error.config에는 기존 요청의 메서드(GET, POST 등), URL, 헤더 등 모든 정보가 포함되어 있음.
             if (error.config) {
-              error.config.headers[
-                "Authorization"
-              ] = `Bearer ${newAccessToken}`;
+              error.config.headers['Authorization'] =
+                `Bearer ${newAccessToken}`;
               return axiosInstance(error.config);
             }
           } catch (error) {

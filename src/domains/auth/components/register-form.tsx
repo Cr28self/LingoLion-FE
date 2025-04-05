@@ -5,16 +5,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import { z } from "zod";
-import SubmitButton from "./button/submit-button.tsx";
-import { useState } from "react";
-import { useRegister } from "../hooks/use-register";
-import { registerSchema, TRegisterSchema } from "../schema/register-schema";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
+import { z } from 'zod';
+import SubmitButton from './button/submit-button.tsx';
+import { useState } from 'react';
+import { useRegister } from '../hooks/use-register';
+import { registerSchema, TRegisterSchema } from '../schema/register-schema';
 type RegisterFormProps = {
   onSuccessNavigate: () => void;
 };
@@ -28,10 +28,10 @@ export default function RegisterForm({ onSuccessNavigate }: RegisterFormProps) {
   const form = useForm<TRegisterSchema>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      email: "",
-      password: "",
-      name: "",
-      confirmPassword: "",
+      email: '',
+      password: '',
+      name: '',
+      confirmPassword: '',
     },
   });
 
@@ -48,7 +48,7 @@ export default function RegisterForm({ onSuccessNavigate }: RegisterFormProps) {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={form.control}
-            name={"email"}
+            name={'email'}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
@@ -68,7 +68,7 @@ export default function RegisterForm({ onSuccessNavigate }: RegisterFormProps) {
           />
           <FormField
             control={form.control}
-            name={"password"}
+            name={'password'}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>비밀번호</FormLabel>
@@ -89,7 +89,7 @@ export default function RegisterForm({ onSuccessNavigate }: RegisterFormProps) {
 
           <FormField
             control={form.control}
-            name={"confirmPassword"}
+            name={'confirmPassword'}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>비밀번호 확인</FormLabel>
@@ -110,13 +110,13 @@ export default function RegisterForm({ onSuccessNavigate }: RegisterFormProps) {
 
           <FormField
             control={form.control}
-            name={"name"}
+            name={'name'}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>이름</FormLabel>
                 <FormControl>
                   <Input
-                    className="w-full px-3 py-2 border border-orange-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 h-10"
+                    className="h-10 w-full rounded-lg border border-orange-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
                     placeholder="이름"
                     type="text"
                     required
@@ -133,7 +133,7 @@ export default function RegisterForm({ onSuccessNavigate }: RegisterFormProps) {
             type="submit"
             isLoading={isRegistering}
             disabled={isRegistering}
-            className="w-full py-2 rounded-lg text-white font-semibold bg-orange-500 hover:bg-orange-400 transition-colors"
+            className="w-full rounded-lg bg-orange-500 py-2 font-semibold text-white transition-colors hover:bg-orange-400"
           >
             회원 가입
           </SubmitButton>
@@ -145,7 +145,7 @@ export default function RegisterForm({ onSuccessNavigate }: RegisterFormProps) {
         <span className="text-gray-600">이미 계정이 있으신가요? </span>
         <Link
           to="/auth/login"
-          className="font-semibold text-orange-500 hover:text-orange-400 transition-colors"
+          className="font-semibold text-orange-500 transition-colors hover:text-orange-400"
         >
           로그인
         </Link>

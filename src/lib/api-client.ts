@@ -1,6 +1,6 @@
 // API client configuration for making HTTP requests
-import { env } from "@/config/env";
-import axios from "axios";
+import { env } from '@/config/env';
+import axios from 'axios';
 
 // 프로덕션 빌드 시에는 전체 도메인을 사용하고, 개발 시에는 상대 경로 사용
 const baseURL = import.meta.env.PROD

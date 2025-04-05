@@ -1,16 +1,16 @@
-import { AlertCircle, ArrowLeft, RotateCcw } from "lucide-react";
-import { useNavigate, useRouteError } from "react-router-dom";
-import { Button } from "../ui/button";
+import { AlertCircle, ArrowLeft, RotateCcw } from 'lucide-react';
+import { useNavigate, useRouteError } from 'react-router-dom';
+import { Button } from '../ui/button';
 
 export const GlobalRouteErrorFallback = () => {
   const navigate = useNavigate();
   const error = useRouteError();
 
-  const isDev = process.env.NODE_ENV === "development";
+  const isDev = process.env.NODE_ENV === 'development';
 
   // Extract error message if available
   const errorMessage =
-    error instanceof Error ? error.message : "An unexpected error occurred";
+    error instanceof Error ? error.message : 'An unexpected error occurred';
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4 text-center">
@@ -19,7 +19,7 @@ export const GlobalRouteErrorFallback = () => {
           <div className="rounded-full bg-destructive/10 p-4">
             <AlertCircle className="h-10 w-10 text-destructive" />
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-nowrap">
+          <h1 className="text-nowrap text-4xl font-bold tracking-tight">
             죄송합니다. 문제가 발생했습니다.
           </h1>
           {isDev && <p className="error-details">{errorMessage}</p>}
@@ -49,7 +49,7 @@ export const GlobalRouteErrorFallback = () => {
 };
 
 export const GlobalAppErrorFallback = ({ error }: { error: Error }) => {
-  const isDev = process.env.NODE_ENV === "development";
+  const isDev = process.env.NODE_ENV === 'development';
   return (
     <div className="error-container">
       <h2>죄송합니다. 문제가 발생했습니다.</h2>

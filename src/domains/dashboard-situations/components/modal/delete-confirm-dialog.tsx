@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Dialog,
   DialogContent,
@@ -6,9 +6,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { useDeleteSituAtModal } from "../../../dashboard-common/hooks/use-delete-at-modal";
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { useDeleteSituAtModal } from '../../../dashboard-common/hooks/use-delete-at-modal';
 
 type DeleteConfirmDialogProps = {
   isOpen: boolean;
@@ -35,7 +35,7 @@ const DeleteConfirmDialog: React.FC<DeleteConfirmDialogProps> = ({
             이 상황을 정말로 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="flex justify-end space-x-2 mt-4">
+        <DialogFooter className="mt-4 flex justify-end space-x-2">
           <Button
             variant="outline"
             onClick={() => onOpenChange(false)}
@@ -49,7 +49,7 @@ const DeleteConfirmDialog: React.FC<DeleteConfirmDialogProps> = ({
             className="bg-red-500 hover:bg-red-600"
             disabled={isPending}
           >
-            {isPending ? "삭제 중..." : "삭제"}
+            {isPending ? '삭제 중...' : '삭제'}
           </Button>
         </DialogFooter>
       </DialogContent>

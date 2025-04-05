@@ -1,21 +1,21 @@
-import DashboardLayout from "@/components/layout/dashboard-layout";
+import DashboardLayout from '@/components/layout/dashboard-layout';
 
 const DashboardOverviewRoute = () => {
   return (
     <DashboardLayout>
-      <header className="flex items-center justify-between mb-8">
+      <header className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-800">
             Welcome to <span className="text-orange-500">Lingo Lion</span>
           </h1>
-          <p className="text-gray-500 mt-1">
+          <p className="mt-1 text-gray-500">
             Here's what's happening with your account today.
           </p>
         </div>
         <div className="flex space-x-2">
-          <button className="p-2 text-gray-500 hover:text-orange-500 bg-white/70 backdrop-blur-md rounded-lg shadow-sm hover:shadow transition-all duration-200">
+          <button className="rounded-lg bg-white/70 p-2 text-gray-500 shadow-sm backdrop-blur-md transition-all duration-200 hover:text-orange-500 hover:shadow">
             <svg
-              className="w-5 h-5"
+              className="h-5 w-5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -28,9 +28,9 @@ const DashboardOverviewRoute = () => {
               />
             </svg>
           </button>
-          <button className="p-2 text-gray-500 hover:text-orange-500 bg-white/70 backdrop-blur-md rounded-lg shadow-sm hover:shadow transition-all duration-200">
+          <button className="rounded-lg bg-white/70 p-2 text-gray-500 shadow-sm backdrop-blur-md transition-all duration-200 hover:text-orange-500 hover:shadow">
             <svg
-              className="w-5 h-5"
+              className="h-5 w-5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

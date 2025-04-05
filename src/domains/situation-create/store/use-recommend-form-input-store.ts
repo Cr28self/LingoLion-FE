@@ -1,6 +1,6 @@
-import { create } from "zustand";
-import { devtools } from "zustand/middleware";
-import { TRecommendationCategories } from "../types/recommendation-types.ts";
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
+import { TSituation } from '@/types/situation.ts';
 
 type RecommendFormInputState = {
   formInputState: {
@@ -10,19 +10,16 @@ type RecommendFormInputState = {
     goal: string;
   };
 
-  setFormInputState: (
-    name: keyof TRecommendationCategories,
-    value: string
-  ) => void;
+  setFormInputState: (name: keyof TSituation, value: string) => void;
 
   resetFormInputState: () => void;
 };
 
 const initialFormInputState = {
-  aiRole: "",
-  goal: "",
-  place: "",
-  userRole: "",
+  aiRole: '',
+  goal: '',
+  place: '',
+  userRole: '',
 };
 
 const useRecommendFormInputStore = create<RecommendFormInputState>()(
@@ -43,7 +40,7 @@ const useRecommendFormInputStore = create<RecommendFormInputState>()(
         set({ formInputState: initialFormInputState });
       },
     }),
-    { name: "Recommend-Form-Input" }
+    { name: 'Recommend-Form-Input' }
   )
 );
 

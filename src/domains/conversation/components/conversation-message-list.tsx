@@ -1,20 +1,20 @@
-import { useLiveMessagesStore } from "../store/use-live-messages-store";
-import useLiveMsgAutoscroll from "../hooks/use-live-msg-autoscroll";
+import { useLiveMessagesStore } from '../store/use-live-messages-store';
+import useLiveMsgAutoscroll from '../hooks/use-live-msg-autoscroll';
 
-import useInfiniteScroll from "@/hooks/use-infinite-scroll";
-import { useMemo } from "react";
+import useInfiniteScroll from '@/hooks/use-infinite-scroll';
+import { useMemo } from 'react';
 
-import { useConvScrollManager } from "../hooks/use-conv-scroll-manager";
-import ConvMessageBox from "./conversation-message-box.tsx";
-import useGetAllInfiniteMessage from "../api/get-all-message";
-import { useParams } from "react-router-dom";
+import { useConvScrollManager } from '../hooks/use-conv-scroll-manager';
+import ConvMessageBox from './conversation-message-box.tsx';
+import useGetAllInfiniteMessage from '../api/get-all-message';
+import { useParams } from 'react-router-dom';
 // dddd
 const NoMessagePlaceholder = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-full text-center text-gray-500 space-y-4">
-      <div className="w-20 h-20 rounded-full bg-orange-100 flex items-center justify-center">
+    <div className="flex h-full flex-col items-center justify-center space-y-4 text-center text-gray-500">
+      <div className="flex h-20 w-20 items-center justify-center rounded-full bg-orange-100">
         <svg
-          className="w-10 h-10 text-orange-500"
+          className="h-10 w-10 text-orange-500"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -28,7 +28,7 @@ const NoMessagePlaceholder = () => {
         </svg>
       </div>
       <p className="font-medium">대화를 시작해보세요!</p>
-      <p className="text-sm max-w-md">
+      <p className="max-w-md text-sm">
         LingoLion과 영어로 대화하며 회화 실력을 향상시킬 수 있습니다.
       </p>
     </div>
@@ -72,16 +72,16 @@ export default function ConversationMessageList() {
   return (
     <div
       id="Msg Area"
-      className="relative space-y-6 overflow-y-auto p-6 bg-opacity-5 flex-1 "
+      className="relative flex-1 space-y-6 overflow-y-auto bg-opacity-5 p-6"
       ref={rootRef}
     >
       {/* Loading Indicator at the top */}
       {isFetchingNextPage && (
-        <div className="text-center py-2 text-gray-500">
+        <div className="py-2 text-center text-gray-500">
           Loading older messages...
         </div>
       )}
-      <div className="space-y-6 inset-0">
+      <div className="inset-0 space-y-6">
         {/* Render reversed historical messages */}
 
         {/* start of reversedMessages */}

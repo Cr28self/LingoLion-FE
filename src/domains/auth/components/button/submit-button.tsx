@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button.tsx";
-import clsx from "clsx";
-import { Loader2 } from "lucide-react";
+import { Button } from '@/components/ui/button.tsx';
+import clsx from 'clsx';
+import { Loader2 } from 'lucide-react';
 
 type SubmitButtonProps = {
   isLoading?: boolean;
@@ -16,9 +16,9 @@ export const SubmitButton = ({
   ...props
 }: SubmitButtonProps) => {
   const buttonClass = clsx(
-    "w-2/3 h-12 px-6 text-xl font-semibold text-white bg-orange-500 rounded-xl shadow-md transition-all hover:bg-orange-600  focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2",
+    'w-2/3 h-12 px-6 text-xl font-semibold text-white bg-orange-500 rounded-xl shadow-md transition-all hover:bg-orange-600  focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2',
     {
-      "disabled:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50":
+      'disabled:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50':
         props.disabled,
     },
     className

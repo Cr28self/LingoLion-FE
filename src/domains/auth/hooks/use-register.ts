@@ -1,8 +1,8 @@
-import { useMutation } from "@tanstack/react-query";
-import { registerFn } from "../api/register-api";
-import { toast } from "sonner";
-import { AxiosError } from "axios";
-import { RegisterErrorResponse } from "../types/error-types";
+import { useMutation } from '@tanstack/react-query';
+import { registerFn } from '../api/register-api';
+import { toast } from 'sonner';
+import { AxiosError } from 'axios';
+import { RegisterErrorResponse } from '../types/error-types';
 
 // ! 회원가입 hook
 export const useRegister = ({
@@ -19,12 +19,12 @@ export const useRegister = ({
     },
 
     onSuccess: () => {
-      toast.success("회원가입이 완료되었습니다.");
+      toast.success('회원가입이 완료되었습니다.');
       onSuccessNavigate();
     },
     onError: (error: AxiosError<RegisterErrorResponse>) => {
       toast.error(
-        error.response?.data.message || "회원가입 중 오류가 발생했습니다."
+        error.response?.data.message || '회원가입 중 오류가 발생했습니다.'
       );
     },
 

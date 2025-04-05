@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import {
   Form,
@@ -9,14 +9,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 
-import { useState } from "react";
-import SubmitButton from "./button/submit-button.tsx";
-import useLogin from "../hooks/use-login";
-import { loginSchema, TLoginSchema } from "../schema/login-schema";
-import CustomGoogleLoginButton from "./button/custom-google-login-button.tsx";
+import { useState } from 'react';
+import SubmitButton from './button/submit-button.tsx';
+import useLogin from '../hooks/use-login';
+import { loginSchema, TLoginSchema } from '../schema/login-schema';
+import CustomGoogleLoginButton from './button/custom-google-login-button.tsx';
 
 type LoginFormProps = {
   onSuccessNavigate: () => void;
@@ -29,8 +29,8 @@ export default function LoginForm({ onSuccessNavigate }: LoginFormProps) {
   const form = useForm<TLoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 
@@ -95,7 +95,7 @@ export default function LoginForm({ onSuccessNavigate }: LoginFormProps) {
             type="submit"
             isLoading={isLoggingIn}
             disabled={isLoggingIn}
-            className="w-full py-2 rounded-lg text-white font-semibold bg-orange-500 hover:bg-orange-400 transition-colors"
+            className="w-full rounded-lg bg-orange-500 py-2 font-semibold text-white transition-colors hover:bg-orange-400"
           >
             로그인
           </SubmitButton>
@@ -125,7 +125,7 @@ export default function LoginForm({ onSuccessNavigate }: LoginFormProps) {
           <span className="text-gray-600">계정이 없으신가요? </span>
           <Link
             to="/auth/register"
-            className="font-semibold text-orange-500 hover:text-orange-400 transition-colors"
+            className="font-semibold text-orange-500 transition-colors hover:text-orange-400"
           >
             회원 가입
           </Link>

@@ -1,5 +1,5 @@
-import { create } from "zustand";
-import { devtools } from "zustand/middleware";
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
 
 type RecommendFormState = {
   isModalOpen: boolean;
@@ -23,7 +23,7 @@ const useRecommendFormStore = create<RecommendFormState>()(
         });
       },
     }),
-    { name: "Recommend-Form" }
+    { name: 'Recommend-Form' }
   )
 );
 

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from 'react';
 
 type useInfiniteScrollProps = {
   fetchNextPage: () => void;
@@ -41,7 +41,7 @@ const useInfiniteScroll = ({
       // ! 옵저버 생성 ( 한번만  or if root changes (which is rare) )
       observerRef.current = new IntersectionObserver(handleIntersect, {
         root: rootElement,
-        rootMargin: "0px",
+        rootMargin: '0px',
         threshold: 0.9, // Trigger when 90% of the target is visible
       });
     }

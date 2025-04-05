@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
 export default function useResizePanel() {
   const ResizableContainerRef = useRef<HTMLDivElement>(null);
@@ -7,7 +7,7 @@ export default function useResizePanel() {
   const SidePanelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    console.log("resizeEEE");
+    console.log('resizeEEE');
     console.log(ResizableContainerRef);
     console.log(MainPanelRef);
     console.log(SidePanelRef);

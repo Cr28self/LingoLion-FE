@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   BookOpen,
   CheckCircle,
@@ -11,10 +11,10 @@ import {
   Mic,
   Sparkles,
   Star,
-} from "lucide-react";
+} from 'lucide-react';
 export function HeroImage() {
   return (
-    <div className="relative w-full h-full min-h-[300px] rounded-xl overflow-hidden shadow-xl">
+    <div className="relative h-full min-h-[300px] w-full overflow-hidden rounded-xl shadow-xl">
       <img
         src="/hero-image.png"
         alt="AI-powered English learning"
@@ -27,9 +27,9 @@ export function HeroImage() {
 
 export default function LandingRoute() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between mx-auto">
+        <div className="container mx-auto flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
             <img
               src="/lingo-lion-logo-noBG.webp"
@@ -39,7 +39,7 @@ export default function LandingRoute() {
 
             <span className="text-xl font-bold">LingoLion</span>
           </div>
-          <nav className="hidden md:flex gap-6">
+          <nav className="hidden gap-6 md:flex">
             <Link
               to="#features"
               className="text-sm font-medium hover:text-primary"
@@ -68,7 +68,7 @@ export default function LandingRoute() {
           <div className="flex items-center gap-4">
             <Link
               to="/auth/login"
-              className="text-sm font-medium hover:text-primary hidden sm:block"
+              className="hidden text-sm font-medium hover:text-primary sm:block"
             >
               Log in
             </Link>
@@ -79,7 +79,7 @@ export default function LandingRoute() {
       <main className="flex-1">
         {/* Hero Section */}
         <section className="py-12 md:py-24 lg:py-32 xl:py-48">
-          <div className="container px-4 md:px-6 mx-auto">
+          <div className="container mx-auto px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
@@ -111,9 +111,9 @@ export default function LandingRoute() {
         {/* Features Section */}
         <section
           id="features"
-          className="w-full py-12 md:py-24 lg:py-32 bg-muted"
+          className="w-full bg-muted py-12 md:py-24 lg:py-32"
         >
-          <div className="container px-4 md:px-6 mx-auto">
+          <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-primary px-3 py-1 text-sm text-primary-foreground">
@@ -183,7 +183,7 @@ export default function LandingRoute() {
 
         {/* How It Works Section */}
         <section id="how-it-works" className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6 mx-auto">
+          <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-primary px-3 py-1 text-sm text-primary-foreground">
@@ -236,9 +236,9 @@ export default function LandingRoute() {
         {/* Testimonials Section */}
         <section
           id="testimonials"
-          className="w-full py-12 md:py-24 lg:py-32 bg-muted"
+          className="w-full bg-muted py-12 md:py-24 lg:py-32"
         >
-          <div className="container px-4 md:px-6 mx-auto">
+          <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-primary px-3 py-1 text-sm text-primary-foreground">
@@ -257,11 +257,11 @@ export default function LandingRoute() {
               <div className="flex flex-col justify-between space-y-4 rounded-lg border p-6 shadow-sm">
                 <div className="space-y-2">
                   <div className="flex text-yellow-500">
-                    <Star className="fill-yellow-500 h-5 w-5" />
-                    <Star className="fill-yellow-500 h-5 w-5" />
-                    <Star className="fill-yellow-500 h-5 w-5" />
-                    <Star className="fill-yellow-500 h-5 w-5" />
-                    <Star className="fill-yellow-500 h-5 w-5" />
+                    <Star className="h-5 w-5 fill-yellow-500" />
+                    <Star className="h-5 w-5 fill-yellow-500" />
+                    <Star className="h-5 w-5 fill-yellow-500" />
+                    <Star className="h-5 w-5 fill-yellow-500" />
+                    <Star className="h-5 w-5 fill-yellow-500" />
                   </div>
                   <p className="text-muted-foreground">
                     "LinguaAI has transformed my English learning journey. The
@@ -287,11 +287,11 @@ export default function LandingRoute() {
               <div className="flex flex-col justify-between space-y-4 rounded-lg border p-6 shadow-sm">
                 <div className="space-y-2">
                   <div className="flex text-yellow-500">
-                    <Star className="fill-yellow-500 h-5 w-5" />
-                    <Star className="fill-yellow-500 h-5 w-5" />
-                    <Star className="fill-yellow-500 h-5 w-5" />
-                    <Star className="fill-yellow-500 h-5 w-5" />
-                    <Star className="fill-yellow-500 h-5 w-5" />
+                    <Star className="h-5 w-5 fill-yellow-500" />
+                    <Star className="h-5 w-5 fill-yellow-500" />
+                    <Star className="h-5 w-5 fill-yellow-500" />
+                    <Star className="h-5 w-5 fill-yellow-500" />
+                    <Star className="h-5 w-5 fill-yellow-500" />
                   </div>
                   <p className="text-muted-foreground">
                     "I've tried many language apps, but LinguaAI is the only one
@@ -317,11 +317,11 @@ export default function LandingRoute() {
               <div className="flex flex-col justify-between space-y-4 rounded-lg border p-6 shadow-sm">
                 <div className="space-y-2">
                   <div className="flex text-yellow-500">
-                    <Star className="fill-yellow-500 h-5 w-5" />
-                    <Star className="fill-yellow-500 h-5 w-5" />
-                    <Star className="fill-yellow-500 h-5 w-5" />
-                    <Star className="fill-yellow-500 h-5 w-5" />
-                    <Star className="fill-yellow-500 h-5 w-5" />
+                    <Star className="h-5 w-5 fill-yellow-500" />
+                    <Star className="h-5 w-5 fill-yellow-500" />
+                    <Star className="h-5 w-5 fill-yellow-500" />
+                    <Star className="h-5 w-5 fill-yellow-500" />
+                    <Star className="h-5 w-5 fill-yellow-500" />
                   </div>
                   <p className="text-muted-foreground">
                     "The personalized feedback on my pronunciation has been
@@ -350,7 +350,7 @@ export default function LandingRoute() {
 
         {/* Pricing Section */}
         <section id="pricing" className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6 mx-auto">
+          <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-primary px-3 py-1 text-sm text-primary-foreground">
@@ -393,8 +393,8 @@ export default function LandingRoute() {
                   </Button>
                 </div>
               </div>
-              <div className="flex flex-col rounded-lg border shadow-sm relative">
-                <div className="absolute top-0 right-0 rounded-bl-lg rounded-tr-lg bg-primary px-3 py-1 text-xs font-bold text-primary-foreground">
+              <div className="relative flex flex-col rounded-lg border shadow-sm">
+                <div className="absolute right-0 top-0 rounded-bl-lg rounded-tr-lg bg-primary px-3 py-1 text-xs font-bold text-primary-foreground">
                   Popular
                 </div>
                 <div className="p-6">
@@ -467,8 +467,8 @@ export default function LandingRoute() {
         </section>
 
         {/* CTA Section */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground">
-          <div className="container px-4 md:px-6 mx-auto">
+        <section className="w-full bg-primary py-12 text-primary-foreground md:py-24 lg:py-32">
+          <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
@@ -499,7 +499,7 @@ export default function LandingRoute() {
         </section>
       </main>
       <footer className="w-full border-t py-6 md:py-0">
-        <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row mx-auto">
+        <div className="container mx-auto flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
           <div className="flex items-center gap-2">
             <img
               src="/lingo-lion-logo-noBG.webp"

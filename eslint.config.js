@@ -1,8 +1,9 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
+import js from '@eslint/js';
+import globals from 'globals';
+import reactPlugin from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   { ignores: ['dist'] },
@@ -16,6 +17,7 @@ export default tseslint.config(
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
+      react: reactPlugin,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -23,6 +25,9 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+      'react/jsx-key': ['error', { checkFragmentShorthand: true }],
+      'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
+      '@typescript-eslint/no-explicit-any': ['error', { fixToUnknown: true }], // any 대신 unknown으로 수정 제안
     },
-  },
-)
+  }
+);

@@ -1,11 +1,11 @@
-import { toast } from "sonner";
-import useRecommendFormInputStore from "../store/use-recommend-form-input-store";
-import useRecommendationListStore from "../store/use-recommendation-list-store";
-import AllRecommendButton from "./button/all-recommend-button.tsx";
-import CreateSituationButton from "./button/create-situation-button.tsx";
-import SituationInputField from "./situation-input-field";
-import useRecommendFormStore from "../store/use-recommend-form-store";
-import useRecommendationActions from "../hooks/use-recommendation-actions";
+import { toast } from 'sonner';
+import useRecommendFormInputStore from '../store/use-recommend-form-input-store';
+import useRecommendationListStore from '../store/use-recommendation-list-store';
+import AllRecommendButton from './button/all-recommend-button.tsx';
+import CreateSituationButton from './button/create-situation-button.tsx';
+import SituationInputField from './situation-input-field';
+import useRecommendFormStore from '../store/use-recommend-form-store';
+import useRecommendationActions from '../hooks/use-recommendation-actions';
 
 export default function CreateSituationForm() {
   // ! 모달 on/off
@@ -56,42 +56,42 @@ export default function CreateSituationForm() {
     <form onSubmit={handleCreateSituationSubmit}>
       <div className="space-y-6">
         <SituationInputField
-          name={"place"}
-          label={"장소 (Place)"}
+          name={'place'}
+          label={'장소 (Place)'}
           value={place}
-          placeholder={"예: 활기찬 시장, 조용한 도서관"}
-          onValueChange={(value) => setFormInputState("place", value)}
-          onIndividualRecommend={() => handleIndividualRecommend("place")}
+          placeholder={'예: 활기찬 시장, 조용한 도서관'}
+          onValueChange={(value) => setFormInputState('place', value)}
+          onIndividualRecommend={() => handleIndividualRecommend('place')}
           recommendations={recPlaceList}
           isPending={isPending}
         />
         <SituationInputField
-          name={"aiRole"}
-          label={"AI 역할 (Assistant)"}
+          name={'aiRole'}
+          label={'AI 역할 (Assistant)'}
           value={aiRole}
-          placeholder={"예: 경험 많은 상인, 지식인 사서"}
-          onValueChange={(value) => setFormInputState("aiRole", value)}
-          onIndividualRecommend={() => handleIndividualRecommend("aiRole")}
+          placeholder={'예: 경험 많은 상인, 지식인 사서'}
+          onValueChange={(value) => setFormInputState('aiRole', value)}
+          onIndividualRecommend={() => handleIndividualRecommend('aiRole')}
           recommendations={recAiRoleList}
           isPending={isPending}
         />
         <SituationInputField
-          name={"userRole"}
-          label={"사용자 역할 (User)"}
+          name={'userRole'}
+          label={'사용자 역할 (User)'}
           value={userRole}
-          placeholder={"예: 물건 값을 깎는 손님, 정보 찾는 방문객"}
-          onValueChange={(value) => setFormInputState("userRole", value)}
-          onIndividualRecommend={() => handleIndividualRecommend("userRole")}
+          placeholder={'예: 물건 값을 깎는 손님, 정보 찾는 방문객'}
+          onValueChange={(value) => setFormInputState('userRole', value)}
+          onIndividualRecommend={() => handleIndividualRecommend('userRole')}
           recommendations={recUserRoleList}
           isPending={isPending}
         />
         <SituationInputField
-          name={"goal"}
-          label={"대화 목표 (Goal)"}
+          name={'goal'}
+          label={'대화 목표 (Goal)'}
           value={goal}
-          placeholder={"예: 원하는 가격에 물건 구매하기, 특정 주제의 책 찾기"}
-          onValueChange={(value) => setFormInputState("goal", value)}
-          onIndividualRecommend={() => handleIndividualRecommend("goal")}
+          placeholder={'예: 원하는 가격에 물건 구매하기, 특정 주제의 책 찾기'}
+          onValueChange={(value) => setFormInputState('goal', value)}
+          onIndividualRecommend={() => handleIndividualRecommend('goal')}
           recommendations={recGoalList}
           isPending={isPending}
         />
@@ -113,11 +113,11 @@ export default function CreateSituationForm() {
                   setIsModalOpen(true);
                 }
 
-                toast.success("전체 추천이 완료되었습니다.");
+                toast.success('전체 추천이 완료되었습니다.');
               },
 
               onErrorCallback: () => {
-                toast.error("전체 추천 중 에러 발생");
+                toast.error('전체 추천 중 에러 발생');
               },
             })
           }

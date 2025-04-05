@@ -1,132 +1,167 @@
-import { formatDate } from "@/lib/utils";
-import { Pencil, Trash2, ArrowRight, Clock } from "lucide-react";
-import DeleteConversationDialog from "./modal/delete-conversation-dialog.tsx";
-import EditConversationModal from "./modal/edit-conversation-modal.tsx";
-import { useConversationGrid } from "../hooks/use-conversation-grid";
-import useInfiniteScroll from "@/hooks/use-infinite-scroll";
+import { useNavigate } from 'react-router-dom';
+import useInfiniteScroll from '@/hooks/use-infinite-scroll'; // 실제 경로
+import { useGetAllInfiniteConversations } from '@/domains/dashboard-conversations/api/get-all-conversations'; // 실제 경로
+import DeleteConversationDialog from './modal/delete-conversation-dialog'; // 실제 경로
+import { EditConversationSheet } from '@/domains/dashboard-conversations/components/modal/edit-conversation-sheet'; // 실제 경로
+import { Input } from '@/components/ui/input';
+import { useConversationActions } from '@/domains/dashboard-conversations/hooks/use-conversation-actions.ts';
+import { useCallback } from 'react';
+import { TConversation } from '@/domains/dashboard-conversations/types/dashboard-conversation-types.ts';
+import { ConversationCard } from '@/domains/dashboard-conversations/components/conversation-card.tsx'; // 실제 경로
 
 const ConversationGrid = () => {
-  const {
-    conversations,
-    isDeleteDialogOpen,
-    isEditModalOpen,
-    conversationToDelete,
-    conversationToEdit,
-    setIsDeleteDialogOpen,
-    setIsEditModalOpen,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    handleDeleteClick,
-    handleEditClick,
-    handleContinueConversation,
-  } = useConversationGrid();
+  const navigate = useNavigate();
 
+  // --- 데이터 페칭 ---
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useGetAllInfiniteConversations();
+  const conversations = data?.pages.flatMap((page) => page.data) || [];
+
+  // --- 무한 스크롤 ---
   const { rootRef, targetRef } = useInfiniteScroll({
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
   });
 
+  // --- 대화 액션 관련 로직 (훅 사용) ---
+  const {
+    isDeleteDialogOpen,
+    isDeletePending,
+    openDeleteDialog,
+    closeDeleteDialog,
+    handleConfirmDelete,
+    isEditSheetOpen,
+    isUpdatePending,
+    editingTitle,
+    editingIcon,
+    setEditingTitle,
+    setEditingIcon,
+    openEditSheet,
+    closeEditSheet,
+    handleConfirmUpdate,
+    currentEditingConversation,
+  } = useConversationActions();
+
+  // --- 네비게이션 핸들러 ---
+  const handleContinueConversation = useCallback(
+    // useCallback 추가
+    (conversationId: number, conversationTitle: string) => {
+      const encodedTitle = encodeURIComponent(
+        encodeURIComponent(conversationTitle)
+      );
+      navigate(`/app/conv/${conversationId}/${encodedTitle}`);
+    },
+    [navigate]
+  );
+
+  // --- 카드 액션 핸들러 (훅의 함수 호출) ---
+  const handleEdit = useCallback(
+    (conversation: TConversation) => {
+      openEditSheet(conversation);
+    },
+    [openEditSheet]
+  );
+
+  const handleDelete = useCallback(
+    (id: number) => {
+      openDeleteDialog(id);
+    },
+    [openDeleteDialog]
+  );
+
   return (
     <div
-      className="relative h-[600px] overflow-y-auto border rounded-md"
+      className="relative h-[600px] overflow-y-auto rounded-md border" // 높이는 고정값보다 유연하게 설정하는 것이 좋을 수 있음
       ref={rootRef}
     >
       {/* 카드 그리드 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 gap-5 p-1 md:grid-cols-2">
+        {' '}
+        {/* 그리드 패딩 추가 고려 */}
         {conversations.map((conversation, conversationIndex) => {
           const isLastItem = conversationIndex === conversations.length - 1;
           return (
-            <div
+            <ConversationCard
               key={conversation.id}
-              className="relative group bg-white/90 p-5 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-orange-100 flex flex-col cursor-pointer overflow-hidden"
-              onClick={() =>
-                handleContinueConversation(conversation.id, conversation.title)
-              }
-              ref={isLastItem ? targetRef : null}
-            >
-              {/* 배경 효과 - 호버 시 나타남 */}
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-50 to-orange-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-              {/* 콘텐츠 */}
-              <div className="relative z-10 flex-1 flex flex-col">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center">
-                    <div className="text-3xl mr-4 bg-gradient-to-br from-orange-100 to-orange-200 p-3 rounded-lg shadow-sm group-hover:scale-110 transition-transform duration-300">
-                      {conversation.icon || "💬"}
-                    </div>
-                    <div>
-                      <h3 className="font-medium text-lg text-gray-800 group-hover:text-orange-700 transition-colors duration-300">
-                        {conversation.title}
-                      </h3>
-                      <div className="flex items-center text-xs text-gray-500 mt-1">
-                        <Clock className="h-3 w-3 mr-1" />
-                        {formatDate(conversation.createdAt)}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* 액션 버튼 그룹 - 호버 시 표시 */}
-                  <div className="flex space-x-1 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0">
-                    {/* 편집 버튼 */}
-                    <button
-                      className="p-2 bg-white rounded-full shadow-sm hover:bg-blue-50 transition-colors"
-                      onClick={(e) => handleEditClick(conversation, e)}
-                      aria-label="편집"
-                    >
-                      <Pencil className="h-4 w-4 text-blue-500" />
-                    </button>
-
-                    {/* 삭제 버튼 */}
-                    <button
-                      className="p-2 bg-white rounded-full shadow-sm hover:bg-red-50 transition-colors"
-                      onClick={(e) => handleDeleteClick(conversation.id, e)}
-                      aria-label="삭제"
-                    >
-                      <Trash2 className="h-4 w-4 text-red-500" />
-                    </button>
-                  </div>
-                </div>
-
-                {/* 구분선 */}
-                <div className="h-px bg-gradient-to-r from-transparent via-orange-200 to-transparent my-4 opacity-50 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-                {/* 하단 영역 */}
-                <div className="mt-auto flex justify-end items-center">
-                  <button
-                    className="px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-md text-sm hover:from-orange-600 hover:to-orange-700 transition-colors shadow-sm flex items-center gap-2 group-hover:shadow-md transform group-hover:translate-x-0 translate-x-2 opacity-90 group-hover:opacity-100"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleContinueConversation(
-                        conversation.id,
-                        conversation.title
-                      );
-                    }}
-                  >
-                    계속하기
-                    <ArrowRight className="h-4 w-4 transform group-hover:translate-x-1 transition-transform duration-300" />
-                  </button>
-                </div>
-              </div>
-            </div>
+              conversation={conversation}
+              onContinue={handleContinueConversation}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              ref={isLastItem ? targetRef : null} // ref는 카드 자체보다 감싸는 div에 적용하는 것이 더 안정적일 수 있음
+              isDeleting={isDeletePending} // 어떤 항목이 삭제 중인지 구체화 가능 (선택적)
+              isEditing={
+                isUpdatePending &&
+                currentEditingConversation?.id === conversation.id
+              } // 현재 편집 중인 항목 강조 (선택적)
+            />
           );
         })}
+        {/* 로딩 스피너 (무한 스크롤) */}
+        {isFetchingNextPage && (
+          <div className="col-span-1 flex items-center justify-center p-4 md:col-span-2">
+            {/* 여기에 로딩 스피너 컴포넌트 추가 */}
+            <span>Loading more...</span>
+          </div>
+        )}
+        {/* 데이터 없음 표시 */}
+        {!isFetchingNextPage && conversations.length === 0 && (
+          <div className="col-span-1 flex items-center justify-center p-10 text-gray-500 md:col-span-2">
+            대화 목록이 없습니다.
+          </div>
+        )}
       </div>
 
-      {/* 삭제 확인 다이얼로그 컴포넌트 */}
+      {/* 삭제 확인 다이얼로그 */}
       <DeleteConversationDialog
         isOpen={isDeleteDialogOpen}
-        onOpenChange={setIsDeleteDialogOpen}
-        conversationId={conversationToDelete}
+        onOpenChange={(open) => !open && closeDeleteDialog()} // 닫힐 때만 closeDeleteDialog 호출
+        title="대화 삭제"
+        description="이 대화를 정말로 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다."
+        cancelText="취소"
+        confirmText="삭제"
+        isPending={isDeletePending}
+        onDeleteConfirm={handleConfirmDelete} // 이름 통일 (onConfirm)
       />
 
-      {/* 편집 모달 컴포넌트 */}
-      <EditConversationModal
-        isOpen={isEditModalOpen}
-        onOpenChange={setIsEditModalOpen}
-        conversation={conversationToEdit}
-      />
+      {/* 편집 시트 */}
+      <EditConversationSheet
+        isOpen={isEditSheetOpen}
+        onOpenChange={(open) => !open && closeEditSheet()} // 닫힐 때만 closeEditSheet 호출
+        title={`'${currentEditingConversation?.title || ''}' 편집`} // 동적 제목
+        description="대화의 제목과 아이콘을 수정한 후 저장 버튼을 클릭하세요."
+        onUpdateConfirm={handleConfirmUpdate} // 이름 통일 (onSubmit)
+        isPending={isUpdatePending}
+      >
+        {/* Sheet 내용은 children으로 전달 (이전 가이드대로) */}
+        <div className="grid gap-4 py-6">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <label htmlFor="edit-title" className="text-right font-medium">
+              제목
+            </label>
+            <Input
+              id="edit-title"
+              value={editingTitle}
+              onChange={(e) => setEditingTitle(e.target.value)}
+              className="col-span-3"
+              disabled={isUpdatePending}
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <label htmlFor="edit-icon" className="text-right font-medium">
+              아이콘
+            </label>
+            <Input
+              id="edit-icon"
+              value={editingIcon}
+              onChange={(e) => setEditingIcon(e.target.value)}
+              className="col-span-3"
+              placeholder="이모지 입력 (예: 💬)"
+              disabled={isUpdatePending}
+            />
+          </div>
+        </div>
+      </EditConversationSheet>
     </div>
   );
 };

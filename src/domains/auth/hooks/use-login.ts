@@ -1,9 +1,9 @@
-import { useAuthStore } from "@/lib/auth/use-auth-store";
-import { useMutation } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import { toast } from "sonner";
-import { loginFn } from "../api/login-api";
-import { LoginErrorResponse } from "../types/error-types";
+import { useAuthStore } from '@/lib/auth/use-auth-store';
+import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { toast } from 'sonner';
+import { loginFn } from '../api/login-api';
+import { LoginErrorResponse } from '../types/error-types';
 
 // ! 로그인 hook
 const useLogin = ({
@@ -24,13 +24,13 @@ const useLogin = ({
     // 요청 성공 시
     onSuccess: (data) => {
       updateAccessToken(data.accessToken);
-      toast.success("로그인 성공");
+      toast.success('로그인 성공');
       onSuccessNavigate();
     },
     // 요청 실패 시
     onError: (error: AxiosError<LoginErrorResponse>) => {
       console.error(error.response?.data.message);
-      toast.error("로그인 실패");
+      toast.error('로그인 실패');
     },
     // 성공/실패와 관계없이 항상 호출
     onSettled: () => {

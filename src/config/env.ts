@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 // 환경 변수 생성 및 유효성 검사 함수
 const createEnv = () => {
@@ -14,8 +14,8 @@ const createEnv = () => {
       const [key, value] = cur;
 
       // Vite 접두사(VITE_APP_)가 있는 경우 제거
-      if (key.startsWith("VITE_APP_")) {
-        acc[key.replace("VITE_APP_", "")] = value;
+      if (key.startsWith('VITE_APP_')) {
+        acc[key.replace('VITE_APP_', '')] = value;
       } else {
         acc[key] = value;
       }
@@ -35,7 +35,7 @@ const createEnv = () => {
 The following variables are missing or invalid:
 ${Object.entries(parsedEnv.error.flatten().fieldErrors)
   .map(([k, v]) => `- ${k}: ${v}`)
-  .join("\n")}
+  .join('\n')}
 `
     );
   }

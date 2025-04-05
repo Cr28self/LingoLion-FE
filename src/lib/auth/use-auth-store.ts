@@ -1,5 +1,5 @@
-import { create } from "zustand";
-import { devtools } from "zustand/middleware";
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
 
 type AuthState = {
   isCheckingAuth: boolean;
@@ -12,7 +12,7 @@ type AuthState = {
   setIsLoggedIn: (isLoggedIn: boolean) => void;
 };
 
-const ACCESS_TOKEN_KEY = "accessToken";
+const ACCESS_TOKEN_KEY = 'accessToken';
 
 export const useAuthStore = create<AuthState>()(
   devtools(
@@ -36,6 +36,6 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoggedIn });
       },
     }),
-    { name: "AuthStore" }
+    { name: 'AuthStore' }
   )
 );

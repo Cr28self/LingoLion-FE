@@ -1,7 +1,7 @@
-import { useAuthenticatedApiClient } from "@/lib/auth/use-authenticated-api-client";
-import { TGetAllMessageResponse } from "@/types/api";
-import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
-import { AxiosInstance } from "axios";
+import { useAuthenticatedApiClient } from '@/lib/auth/use-authenticated-api-client';
+import { TGetAllMessageResponse } from '@/types/api';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
+import { AxiosInstance } from 'axios';
 
 // 순수 API 호출 함수
 const getAllMessage = async (
@@ -25,7 +25,7 @@ export default function useGetAllInfiniteMessage(
 ) {
   const authApiClient = useAuthenticatedApiClient();
   return useSuspenseInfiniteQuery<TGetAllMessageResponse>({
-    queryKey: ["getAllMessage", convId],
+    queryKey: ['getAllMessage', convId],
     queryFn: ({ pageParam = null }) =>
       getAllMessage(authApiClient, pageParam as string | null, convId, limit),
     getNextPageParam: (lastPage) => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Sheet,
   SheetContent,
@@ -6,16 +6,16 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-} from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { TRecommendationCategories } from "@/domains/situation-create/types/recommendation-types.ts";
-import { useUpdateSituation } from "../../api/update-situation";
-import { toast } from "sonner";
-import { useQueryClient } from "@tanstack/react-query";
+} from '@/components/ui/sheet';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { TSituation } from '@/types/situation.ts';
+import { useUpdateSituation } from '../../api/update-situation';
+import { toast } from 'sonner';
+import { useQueryClient } from '@tanstack/react-query';
 
-type TSituation = TRecommendationCategories & { id: number; createdAt: Date };
+type TSituation = TSituation & { id: number; createdAt: Date };
 
 type EditSituationModalProps = {
   isOpen: boolean;
@@ -31,9 +31,7 @@ const EditSituationModal: React.FC<EditSituationModalProps> = ({
   const queryClient = useQueryClient();
   const { mutate, isPending } = useUpdateSituation();
 
-  const [formData, setFormData] = useState<Partial<TRecommendationCategories>>(
-    {}
-  );
+  const [formData, setFormData] = useState<Partial<TSituation>>({});
 
   // 모달이 열릴 때마다 상황 데이터로 폼 초기화
   React.useEffect(() => {
@@ -61,16 +59,16 @@ const EditSituationModal: React.FC<EditSituationModalProps> = ({
       { id: situation.id, data: formData },
       {
         onSuccess: () => {
-          toast.success("상황이 성공적으로 업데이트되었습니다.");
+          toast.success('상황이 성공적으로 업데이트되었습니다.');
           onOpenChange(false);
           // 상황 목록 데이터 갱신
           queryClient.invalidateQueries({
-            queryKey: ["getSituationsInfinite"],
+            queryKey: ['getSituationsInfinite'],
           });
         },
         onError: (error) => {
-          console.error("업데이트 오류:", error);
-          toast.error("상황 업데이트 중 오류가 발생했습니다.");
+          console.error('업데이트 오류:', error);
+          toast.error('상황 업데이트 중 오류가 발생했습니다.');
         },
       }
     );
@@ -94,7 +92,7 @@ const EditSituationModal: React.FC<EditSituationModalProps> = ({
             <Input
               id="place"
               name="place"
-              value={formData.place || ""}
+              value={formData.place || ''}
               onChange={handleChange}
               className="w-full"
             />
@@ -107,7 +105,7 @@ const EditSituationModal: React.FC<EditSituationModalProps> = ({
             <Input
               id="userRole"
               name="userRole"
-              value={formData.userRole || ""}
+              value={formData.userRole || ''}
               onChange={handleChange}
               className="w-full"
             />
@@ -120,7 +118,7 @@ const EditSituationModal: React.FC<EditSituationModalProps> = ({
             <Input
               id="aiRole"
               name="aiRole"
-              value={formData.aiRole || ""}
+              value={formData.aiRole || ''}
               onChange={handleChange}
               className="w-full"
             />
@@ -133,7 +131,7 @@ const EditSituationModal: React.FC<EditSituationModalProps> = ({
             <Textarea
               id="goal"
               name="goal"
-              value={formData.goal || ""}
+              value={formData.goal || ''}
               onChange={handleChange}
               className="w-full"
               rows={4}
@@ -155,7 +153,7 @@ const EditSituationModal: React.FC<EditSituationModalProps> = ({
             disabled={isPending}
             className="bg-orange-500 hover:bg-orange-600"
           >
-            {isPending ? "저장 중..." : "저장"}
+            {isPending ? '저장 중...' : '저장'}
           </Button>
         </SheetFooter>
       </SheetContent>

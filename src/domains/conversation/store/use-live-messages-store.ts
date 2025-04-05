@@ -1,6 +1,6 @@
-import { create } from "zustand";
-import { devtools } from "zustand/middleware";
-import { LiveMessage } from "../types/message";
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
+import { LiveMessage } from '../types/message';
 
 type LiveMessagesState = {
   liveMessages: LiveMessage[];
@@ -22,7 +22,7 @@ export const useLiveMessagesStore = create<LiveMessagesState>()(
           liveMessages: [
             ...state.liveMessages,
             {
-              role: "user",
+              role: 'user',
               content: message,
               order,
             },
@@ -34,7 +34,7 @@ export const useLiveMessagesStore = create<LiveMessagesState>()(
         set((state) => {
           const lastMessage = state.liveMessages[state.liveMessages.length - 1];
 
-          if (lastMessage?.role === "assistant") {
+          if (lastMessage?.role === 'assistant') {
             const updateMessage = [...state.liveMessages];
 
             updateMessage[updateMessage.length - 1] = {
@@ -51,7 +51,7 @@ export const useLiveMessagesStore = create<LiveMessagesState>()(
             liveMessages: [
               ...state.liveMessages,
               {
-                role: "assistant",
+                role: 'assistant',
                 content: message,
                 order,
               },
@@ -64,6 +64,6 @@ export const useLiveMessagesStore = create<LiveMessagesState>()(
         set({ liveMessages: [] });
       },
     }),
-    { name: "Conversation-Live-Messages" }
+    { name: 'Conversation-Live-Messages' }
   )
 );

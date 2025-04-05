@@ -1,7 +1,7 @@
-import React from "react";
-import { Button } from "@/components/ui/button.tsx";
-import clsx from "clsx";
-import { Loader2 } from "lucide-react";
+import React from 'react';
+import { Button } from '@/components/ui/button.tsx';
+import clsx from 'clsx';
+import { Loader2 } from 'lucide-react';
 
 const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 48 48" {...props}>
@@ -36,21 +36,21 @@ type GoogleLoginButtonProps = {
 
 export default function CustomGoogleLoginButton({
   isLoading,
-  children = "Google 계정으로 로그인", // Default text
+  children = 'Google 계정으로 로그인', // Default text
   className,
   disabled,
   ...props
 }: GoogleLoginButtonProps) {
   const buttonClass = clsx(
     // Base styles matching SubmitButton's structure, but different colors
-    "w-full h-12 px-6 text-lg font-medium", // Adjusted font size slightly, full width common for forms
-    "border border-gray-300 bg-white text-gray-700", // Google-like colors: white bg, gray text/border
-    "rounded-xl shadow-sm", // Slightly less prominent shadow than orange button
-    "transition-all",
-    "hover:bg-gray-50 hover:shadow-md", // Subtle hover
-    "focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2", // Google-ish blue focus ring
+    'w-full h-12 px-6 text-lg font-medium', // Adjusted font size slightly, full width common for forms
+    'border border-gray-300 bg-white text-gray-700', // Google-like colors: white bg, gray text/border
+    'rounded-xl shadow-sm', // Slightly less prominent shadow than orange button
+    'transition-all',
+    'hover:bg-gray-50 hover:shadow-md', // Subtle hover
+    'focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2', // Google-ish blue focus ring
     {
-      "disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed disabled:opacity-60 disabled:border-gray-200":
+      'disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed disabled:opacity-60 disabled:border-gray-200':
         disabled || isLoading, // Consistent disabled state styling approach
     },
     className // Allow overrides

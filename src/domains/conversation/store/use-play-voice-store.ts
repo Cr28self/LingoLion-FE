@@ -1,6 +1,6 @@
-import { create } from "zustand/index";
-import { devtools } from "zustand/middleware";
-import { useConversationSettingStore } from "@/domains/conversation/store/use-conversation-setting-store.ts";
+import { create } from 'zustand/index';
+import { devtools } from 'zustand/middleware';
+import { useConversationSettingStore } from '@/domains/conversation/store/use-conversation-setting-store.ts';
 
 type PlayVoiceState = {
   allVoices: SpeechSynthesisVoice[];
@@ -25,7 +25,7 @@ export const usePlayVoiceStore = create<PlayVoiceState>()(
       initializeVoices: () => {
         if (
           get().isInitialized ||
-          typeof window === "undefined" ||
+          typeof window === 'undefined' ||
           !window.speechSynthesis
         ) {
           return; // 이미 초기화되었거나 서버 환경이거나 speechSynthesis 미지원
@@ -34,7 +34,7 @@ export const usePlayVoiceStore = create<PlayVoiceState>()(
         const updateVoices = () => {
           const fetchedVoices = window.speechSynthesis.getVoices();
           if (Array.isArray(fetchedVoices)) {
-            console.log("All voices fetched:", fetchedVoices.length);
+            console.log('All voices fetched:', fetchedVoices.length);
             set({ allVoices: fetchedVoices });
             get()._updateActiveVoice(); // 목소리 목록 업데이트 후 활성 목소리 재계산
           }
@@ -44,7 +44,7 @@ export const usePlayVoiceStore = create<PlayVoiceState>()(
         updateVoices();
 
         // 변경 감지 리스너 설정
-        if ("onvoiceschanged" in window.speechSynthesis) {
+        if ('onvoiceschanged' in window.speechSynthesis) {
           window.speechSynthesis.onvoiceschanged = updateVoices;
         }
 
@@ -58,7 +58,7 @@ export const usePlayVoiceStore = create<PlayVoiceState>()(
         const unsubscribe = useConversationSettingStore.subscribe(
           (state, prevState) => {
             if (state.language !== prevState.language) {
-              console.log("Language changed, updating active voice...");
+              console.log('Language changed, updating active voice...');
               get()._updateActiveVoice(); // 언어 변경 시 활성 목소리 재계산
             }
           }
@@ -77,14 +77,14 @@ export const usePlayVoiceStore = create<PlayVoiceState>()(
           ({ lang }) => lang === language
         );
         const newActiveVoice =
-          availableVoices.find(({ name }) => name.includes("Google")) ||
-          availableVoices.find(({ name }) => name.includes("Samantha")) ||
+          availableVoices.find(({ name }) => name.includes('Google')) ||
+          availableVoices.find(({ name }) => name.includes('Samantha')) ||
           availableVoices[0] || // 첫 번째 사용 가능한 목소리
           null; // 사용 가능한 목소리가 없으면 null
 
         console.log(
           `Active voice updated for language ${language}:`,
-          newActiveVoice?.name || "None"
+          newActiveVoice?.name || 'None'
         );
         set({ activeVoice: newActiveVoice });
       },
@@ -92,7 +92,7 @@ export const usePlayVoiceStore = create<PlayVoiceState>()(
       // 3. 음성 출력 트리거 함수
       triggerSpeak: (text: string) => {
         const { activeVoice } = get();
-        console.log("Triggering speak with active voice:", activeVoice?.name);
+        console.log('Triggering speak with active voice:', activeVoice?.name);
 
         if (!activeVoice) {
           const language = useConversationSettingStore.getState().language;
@@ -103,8 +103,8 @@ export const usePlayVoiceStore = create<PlayVoiceState>()(
           return;
         }
         if (!window.speechSynthesis) {
-          console.warn("SpeechSynthesis not supported.");
-          alert("현재 브라우저에서는 음성 출력을 지원하지 않습니다.");
+          console.warn('SpeechSynthesis not supported.');
+          alert('현재 브라우저에서는 음성 출력을 지원하지 않습니다.');
           return;
         }
 
@@ -115,27 +115,27 @@ export const usePlayVoiceStore = create<PlayVoiceState>()(
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.voice = activeVoice;
             utterance.onerror = (event) =>
-              console.error("SpeechSynthesis Error:", event);
+              console.error('SpeechSynthesis Error:', event);
             window.speechSynthesis.speak(utterance);
           } catch (error) {
-            console.error("Error creating/speaking utterance:", error);
-            alert("음성 출력 중 오류가 발생했습니다.");
+            console.error('Error creating/speaking utterance:', error);
+            alert('음성 출력 중 오류가 발생했습니다.');
           }
         }, 50);
       },
 
       // --- Cleanup 액션 정의 ---
       cleanup: () => {
-        console.log("Running voice store cleanup...");
+        console.log('Running voice store cleanup...');
         const unsubscribe = get().unsubscribeSettings;
         if (unsubscribe) {
-          console.log("Unsubscribing from settings store.");
+          console.log('Unsubscribing from settings store.');
           unsubscribe(); // 저장된 구독 해제 함수 호출
         }
         // onvoiceschanged 리스너도 여기서 제거하는 것이 안전함
-        if (typeof window !== "undefined" && window.speechSynthesis) {
+        if (typeof window !== 'undefined' && window.speechSynthesis) {
           window.speechSynthesis.onvoiceschanged = null;
-          console.log("onvoiceschanged listener removed.");
+          console.log('onvoiceschanged listener removed.');
         }
         // 상태 초기화 (선택 사항: 필요에 따라 isInitialized 등 다른 상태도 초기화 가능)
         set({
@@ -144,9 +144,9 @@ export const usePlayVoiceStore = create<PlayVoiceState>()(
           allVoices: [],
           activeVoice: null,
         });
-        console.log("Voice store state reset.");
+        console.log('Voice store state reset.');
       },
     }),
-    { name: "voice-Setting" }
+    { name: 'voice-Setting' }
   )
 );

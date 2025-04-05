@@ -1,11 +1,9 @@
-import { useAuthenticatedApiClient } from "@/lib/auth/use-authenticated-api-client";
-import { useMutation } from "@tanstack/react-query";
-import { AxiosInstance } from "axios";
+import { useAuthenticatedApiClient } from '@/lib/auth/use-authenticated-api-client';
+import { useMutation } from '@tanstack/react-query';
+import { AxiosInstance } from 'axios';
+import { TConversation } from '@/domains/dashboard-conversations/types/dashboard-conversation-types.ts';
 
-type UpdateConversationData = {
-  title?: string;
-  icon?: string;
-};
+type UpdateConversationData = Partial<Pick<TConversation, 'title' | 'icon'>>;
 
 export const updateConversation = async (
   apiClient: AxiosInstance,

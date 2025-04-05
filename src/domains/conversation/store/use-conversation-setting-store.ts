@@ -1,20 +1,19 @@
-import {create} from "zustand/index";
-import {devtools} from "zustand/middleware";
-
+import { create } from 'zustand/index';
+import { devtools } from 'zustand/middleware';
 
 type ConversationSettingState = {
-    language:string;
+  language: string;
 };
 
-const initlaState={
-    language:"en-US",
-}
+const initlaState = {
+  language: 'en-US',
+};
 
 export const useConversationSettingStore = create<ConversationSettingState>()(
-    devtools(
-        () => ({
-            ...initlaState
-        }),
-        { name: "Conversation-Setting" }
-    )
+  devtools(
+    () => ({
+      ...initlaState,
+    }),
+    { name: 'Conversation-Setting' }
+  )
 );

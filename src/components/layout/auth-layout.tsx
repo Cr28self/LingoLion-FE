@@ -1,6 +1,6 @@
-import React from "react";
-import { ErrorBoundary } from "react-error-boundary";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
+import { Link } from 'react-router-dom';
 type AuthLayoutProps = {
   title: string;
   children: React.ReactNode;
@@ -24,16 +24,16 @@ const HomeLogo = () => {
   return (
     <Link
       to="/"
-      className="flex items-center gap-2 hover:opacity-90 transition-opacity"
+      className="flex items-center gap-2 transition-opacity hover:opacity-90"
     >
-      <div className="relative w-12 h-12">
+      <div className="relative h-12 w-12">
         <img
           src="/lingo-lion-logo-noBG.webp"
           alt="Lingo Lion 로고"
           className="object-contain"
         />
       </div>
-      <span className="font-bold text-2xl text-orange-500">Lingo Lion</span>
+      <span className="text-2xl font-bold text-orange-500">Lingo Lion</span>
     </Link>
   );
 };
@@ -41,8 +41,8 @@ const HomeLogo = () => {
 // ! 사용자 인증 페이지 레이아웃
 const AuthLayout = ({ title, children }: AuthLayoutProps) => {
   return (
-    <div className="min-h-screen flex flex-  bg-orange-100">
-      <div className="bg-white p-8 rounded-lg shadow-md md:w-96 w-full flex flex-col justify-center  relative gap-7">
+    <div className="flex- flex min-h-screen bg-orange-100">
+      <div className="relative flex w-full flex-col justify-center gap-7 rounded-lg bg-white p-8 shadow-md md:w-96">
         {/* 로고를 화면 기준으로 고정 */}
 
         <HomeLogo />
@@ -62,8 +62,8 @@ const AuthLayout = ({ title, children }: AuthLayoutProps) => {
       </div>
 
       {/* 브랜딩 이미지 섹션 */}
-      <div className="hidden md:flex flex-1 items-center justify-center p-8">
-        <div className="relative w-full max-w-lg aspect-square">
+      <div className="hidden flex-1 items-center justify-center p-8 md:flex">
+        <div className="relative aspect-square w-full max-w-lg">
           <img
             src="/lingo-lion-branding-img.png"
             alt="교육 브랜딩 이미지"

@@ -1,14 +1,14 @@
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Send } from "lucide-react";
-import React, { MutableRefObject, useRef, useState } from "react";
-import { useSendSSEMessage } from "../api/send-sse-message";
-import ConversationVoiceRecordButton from "@/domains/conversation/components/conversation-voice-record-button.tsx";
-import { useParams } from "react-router-dom";
-import useRecordVoice from "@/domains/conversation/hooks/use-record-voice.tsx";
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { Send } from 'lucide-react';
+import React, { MutableRefObject, useRef, useState } from 'react';
+import { useSendSSEMessage } from '../api/send-sse-message';
+import ConversationVoiceRecordButton from '@/domains/conversation/components/conversation-voice-record-button.tsx';
+import { useParams } from 'react-router-dom';
+import useRecordVoice from '@/domains/conversation/hooks/use-record-voice.tsx';
 
 export default function ConversationInputForm() {
-  const [inputMessage, setInputMessage] = useState<string>("");
+  const [inputMessage, setInputMessage] = useState<string>('');
   const [isComposing, setIsComposing] = useState(false); // 추가된 부분
 
   const { conversationId } = useParams();
@@ -23,7 +23,7 @@ export default function ConversationInputForm() {
   const adjustTextareaHeight = (
     textarea: MutableRefObject<HTMLTextAreaElement>
   ) => {
-    textarea.current.style.height = "auto"; // 높이를 초기화
+    textarea.current.style.height = 'auto'; // 높이를 초기화
     textarea.current.style.height = `${textarea.current.scrollHeight}px`; // 스크롤 높이에 맞춰 높이 조정
   };
 
@@ -31,14 +31,14 @@ export default function ConversationInputForm() {
   return (
     <form
       id="Input Area"
-      className="flex  flex-shrink-0 p-4 bg-white border-t border-gray-200 shadow-inner"
+      className="flex flex-shrink-0 border-t border-gray-200 bg-white p-4 shadow-inner"
       onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         handleSend(inputMessage);
-        setInputMessage("");
+        setInputMessage('');
       }}
     >
-      <div className="flex items-center w-full bg-gray-100 rounded-xl px-4 py-2 focus-within:ring-2 focus-within:ring-orange-300 focus-within:bg-white transition-all duration-300">
+      <div className="flex w-full items-center rounded-xl bg-gray-100 px-4 py-2 transition-all duration-300 focus-within:bg-white focus-within:ring-2 focus-within:ring-orange-300">
         <Textarea
           value={inputMessage}
           onChange={(e) => {
@@ -52,24 +52,24 @@ export default function ConversationInputForm() {
           onCompositionStart={() => setIsComposing(true)}
           onCompositionEnd={() => setIsComposing(false)}
           onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-            if (e.key === "Enter" && !e.shiftKey && !isComposing) {
+            if (e.key === 'Enter' && !e.shiftKey && !isComposing) {
               e.preventDefault();
               handleSend(inputMessage);
-              setInputMessage("");
+              setInputMessage('');
             }
           }}
           ref={textAreaRef}
-          className="flex-1 bg-transparent border-0 focus:ring-0 focus:outline-none focus-visible:outline-none focus-visible:ring-0 resize-none max-h-32 py-2 text-gray-800"
-          style={{ resize: "none" }}
+          className="max-h-32 flex-1 resize-none border-0 bg-transparent py-2 text-gray-800 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
+          style={{ resize: 'none' }}
         />
 
         <Button
           type="submit"
           disabled={!inputMessage.trim() || isStreaming}
-          className={`rounded-full p-3 ml-2 transition-all duration-300 ${
+          className={`ml-2 rounded-full p-3 transition-all duration-300 ${
             inputMessage.trim()
-              ? "bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-md"
-              : "bg-gray-200 text-gray-400"
+              ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md hover:from-orange-600 hover:to-orange-700'
+              : 'bg-gray-200 text-gray-400'
           }`}
         >
           <Send className="h-5 w-5" />
@@ -81,7 +81,7 @@ export default function ConversationInputForm() {
         />
 
         {isStreaming && (
-          <button onClick={handleAbort} style={{ marginLeft: "8px" }}>
+          <button onClick={handleAbort} style={{ marginLeft: '8px' }}>
             중단
           </button>
         )}

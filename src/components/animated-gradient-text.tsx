@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
 type AnimatedGradientTextProps = {
   text: string;
@@ -7,7 +7,7 @@ type AnimatedGradientTextProps = {
 
 export function AnimatedGradientText({
   text,
-  className = "",
+  className = '',
 }: AnimatedGradientTextProps) {
   const textRef = useRef<HTMLHeadingElement>(null);
 
@@ -20,24 +20,24 @@ export function AnimatedGradientText({
       const x = ((e.clientX - rect.left) / rect.width) * 100;
       const y = ((e.clientY - rect.top) / rect.height) * 100;
 
-      element.style.setProperty("--x", `${x}%`);
-      element.style.setProperty("--y", `${y}%`);
+      element.style.setProperty('--x', `${x}%`);
+      element.style.setProperty('--y', `${y}%`);
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
 
   return (
     <h1
       ref={textRef}
-      className={`font-bold bg-clip-text text-transparent bg-gradient-to-br from-primary via-primary/70 to-primary/50 animate-gradient-x ${className}`}
+      className={`animate-gradient-x bg-gradient-to-br from-primary via-primary/70 to-primary/50 bg-clip-text font-bold text-transparent ${className}`}
       style={{
-        backgroundPosition: "var(--x, 0%) var(--y, 0%)",
-        backgroundSize: "200% 200%",
+        backgroundPosition: 'var(--x, 0%) var(--y, 0%)',
+        backgroundSize: '200% 200%',
       }}
     >
       {text}

@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
 
 const useLiveMsgAutoscroll = (
   scrollContainerRef: React.RefObject<HTMLElement>,
@@ -29,8 +29,8 @@ const useLiveMsgAutoscroll = (
         !isUserScrollingUpRef.current
       ) {
         lastMessageRef.current.scrollIntoView({
-          behavior: "smooth", // Changed to smooth
-          block: "end", // Aligns the bottom of the element to the bottom of the scroller
+          behavior: 'smooth', // Changed to smooth
+          block: 'end', // Aligns the bottom of the element to the bottom of the scroller
         });
       } else if (lastMessageRef.current && isScrolledUp) {
         // later?
@@ -44,7 +44,7 @@ const useLiveMsgAutoscroll = (
     let scrollTimeout: NodeJS.Timeout | null = null;
 
     const handleScroll = () => {
-      console.log("handleScroll");
+      console.log('handleScroll');
       if (container) {
         const isNearBottom =
           container.scrollHeight -
@@ -72,10 +72,10 @@ const useLiveMsgAutoscroll = (
       }
     };
 
-    container?.addEventListener("scroll", handleScroll);
+    container?.addEventListener('scroll', handleScroll);
 
     return () => {
-      container?.removeEventListener("scroll", handleScroll);
+      container?.removeEventListener('scroll', handleScroll);
       if (scrollTimeout) clearTimeout(scrollTimeout);
     };
   }, [scrollContainerRef]);

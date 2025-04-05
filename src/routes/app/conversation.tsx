@@ -1,13 +1,13 @@
 // UI 컴포넌트 및 아이콘 import
-import ConversationLayout from "@/components/layout/conversation-layout";
-import ConversationInputForm from "@/domains/conversation/components/conversation-input-form.tsx";
-import ConversationMessageList from "@/domains/conversation/components/conversation-message-list.tsx";
-import { useLiveMessagesStore } from "@/domains/conversation/store/use-live-messages-store";
-import { useQueryClient } from "@tanstack/react-query";
-import { Suspense, useEffect } from "react";
+import ConversationLayout from '@/components/layout/conversation-layout';
+import ConversationInputForm from '@/domains/conversation/components/conversation-input-form.tsx';
+import ConversationMessageList from '@/domains/conversation/components/conversation-message-list.tsx';
+import { useLiveMessagesStore } from '@/domains/conversation/store/use-live-messages-store';
+import { useQueryClient } from '@tanstack/react-query';
+import { Suspense, useEffect } from 'react';
 
-import { useNavigate, useParams } from "react-router-dom";
-import { usePlayVoiceStore } from "@/domains/conversation/store/use-play-voice-store.ts";
+import { useNavigate, useParams } from 'react-router-dom';
+import { usePlayVoiceStore } from '@/domains/conversation/store/use-play-voice-store.ts';
 
 // 채팅 페이지 컴포넌트
 const ConversationRoute = () => {
@@ -23,11 +23,11 @@ const ConversationRoute = () => {
   );
 
   const handleExitConversation = () => {
-    navigate("/app/dashboard/conversations");
+    navigate('/app/dashboard/conversations');
     resetLiveMessages();
 
     queryClient.invalidateQueries({
-      queryKey: ["getAllMessage", conversationId],
+      queryKey: ['getAllMessage', conversationId],
     });
   };
 

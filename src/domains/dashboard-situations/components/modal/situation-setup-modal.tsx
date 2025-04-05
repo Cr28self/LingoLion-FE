@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -7,10 +7,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 type SituationSetupModalProps = {
   onNextLink: string;
@@ -18,7 +18,7 @@ type SituationSetupModalProps = {
 
 const SituationSetupModal = ({ onNextLink }: SituationSetupModalProps) => {
   const navigate = useNavigate();
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
 
   // 엔터 키를 눌렀을 때 실행될 함수
   const handleSubmit = () => {
@@ -45,7 +45,7 @@ const SituationSetupModal = ({ onNextLink }: SituationSetupModalProps) => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
+                if (e.key === 'Enter') {
                   e.preventDefault();
                   handleSubmit();
                 }

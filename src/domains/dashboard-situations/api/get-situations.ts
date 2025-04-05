@@ -1,11 +1,10 @@
-import { TRecommendationCategories } from "@/domains/situation-create/types/recommendation-types.ts";
-import { useAuthenticatedApiClient } from "@/lib/auth/use-authenticated-api-client";
-import { TSituationMode } from "@/types/api";
-import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
-import { AxiosInstance } from "axios";
+import { TSituation, TSituationMode } from '@/types/situation.ts';
+import { useAuthenticatedApiClient } from '@/lib/auth/use-authenticated-api-client';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
+import { AxiosInstance } from 'axios';
 
 export type TSituationsResponse = {
-  data: (TRecommendationCategories & { id: number; createdAt: Date })[];
+  data: (TSituation & { id: number; createdAt: Date })[];
   pageInfo: { hasNextPage: boolean; endCursor: string };
 };
 
@@ -16,7 +15,7 @@ export const getSituations = async (
   mode: TSituationMode
 ): Promise<TSituationsResponse> => {
   // mode에 따라 요청할 API 엔드포인트만 다름
-  const endpoint = mode === "all" ? "/situations" : "/situations/my";
+  const endpoint = mode === 'all' ? '/situations' : '/situations/my';
 
   const response = await apiClient.get(endpoint, {
     params: {
@@ -32,7 +31,7 @@ export const useGetInfiniteSituations = (mode: TSituationMode) => {
   const authApiClient = useAuthenticatedApiClient();
 
   return useSuspenseInfiniteQuery<TSituationsResponse>({
-    queryKey: ["getSituationsInfinite", mode],
+    queryKey: ['getSituationsInfinite', mode],
     // ⬇ 여기서 pageParam 기본값을 null로 두고, getSituations에 전달 ( pageParam으로 설정해야함 )
     queryFn: ({ pageParam = null }) =>
       getSituations(authApiClient, pageParam as string | null, mode),

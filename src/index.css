@@ -87,8 +87,6 @@ textarea:focus {
   outline: none !important;
 }
 
-
-
 /* modal open/close */
 @keyframes fade-in-scale {
   from {
@@ -103,9 +101,6 @@ textarea:focus {
 .animate-fade-in-scale {
   animation: fade-in-scale 0.3s ease-out forwards;
 }
-
-
-
 
 /* tailwind-scrollbar */
 .scrollbar-thin {

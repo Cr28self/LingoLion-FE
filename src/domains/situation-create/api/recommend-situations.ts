@@ -1,24 +1,37 @@
-import { useAuthenticatedApiClient } from "@/lib/auth/use-authenticated-api-client";
-import { TRecommend } from "@/types/api";
-import { useMutation } from "@tanstack/react-query";
-import { AxiosInstance } from "axios";
+import { useAuthenticatedApiClient } from '@/lib/auth/use-authenticated-api-client';
+import { useMutation } from '@tanstack/react-query';
+import { AxiosInstance } from 'axios';
+import {
+  TSituationAiRoleField,
+  TSituationFieldKey,
+  TSituationGoalField,
+  TSituationPlaceField,
+  TSituationUserRoleField,
+} from '@/types/situation.ts';
 
-export const recommendSituation = async (
+type TRecommendationScope = 'all' | TSituationFieldKey;
+
+type TRecommendSituationsPayload = {
+  type: TRecommendationScope;
+  metaData?: string;
+} & Partial<TSituationPlaceField> &
+  Partial<TSituationAiRoleField> &
+  Partial<TSituationUserRoleField> &
+  Partial<TSituationGoalField>;
+
+const recommendSituation = async (
   apiClient: AxiosInstance,
-  data: TRecommend
+  data: TRecommendSituationsPayload
 ) => {
-  const response = await apiClient.post("/situations/recommend", data);
+  const response = await apiClient.post('/situations/recommend', data);
   return response.data;
 };
-
-// export const recommendSituationQueryOptions = () => {
-//   return queryOptions({});
-// };
 
 export const useRecommendSituations = () => {
   const authApiClient = useAuthenticatedApiClient();
 
   return useMutation({
-    mutationFn: (data: TRecommend) => recommendSituation(authApiClient, data),
+    mutationFn: (data: TRecommendSituationsPayload) =>
+      recommendSituation(authApiClient, data),
   });
 };
