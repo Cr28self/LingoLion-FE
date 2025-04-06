@@ -91,6 +91,7 @@ export const useSendSSEMessage = (convId: string) => {
 
     const receiveOrder = orderNumber;
 
+    // SSE 스트림 연결
     try {
       await fetchSSEStream({
         url: `${baseURL}/conversations/${convId}/message/stream`,
