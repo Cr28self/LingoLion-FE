@@ -1,7 +1,16 @@
-import { useAuthenticatedApiClient } from '@/lib/auth/use-authenticated-api-client';
-import { TMakeConversation } from '@/types/api';
+import { useAuthenticatedApiClient } from '@/lib/auth/use-authenticated-api-client.tsx';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosInstance } from 'axios';
+
+type TMakeConversation = {
+  title: string;
+  icon?: string;
+  situationId: number;
+  metaData?: {
+    difficulty: '상' | '중' | '하';
+    request: string;
+  };
+};
 
 export const makeConversation = async (
   apiClient: AxiosInstance,

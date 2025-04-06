@@ -1,38 +1,78 @@
-import MakeConversationSetupModal from '@/domains/dashboard-conversations/components/modal/make-conversation-setup-modal.tsx';
-import DeleteConfirmDialog from './modal/delete-confirm-dialog.tsx';
-import EditSituationModal from './modal/edit-situation-modal.tsx';
-import { Pencil, Trash2, ArrowRight, Clock } from 'lucide-react';
-import { useSituationGrid } from '../hooks/use-situation-grid';
+import { useSituationActions } from '../hooks/use-situation-actions';
+import { useGetInfiniteSituations } from '../api/get-situations'; // IMPORT data fetching hook
 import useInfiniteScroll from '@/hooks/use-infinite-scroll';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { Suspense, useState } from 'react';
 import { SkeletonCardSitu } from '../../dashboard-common/components/contents-skeleton-loading.tsx';
-import { getDaysAgo } from '@/lib/utils.ts';
-import { TSituationMode } from '@/types/situation.ts';
+import { TSituation, TSituationMode } from '@/types/situation.ts'; // Ensure TSituation is imported
+import { SituationCard } from './situation-card';
+import { ConfirmActionDialog } from '@/domains/dashboard-common/components/confirm-action-dialog.tsx';
+import { ResourceFormSheet } from '@/domains/dashboard-common/components/resource-form-sheet.tsx';
+import { CreateConversationDialog } from '@/domains/dashboard-situations/components/modal/create-conversation-dialog.tsx';
 
-type SituationGridProps = {
+type SituationGridContentsProps = {
+  // Renamed from SituationGridProps
   mode: TSituationMode;
 };
 
-const SituationGridContents = ({ mode }: SituationGridProps) => {
-  const {
-    getIconForSituation,
-    handleDeleteClick,
-    handleEditClick,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    setIsDeleteDialogOpen,
-    setIsEditModalOpen,
-    isDeleteDialogOpen,
-    isEditModalOpen,
-    situationToDelete,
-    situationToEdit,
-    situations,
-  } = useSituationGrid(mode);
+// Define the full type expected for situations (if not already globally defined)
+type SituationWithMeta = TSituation & { id: number; createdAt: Date };
 
-  // situations = [ page1, page2, page3, ... ] 형태
-  // 각 page는 TSituationsResponse 타입
+const SituationGridContents = ({ mode }: SituationGridContentsProps) => {
+  // --- Data Fetching (Moved from useSituationGrid) ---
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useGetInfiniteSituations(mode); // Call data fetching hook directly
+
+  // Derive situations array from fetched data
+  const situations =
+    data?.pages.flatMap((page) => page.data as SituationWithMeta[]) || [];
+
+  // --- Action Handling Hook (Now includes getIconForSituation) ---
+  const {
+    // ... (delete/edit states and functions)
+    isDeleteDialogOpen,
+    isDeletePending,
+    openDeleteDialog,
+    closeDeleteDialog,
+    handleConfirmDelete,
+    isEditSheetOpen,
+    isUpdatePending,
+    openEditSheet,
+    closeEditSheet,
+    handleConfirmUpdate,
+    currentEditingSituation,
+    editingAiRole,
+    editingGoal,
+    editingUserRole,
+    setEditingAiRole,
+    setEditingGoal,
+    setEditingUserRole,
+
+    editingPlace,
+    setEditingPlace /* ... other edit states/setters */,
+
+    // ✨ Create Conversation states and functions from hook
+    isCreateDialogOpen,
+    isCreatePending,
+    openCreateDialog,
+    closeCreateDialog,
+    handleConfirmCreateConversation,
+    currentSituationToCreateFrom,
+    createTitle,
+    setCreateTitle,
+    createIcon,
+    setCreateIcon,
+    createDifficulty,
+    setCreateDifficulty,
+    createRequest,
+    setCreateRequest,
+
+    getIconForSituation,
+  } = useSituationActions({ mode });
+  // --- Infinite Scroll Hook ---
+  // Props now come directly from useGetInfiniteSituations result
   const { rootRef, targetRef } = useInfiniteScroll({
     fetchNextPage,
     hasNextPage,
@@ -44,136 +84,164 @@ const SituationGridContents = ({ mode }: SituationGridProps) => {
       className="relative h-[600px] overflow-y-auto rounded-md border"
       ref={rootRef}
     >
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+      {/* Grid Layout */}
+      <div className="grid grid-cols-1 gap-5 p-1 md:grid-cols-2 lg:grid-cols-3">
         {situations.map((situation, situationIndex) => {
           const isLastItem = situationIndex === situations.length - 1;
+          // Call getIconForSituation obtained from useSituationActions
+          const icon = getIconForSituation(situation);
 
           return (
-            <div
-              key={situation.id}
-              className={'group relative h-full'}
+            // ✨ Remove the wrapper, render Card directly
+            <SituationCard
+              key={situation.id} // Key on the card itself
+              situation={situation}
+              icon={icon}
+              onEdit={openEditSheet}
+              onDelete={openDeleteDialog}
+              onCreateConversation={openCreateDialog} // ✨ Pass the open function from hook
               ref={isLastItem ? targetRef : null}
-            >
-              <MakeConversationSetupModal situation={situation}>
-                <div className="relative flex h-full w-full cursor-pointer flex-col overflow-hidden rounded-xl border border-orange-100 bg-white/90 p-5 text-left shadow-sm transition-all duration-300 hover:shadow-lg">
-                  {/* 배경 효과 - 호버 시 나타남 */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-orange-50 to-orange-100 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-
-                  {/* 콘텐츠 */}
-                  <div className="relative z-10 flex flex-1 flex-col">
-                    <div className="mb-3 flex items-start">
-                      <div className="mr-4 rounded-lg bg-gradient-to-br from-orange-100 to-orange-200 p-3 text-3xl shadow-sm transition-transform duration-300 group-hover:scale-110">
-                        {getIconForSituation(situation)}
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="line-clamp-1 text-lg font-medium text-gray-800 transition-colors duration-300 group-hover:text-orange-700">
-                          {situation.place}
-                        </h3>
-                        <div className="mt-1 flex items-center text-xs text-gray-500">
-                          <Clock className="mr-1 h-3 w-3" />
-                          {getDaysAgo(situation.createdAt)}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* 구분선 */}
-                    <div className="my-3 h-px bg-gradient-to-r from-transparent via-orange-200 to-transparent opacity-50 transition-opacity duration-300 group-hover:opacity-100"></div>
-
-                    <div className="flex-1">
-                      <div className="mb-2 transition-transform duration-300 group-hover:translate-x-1">
-                        <span className="text-sm font-medium text-gray-600">
-                          역할:
-                        </span>
-                        <span className="ml-1 text-sm text-gray-800">
-                          {situation.userRole}
-                        </span>
-                      </div>
-                      <div className="mb-3 transition-transform duration-300 group-hover:translate-x-1">
-                        <span className="text-sm font-medium text-gray-600">
-                          AI:
-                        </span>
-                        <span className="ml-1 text-sm text-gray-800">
-                          {situation.aiRole}
-                        </span>
-                      </div>
-                      <div className="origin-left transform transition-transform duration-300 group-hover:scale-[1.02]">
-                        <p className="line-clamp-2 rounded-md bg-orange-50 p-2 text-sm italic text-gray-700 shadow-sm transition-colors duration-300 group-hover:bg-orange-100/70">
-                          {situation.goal || '목표가 설정되지 않았습니다.'}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="mt-4 flex justify-end">
-                      <span className="flex translate-x-2 transform items-center gap-2 rounded-md bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-2 text-sm text-white opacity-90 shadow-sm transition-colors hover:from-orange-600 hover:to-orange-700 group-hover:translate-x-0 group-hover:opacity-100 group-hover:shadow-md">
-                        대화 생성
-                        <ArrowRight className="h-4 w-4 transform transition-transform duration-300 group-hover:translate-x-1" />
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </MakeConversationSetupModal>
-
-              {/* 액션 버튼 그룹 - 호버 시 표시 */}
-              <div className="absolute right-3 top-3 z-20 flex translate-y-1 transform space-x-1 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                {/* 편집 버튼 */}
-                <button
-                  className="rounded-full bg-white p-2 shadow-sm transition-colors hover:bg-blue-50"
-                  onClick={(e) => handleEditClick(situation, e)}
-                  aria-label="편집"
-                >
-                  <Pencil className="h-4 w-4 text-blue-500" />
-                </button>
-
-                {/* 삭제 버튼 */}
-                <button
-                  className="rounded-full bg-white p-2 shadow-sm transition-colors hover:bg-red-50"
-                  onClick={(e) => handleDeleteClick(situation.id, e)}
-                  aria-label="삭제"
-                >
-                  <Trash2 className="h-4 w-4 text-red-500" />
-                </button>
-              </div>
-            </div>
+              isDeleting={isDeletePending}
+              isEditing={
+                isUpdatePending && currentEditingSituation?.id === situation.id
+              }
+            />
           );
         })}
+
+        {/* Loading Indicator */}
+        {isFetchingNextPage && (
+          <div className="col-span-1 flex items-center justify-center p-4 md:col-span-2 lg:col-span-3">
+            <span>Loading more...</span>
+          </div>
+        )}
+
+        {/* No Data Indicator */}
+        {!isFetchingNextPage && situations.length === 0 && (
+          <div className="col-span-1 flex items-center justify-center p-10 text-gray-500 md:col-span-2 lg:col-span-3">
+            상황 목록이 없습니다.
+          </div>
+        )}
       </div>
 
-      {/* 삭제 확인 다이얼로그 컴포넌트 */}
-      <DeleteConfirmDialog
+      {/* Generic Delete Confirmation Dialog */}
+      <ConfirmActionDialog
         isOpen={isDeleteDialogOpen}
-        onOpenChange={setIsDeleteDialogOpen}
-        situationId={situationToDelete}
+        onOpenChange={(open) => !open && closeDeleteDialog()}
+        title="상황 삭제"
+        description="이 상황을 정말로 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다."
+        confirmText="삭제"
+        confirmVariant="destructive"
+        onConfirm={handleConfirmDelete}
+        isPending={isDeletePending}
       />
 
-      {/* 편집 모달 컴포넌트 */}
-      <EditSituationModal
-        isOpen={isEditModalOpen}
-        onOpenChange={setIsEditModalOpen}
-        situation={situationToEdit!}
+      {/* Generic Edit Resource Sheet */}
+      <ResourceFormSheet
+        isOpen={isEditSheetOpen}
+        onOpenChange={(open) => !open && closeEditSheet()}
+        title={`'${currentEditingSituation?.place || ''}' 편집`}
+        description="상황의 세부 정보를 수정한 후 저장 버튼을 클릭하세요."
+        onSubmit={handleConfirmUpdate}
+        isPending={isUpdatePending}
+        submitText="저장"
+      >
+        {/* Form Content as Children */}
+        <div className="grid gap-4 py-6">
+          <div className="grid gap-2">
+            <label htmlFor="edit-place" className="text-sm font-medium">
+              장소
+            </label>
+            <Input
+              id="edit-place"
+              value={editingPlace}
+              onChange={(e) => setEditingPlace(e.target.value)}
+              className="w-full"
+              disabled={isUpdatePending}
+            />
+          </div>
+          <div className="grid gap-2">
+            <label htmlFor="edit-userRole" className="text-sm font-medium">
+              사용자 역할
+            </label>
+            <Input
+              id="edit-userRole"
+              value={editingUserRole}
+              onChange={(e) => setEditingUserRole(e.target.value)}
+              className="w-full"
+              disabled={isUpdatePending}
+            />
+          </div>
+          <div className="grid gap-2">
+            <label htmlFor="edit-aiRole" className="text-sm font-medium">
+              AI 역할
+            </label>
+            <Input
+              id="edit-aiRole"
+              value={editingAiRole}
+              onChange={(e) => setEditingAiRole(e.target.value)}
+              className="w-full"
+              disabled={isUpdatePending}
+            />
+          </div>
+          <div className="grid gap-2">
+            <label htmlFor="edit-goal" className="text-sm font-medium">
+              목표
+            </label>
+            <Textarea
+              id="edit-goal"
+              value={editingGoal}
+              onChange={(e) => setEditingGoal(e.target.value)}
+              className="w-full"
+              rows={4}
+              disabled={isUpdatePending}
+            />
+          </div>
+        </div>
+      </ResourceFormSheet>
+
+      <CreateConversationDialog
+        isOpen={isCreateDialogOpen}
+        onOpenChange={(open) => !open && closeCreateDialog()} // Close handler
+        onSubmit={handleConfirmCreateConversation} // Submit handler
+        isPending={isCreatePending} // Loading state
+        situation={currentSituationToCreateFrom} // Pass the selected situation
+        // Pass form state and setters
+        title={createTitle}
+        setTitle={setCreateTitle}
+        icon={createIcon}
+        setIcon={setCreateIcon}
+        difficulty={createDifficulty}
+        setDifficulty={setCreateDifficulty}
+        request={createRequest}
+        setRequest={setCreateRequest}
       />
     </div>
   );
 };
 
+// Main SituationGrid component (Structure remains the same)
 const SituationGrid = () => {
-  const [state, setState] = useState<TSituationMode>('all');
+  const [mode, setMode] = useState<TSituationMode>('all');
 
   return (
     <div className="rounded-xl border border-white/50 bg-white/70 p-6 shadow-sm backdrop-blur-md">
+      {/* Mode Selection UI */}
       <div className="mb-6 flex items-center justify-between">
         <div className="rounded-lg bg-gray-100/80 p-1">
           <div className="flex items-center space-x-1">
+            {/* Buttons remain the same */}
             <Button
-              variant={state === 'all' ? 'default' : 'ghost'}
-              onClick={() => setState('all')}
+              variant={mode === 'all' ? 'default' : 'ghost'}
+              onClick={() => setMode('all')}
               className={`relative px-6 py-2 transition-all duration-200 ${
-                state === 'all'
+                mode === 'all'
                   ? 'bg-white text-orange-600 shadow-sm hover:bg-white/90'
                   : 'text-gray-600 hover:bg-white/50'
               } `}
             >
               <span className="font-medium">전체 상황 목록</span>
-              {state === 'all' && (
+              {mode === 'all' && (
                 <span className="absolute -right-1 -top-1 flex h-4 w-4">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-200 opacity-75"></span>
                   <span className="relative inline-flex h-4 w-4 rounded-full bg-orange-400"></span>
@@ -181,16 +249,16 @@ const SituationGrid = () => {
               )}
             </Button>
             <Button
-              variant={state === 'my' ? 'default' : 'ghost'}
-              onClick={() => setState('my')}
+              variant={mode === 'my' ? 'default' : 'ghost'}
+              onClick={() => setMode('my')}
               className={`relative px-6 py-2 transition-all duration-200 ${
-                state === 'my'
+                mode === 'my'
                   ? 'bg-white text-orange-600 shadow-sm hover:bg-white/90'
                   : 'text-gray-600 hover:bg-white/50'
               } `}
             >
               <span className="font-medium">내 상황 목록</span>
-              {state === 'my' && (
+              {mode === 'my' && (
                 <span className="absolute -right-1 -top-1 flex h-4 w-4">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-200 opacity-75"></span>
                   <span className="relative inline-flex h-4 w-4 rounded-full bg-orange-400"></span>
@@ -199,11 +267,13 @@ const SituationGrid = () => {
             </Button>
           </div>
         </div>
+        {/* Other controls if needed */}
       </div>
 
+      {/* Render Content with Suspense */}
       <Suspense fallback={<SkeletonCardSitu />}>
-        {state === 'all' && <SituationGridContents mode="all" />}
-        {state === 'my' && <SituationGridContents mode="my" />}
+        {/* Pass mode down to Contents */}
+        <SituationGridContents mode={mode} />
       </Suspense>
     </div>
   );

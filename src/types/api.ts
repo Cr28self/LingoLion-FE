@@ -10,16 +10,6 @@ export type Entity<T> = {
   [K in keyof T]: T[K];
 } & BaseEntity;
 
-export type TMakeConversation = {
-  title: string;
-  icon?: string;
-  situationId: number;
-  metaData?: {
-    difficulty: '상' | '중' | '하';
-    request: string;
-  };
-};
-
 export type TGetAllMessageResponse = {
   data: {
     createdAt: string;

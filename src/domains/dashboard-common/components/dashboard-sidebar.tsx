@@ -8,6 +8,7 @@ type DashboardSidebarProps = {
 
 const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ children }) => {
   const { isOpen, toggle, close, open } = useSidebarStore();
+  console.log('sidebar!!');
 
   // 화면 크기가 md 이하일 때 사이드바 자동으로 닫기
   useEffect(() => {
