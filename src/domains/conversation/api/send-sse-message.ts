@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { useLiveMessagesStore } from '../store/use-live-messages-store';
 import usePlayVoice from '@/domains/conversation/hooks/use-play-voice.tsx';
+import { baseURL } from '@/lib/api-client';
 
 async function fetchSSEStream({
   url,
@@ -92,7 +93,7 @@ export const useSendSSEMessage = (convId: string) => {
 
     try {
       await fetchSSEStream({
-        url: `/api/conversations/${convId}/message/stream`,
+        url: `${baseURL}/conversations/${convId}/message/stream`,
         headers: {
           Authorization: `Bearer ${getAccessToken()}`,
         },
