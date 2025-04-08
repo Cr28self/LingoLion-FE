@@ -79,6 +79,8 @@ const ConversationLayout = ({
           <div className="h-6 w-px bg-gray-600"></div>
         </div>
       </div>
+
+      {/* Side-Panel */}
       <div
         className="flex flex-1 flex-col rounded-lg border border-gray-200 bg-gradient-to-br from-white to-orange-50 shadow-lg"
         ref={SidePanelRef}
