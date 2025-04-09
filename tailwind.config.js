@@ -50,6 +50,12 @@ module.exports = {
           4: 'hsl(var(--chart-4))',
           5: 'hsl(var(--chart-5))',
         },
+        // --- <<< 사용자 메시지 그라데이션 색상 정의 추가 >>> ---
+        'user-message': {
+          top: 'hsl(10 85% 48%)', // Primary보다 살짝 더 붉고 어두운 오렌지 (예: #e64a19)
+          // 'middle'은 'primary.DEFAULT'를 직접 사용할 것이므로 정의 불필요
+          bottom: 'hsl(0 80% 45%)', // Primary보다 더 붉고 어두운 레드 (예: #d92626)
+        },
       },
 
       keyframes: {

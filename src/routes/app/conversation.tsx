@@ -8,6 +8,7 @@ import { Suspense, useEffect } from 'react';
 
 import { useNavigate, useParams } from 'react-router-dom';
 import { usePlayVoiceStore } from '@/domains/conversation/store/use-play-voice-store.ts';
+import ConversationFeedbackSidebar from '@/domains/conversation/components/conversation-feedback-sidebar';
 
 // 채팅 페이지 컴포넌트
 const ConversationRoute = () => {
@@ -46,13 +47,17 @@ const ConversationRoute = () => {
         decodeURIComponent(conversationTitle as string)
       )}
       onExitConversation={handleExitConversation}
-    >
-      <Suspense fallback={<div className="flex-1"></div>}>
-        <ConversationMessageList />
-      </Suspense>
+      chatNodes={
+        <>
+          <Suspense fallback={<div className="flex-1"></div>}>
+            <ConversationMessageList />
+          </Suspense>
 
-      <ConversationInputForm />
-    </ConversationLayout>
+          <ConversationInputForm />
+        </>
+      }
+      sidebarNodes={<ConversationFeedbackSidebar />}
+    />
   );
 };
 

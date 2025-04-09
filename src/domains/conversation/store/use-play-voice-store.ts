@@ -73,6 +73,8 @@ export const usePlayVoiceStore = create<PlayVoiceState>()(
         const { allVoices } = get();
         const language = useConversationSettingStore.getState().language; // 다른 스토어 상태 직접 접근
 
+        console.log('올보이스', allVoices);
+
         const availableVoices = allVoices.filter(
           ({ lang }) => lang === language
         );

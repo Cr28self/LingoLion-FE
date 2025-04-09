@@ -1,15 +1,18 @@
 import useResizePanel from '@/domains/conversation/hooks/use-resize-panel';
+import { ChevronsRight } from 'lucide-react';
 import React from 'react';
 
 type ConversationLayoutProps = {
-  children: React.ReactNode;
   title: string;
+  chatNodes: React.ReactNode;
+  sidebarNodes?: React.ReactNode;
   onExitConversation: () => void;
 };
 
 const ConversationLayout = ({
   title,
-  children,
+  chatNodes,
+  sidebarNodes,
   onExitConversation,
 }: ConversationLayoutProps) => {
   const { MainPanelRef, ResizableContainerRef, ResizeHandleRef, SidePanelRef } =
@@ -67,7 +70,7 @@ const ConversationLayout = ({
             </button>
           </div>
         </header>
-        {children}
+        {chatNodes}
       </div>
 
       {/* resize-handler */}
@@ -89,31 +92,14 @@ const ConversationLayout = ({
         <header className="relative flex items-center justify-between overflow-hidden bg-gradient-to-r from-orange-500 via-orange-400 to-orange-500 px-6 py-5 text-white shadow-lg">
           <div className="relative z-10 flex items-center">
             <button
-              onClick={onExitConversation}
+              onClick={() => {}}
               className="mr-3 rounded-full p-2.5 transition-all duration-300 hover:scale-110 hover:bg-white/20"
             >
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
+              <ChevronsRight className="h-5 w-5" />
             </button>
-            <div className="flex flex-col">
-              <h1 className="bg-gradient-to-r from-white to-orange-100 bg-clip-text text-2xl font-extrabold tracking-wide text-transparent">
-                {title}
-              </h1>
-            </div>
           </div>
 
-          <div className="relative z-10 flex items-center space-x-2">
+          {/* <div className="relative z-10 flex items-center space-x-2">
             <button className="rounded-full p-2.5 transition-all duration-300 hover:rotate-180 hover:scale-110 hover:bg-white/20">
               <svg
                 className="h-5 w-5"
@@ -129,9 +115,9 @@ const ConversationLayout = ({
                 />
               </svg>
             </button>
-          </div>
+          </div> */}
         </header>
-        This is Sidebar
+        {sidebarNodes}
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <ErrorBoundary FallbackComponent={GlobalAppErrorFallback}>
       <QueryClientProvider client={queryClient}>
-        {import.meta.env.DEV && <ReactQueryDevtools />}
+        {import.meta.env.DEV || <ReactQueryDevtools />}
 
         <GoogleOAuthProvider clientId={'DUMMY_CLIENT_ID_FOR_UI_ONLY'}>
           <AuthProvider>{children}</AuthProvider>

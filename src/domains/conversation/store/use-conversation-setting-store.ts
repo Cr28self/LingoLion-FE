@@ -6,7 +6,7 @@ type ConversationSettingState = {
 };
 
 const initlaState = {
-  language: 'en-US',
+  language: 'en-US', // 영국 : en-GB
 };
 
 export const useConversationSettingStore = create<ConversationSettingState>()(

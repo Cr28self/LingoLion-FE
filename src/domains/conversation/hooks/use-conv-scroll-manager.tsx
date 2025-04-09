@@ -32,9 +32,11 @@ export const useConvScrollManager = ({
   const initialScrollPerformedRef = useRef(false);
   // Ref to store the scroll height before new older messages are added.
   const prevScrollHeightRef = useRef<number | null>(null);
+  console.log('useConvScrollManager');
 
   // Effect 1: Maintain Scroll Position when Fetching Previous Messages
   useEffect(() => {
+    console.log('이것이 마지막에 실행되나??');
     const rootElement = rootRef.current;
     if (!rootElement) return;
 
@@ -77,15 +79,24 @@ export const useConvScrollManager = ({
       return;
     }
 
+    console.log(
+      'initialScrollPerformedRef.current',
+      initialScrollPerformedRef.current
+    );
+
     // Determine if conditions are right for the initial scroll.
     // Should happen only after initial loading is finished.
+    console.log('이즈페칭', isFetching);
+    console.log('이즈페칭넥스트페이지', isFetchingNextPage);
+    console.log('메시지카운트', messageCount);
+    console.log('페이지리밋', pageLimit);
     const shouldScrollToBottom =
       !isFetching && // Initial load must be complete
       !isFetchingNextPage && // Infinite scroll must not be active
       (messageCount > pageLimit || messageCount === 0); // Enough messages to scroll OR no messages
 
     if (shouldScrollToBottom) {
-      console.log('Attempting initial scroll...');
+      console.log('Initial scroll to bottom triggered.');
       if (messageCount > pageLimit) {
         console.log(`Scrolling to bottom (${rootElement.scrollHeight})`);
         // Use 'auto' behavior for initial scroll to avoid potential conflicts
