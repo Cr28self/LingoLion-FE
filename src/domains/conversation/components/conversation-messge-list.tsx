@@ -33,7 +33,15 @@ const NoMessagePlaceholder = () => {
   );
 };
 
-export const ConversationMessageList = () => {
+type ConversationMessageListProps = {
+  userRole: string;
+  aiRole: string;
+};
+
+export const ConversationMessageList = ({
+  userRole,
+  aiRole,
+}: ConversationMessageListProps) => {
   const chatEndRef = useRef(null);
 
   const pageLimit = 7;
@@ -99,6 +107,7 @@ export const ConversationMessageList = () => {
             <ConversationMessageBox
               key={elemKey}
               message={message}
+              role={{ userRole, aiRole }}
               // onMessageClick={() => {}}
               // isSelected={false}
               ref={isTriggerElement ? targetRef : null}

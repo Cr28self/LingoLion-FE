@@ -10,16 +10,23 @@ import {
   X,
 } from 'lucide-react';
 import { useConversationUIStore } from '../store/use-conversation-ui-store';
-import { useParams } from 'react-router-dom';
-import useGetConversationInfo from '../api/get-conversation-info';
+import { TSituation } from '@/types/situation';
 
 // --- NEW: Session Info Panel Component ---
-export const SessionInfoPanel = () => {
-  const { conversationId } = useParams();
+type SessionInfoPanelProps = {
+  situationInfo: TSituation;
+  level?: string;
+  requests?: string;
+};
 
-  const { data: conversationInfo } = useGetConversationInfo(
-    conversationId as string
-  );
+export const SessionInfoPanel = ({
+  situationInfo,
+  level = 'none',
+  requests = 'No specific requests',
+}: SessionInfoPanelProps) => {
+  // const { data: conversationInfo } = useGetConversationInfo(
+  //   conversationId as string
+  // );
   const isInfoPanelOpen = useConversationUIStore(
     (state) => state.isInfoPanelOpen
   );
@@ -27,7 +34,6 @@ export const SessionInfoPanel = () => {
   const toggleInfoPanel = useConversationUIStore(
     (state) => state.toggleInfoPanel
   );
-  const situationInfo = conversationInfo?.situation; // Hold situationInfo data
 
   if (!situationInfo) return null;
 
@@ -115,9 +121,7 @@ export const SessionInfoPanel = () => {
                 className="mr-2 flex-shrink-0 text-gray-500"
               />
               <span className="mr-2 font-medium text-gray-600">난이도:</span>
-              <Badge variant={'outline'}>
-                {conversationInfo?.level || 'none'}
-              </Badge>
+              <Badge variant={'outline'}>{level}</Badge>
             </div>
             <div className="flex items-start">
               <ClipboardList
@@ -126,7 +130,7 @@ export const SessionInfoPanel = () => {
               />
               <div>
                 <span className="font-medium text-gray-600">요청 사항:</span>{' '}
-                {conversationInfo?.requests || 'No specific requests'}
+                {requests}
               </div>
             </div>
           </div>

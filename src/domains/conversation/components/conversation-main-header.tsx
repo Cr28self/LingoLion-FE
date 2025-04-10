@@ -26,12 +26,14 @@ type ConversationMainHeaderProps = {
   convId: string;
   title: string;
   backUrl: string;
+  level?: string;
 };
 
 const ConversationMainHeader = ({
   convId,
   title,
   backUrl,
+  level = 'none',
 }: ConversationMainHeaderProps) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -89,7 +91,7 @@ const ConversationMainHeader = ({
           <h1 className="truncate text-lg font-semibold">{title}</h1>
           {/* Added truncate */}
           <Badge className="md:ml-2" variant="default">
-            Lv. none
+            Lv. {level}
           </Badge>
         </div>
       </div>
