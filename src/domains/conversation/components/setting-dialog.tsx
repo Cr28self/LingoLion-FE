@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/button.tsx';
 import {
   Dialog,
   DialogContent,
@@ -6,8 +6,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-} from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
+} from '@/components/ui/dialog.tsx';
+import { Label } from '@/components/ui/label.tsx';
 import {
   Select,
   SelectContent,
@@ -15,8 +15,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
+} from '@/components/ui/select.tsx';
+import { Switch } from '@/components/ui/switch.tsx';
 
 type SettingDialogProps = {
   isOpen: boolean;

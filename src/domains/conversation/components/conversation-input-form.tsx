@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils.ts';
 import {
   ArrowUp,
   HelpCircle,
@@ -9,10 +9,11 @@ import {
   X,
 } from 'lucide-react';
 import { MutableRefObject, useRef, useState } from 'react';
-import { useSendSSEMessage } from '../../api/send-sse-message';
-import { Textarea } from '@/components/ui/textarea';
-import useRecordVoice from '../../hooks/use-record-voice';
-import { Button } from '@/components/ui/button';
+import { useSendSSEMessage } from '../api/send-sse-message.ts';
+import { Textarea } from '@/components/ui/textarea.tsx';
+import useRecordVoice from '../hooks/use-record-voice.tsx';
+import { Button } from '@/components/ui/button.tsx';
+import { useParams } from 'react-router-dom';
 
 const ConversationQuickHelper = ({ isAskingHelper, setIsAskingHelper }) => {
   const [helperQuestion, setHelperQuestion] = useState('');
@@ -133,12 +134,7 @@ export const ConversationInputForm = () => {
     textarea.current.style.height = `${textarea.current.scrollHeight}px`; // 스크롤 높이에 맞춰 높이 조정
   };
 
-  // const { conversationId } = useParams();
-
-  // const { conversationId } = useParams();
-  // const convId = conversationId as string;
-
-  const conversationId = '18';
+  const { conversationId } = useParams();
   const convId = conversationId as string;
 
   const { handleSend, isStreaming } = useSendSSEMessage(convId);

@@ -1,15 +1,183 @@
 import { ChevronLeft, Info, MessageSquare, Sparkles, X } from 'lucide-react';
-import { useEffect, useRef } from 'react';
-import { FeedbackMessageCard } from './feedback-message-card';
-import { FeedbackDetailItem } from './feedback-detail-item';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { FeedbackMessageCard } from './feedback-message-card.tsx';
+import { FeedbackDetailItem } from './feedback-detail-item.tsx';
+
+const initialMessages = [
+  {
+    id: 1,
+    sender: 'ai',
+    name: '링고 (Barista)',
+    avatar:
+      'https://source.unsplash.com/random/150x150/?coffee-shop-logo,barista',
+    text: 'Welcome to our coffee shop! What can I get for you today?',
+    timestamp: new Date(Date.now() - 10 * 60 * 1000),
+  },
+  {
+    id: 2,
+    sender: 'user',
+    name: '나',
+    text: "Hi! I'm looking for a recommendation. I usually enjoy black coffee.",
+    timestamp: new Date(Date.now() - 9 * 60 * 1000),
+    hasFeedback: true,
+    feedbackId: 'fb1',
+  },
+  {
+    id: 3,
+    sender: 'ai',
+    name: '링고 (Barista)',
+    avatar:
+      'https://source.unsplash.com/random/150x150/?coffee-shop-logo,barista',
+    text: "That's great! If you enjoy black coffee, I recommend our single-origin pour-over—it's rich and flavorful.",
+    timestamp: new Date(Date.now() - 8 * 60 * 1000),
+  },
+  {
+    id: 4,
+    sender: 'user',
+    name: '나',
+    text: 'oh really?',
+    timestamp: new Date(Date.now() - 7 * 60 * 1000),
+    hasFeedback: true,
+    feedbackId: 'fb2',
+  },
+  {
+    id: 5,
+    sender: 'ai',
+    name: '링고 (Barista)',
+    avatar:
+      'https://source.unsplash.com/random/150x150/?coffee-shop-logo,barista',
+    text: 'Yes! Can I help you with something specific about our coffee menu or perhaps the pour-over?',
+    timestamp: new Date(Date.now() - 6 * 60 * 1000),
+  },
+  {
+    id: 6,
+    sender: 'user',
+    name: '나',
+    text: 'I wanna hot coffee',
+    timestamp: new Date(Date.now() - 5 * 60 * 1000),
+    hasFeedback: true,
+    feedbackId: 'fb3',
+  },
+  {
+    id: 7,
+    sender: 'ai',
+    name: '링고 (Barista)',
+    avatar:
+      'https://source.unsplash.com/random/150x150/?coffee-shop-logo,barista',
+    text: 'Sure! What kind of hot coffee are you in the mood for—espresso, cappuccino, or maybe a latte?',
+    timestamp: new Date(Date.now() - 4 * 60 * 1000),
+  },
+  {
+    id: 8,
+    sender: 'user',
+    name: '나',
+    text: 'I wanna hot latte',
+    timestamp: new Date(Date.now() - 3 * 60 * 1000),
+    hasFeedback: true,
+    feedbackId: 'fb4',
+  },
+  {
+    id: 9,
+    sender: 'ai',
+    name: '링고 (Barista)',
+    avatar:
+      'https://source.unsplash.com/random/150x150/?coffee-shop-logo,barista',
+    text: 'Excellent choice! Would you like it with any flavor, like vanilla or caramel?',
+    timestamp: new Date(Date.now() - 2 * 60 * 1000),
+  },
+];
+
+const initialFeedback = {
+  fb1: {
+    id: 'fb1',
+    originalMessage:
+      "Hi! I'm looking for a recommendation. I usually enjoy black coffee.",
+    feedbackItems: [
+      {
+        type: 'expression',
+        severity: 'info',
+        text: 'Good opening! Clear and polite.',
+        suggestion: null,
+      },
+      {
+        type: 'grammar',
+        severity: 'info',
+        text: "'I usually enjoy' is perfectly fine.",
+        suggestion:
+          "Alternatively: 'I'm a fan of black coffee.' or 'Black coffee is my usual go-to.'",
+      },
+    ],
+  },
+  fb2: {
+    id: 'fb2',
+    originalMessage: 'oh really?',
+    feedbackItems: [
+      {
+        type: 'grammar',
+        severity: 'warning',
+        text: "While common in speech, starting a sentence with 'oh' and not capitalizing 'Oh' is informal. Missing punctuation.",
+        suggestion: "'Oh, really?'",
+      },
+      {
+        type: 'expression',
+        severity: 'info',
+        text: "Shows engagement. You could also say: 'Is that so?' or 'Interesting!'",
+        suggestion: null,
+      },
+    ],
+  },
+  fb3: {
+    id: 'fb3',
+    originalMessage: 'I wanna hot coffee',
+    feedbackItems: [
+      {
+        type: 'grammar',
+        severity: 'error',
+        text: "'wanna' is very informal slang for 'want to'. It's better to use 'want a' or 'would like a' in this context.",
+        suggestion:
+          "'I want a hot coffee.' or 'I'd like a hot coffee, please.'",
+      },
+      {
+        type: 'expression',
+        severity: 'info',
+        text: "Clearly states your desire. Using 'please' makes it more polite.",
+        suggestion: null,
+      },
+    ],
+  },
+  fb4: {
+    id: 'fb4',
+    originalMessage: 'I wanna hot latte',
+    feedbackItems: [
+      {
+        type: 'grammar',
+        severity: 'error',
+        text: "Similar to the previous message, 'wanna' is informal. Use 'want a' or 'would like a'.",
+        suggestion: "'I want a hot latte.' or 'I'd like a hot latte.'",
+      },
+      {
+        type: 'expression',
+        severity: 'info',
+        text: 'Direct and understandable.',
+        suggestion: null,
+      },
+    ],
+  },
+};
 
 export const FeedbackPanel = ({
-  feedbackData,
-  userMessagesWithFeedback, // List of user messages having feedback
   selectedFeedbackId, // ID of the message whose details are shown
   onSelectMessage, // Function to set the selectedFeedbackId
   onClose, // Function to close the panel
 }) => {
+  const [messages, setMessages] = useState(initialMessages);
+  const [feedbackData, setFeedbackData] = useState(initialFeedback);
+
+  const userMessagesWithFeedback = useMemo(
+    () => messages.filter((msg) => msg.sender === 'user' && msg.hasFeedback),
+    [messages]
+  );
+
   const feedbackDetails = feedbackData[selectedFeedbackId];
   const panelRef = useRef(null);
 

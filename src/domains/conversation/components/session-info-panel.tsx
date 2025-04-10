@@ -1,5 +1,5 @@
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge.tsx';
+import { cn } from '@/lib/utils.ts';
 import {
   ClipboardList,
   Info,
@@ -9,10 +9,24 @@ import {
   User,
   X,
 } from 'lucide-react';
+import { useState } from 'react';
+
+const mockSessionContext = {
+  title: 'Coffee Shop Order Practice',
+  difficulty: 'Intermediate', // or maybe numerical 1-5
+  requests:
+    'Speak naturally, like a real barista. Be friendly but professional.',
+  place: 'A busy downtown coffee shop',
+  aiRole: 'Experienced Barista named Ringo',
+  userRole: 'Customer trying to order a specific drink',
+  goal: 'Successfully order a customized latte and ask about loyalty programs.',
+};
 
 // --- NEW: Session Info Panel Component ---
-export const SessionInfoPanel = ({ context, isOpen, onClose }) => {
-  if (!context) return null;
+export const SessionInfoPanel = ({ isOpen, onClose }) => {
+  const [sessionContext, setSessionContext] = useState(mockSessionContext); // Hold sessionContext data
+
+  if (!sessionContext) return null;
 
   return (
     <div
@@ -50,7 +64,7 @@ export const SessionInfoPanel = ({ context, isOpen, onClose }) => {
               />
               <div>
                 <span className="font-medium text-gray-600">Place:</span>{' '}
-                {context.place}
+                {sessionContext.place}
               </div>
             </div>
             <div className="flex items-start">
@@ -60,7 +74,7 @@ export const SessionInfoPanel = ({ context, isOpen, onClose }) => {
               />
               <div>
                 <span className="font-medium text-gray-600">AI Role:</span>{' '}
-                {context.aiRole}
+                {sessionContext.aiRole}
               </div>
             </div>
             <div className="flex items-start">
@@ -70,7 +84,7 @@ export const SessionInfoPanel = ({ context, isOpen, onClose }) => {
               />
               <div>
                 <span className="font-medium text-gray-600">Your Role:</span>{' '}
-                {context.userRole}
+                {sessionContext.userRole}
               </div>
             </div>
             <div className="flex items-start">
@@ -80,7 +94,7 @@ export const SessionInfoPanel = ({ context, isOpen, onClose }) => {
               />
               <div>
                 <span className="font-medium text-gray-600">Goal:</span>{' '}
-                {context.goal}
+                {sessionContext.goal}
               </div>
             </div>
           </div>
@@ -109,7 +123,7 @@ export const SessionInfoPanel = ({ context, isOpen, onClose }) => {
               />
               <div>
                 <span className="font-medium text-gray-600">AI Requests:</span>{' '}
-                {context.requests}
+                {sessionContext.requests}
               </div>
             </div>
           </div>

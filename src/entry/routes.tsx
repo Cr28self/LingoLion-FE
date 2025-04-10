@@ -12,7 +12,6 @@ import PrivateLayout from '@/components/layout/PrivateLayout';
 import { GlobalRouteErrorFallback } from '@/components/errors/global';
 import { useMemo } from 'react';
 import CreateSituationRoute from '@/routes/app/situation/create.tsx';
-import TestConversation from '@/routes/app/test/conversation';
 
 // 원래는 lazy 컴포넌트 불러올때 Suspense로 감싸야함내부적으로 Suspense를 자동으로 처리하므로 <Suspense>를 수동으로 감쌀 필요가 없습니다.
 // ! 페이지에서 발생하는 에러 --> react-route의 errorElement로 처리
@@ -76,10 +75,7 @@ export const createAppRouter = () =>
           path: 'conv/:conversationId/:conversationTitle',
           element: <ConversationRoute />,
         },
-        {
-          path: 'test/conversation',
-          element: <TestConversation />,
-        },
+
         {
           path: 'situation/create',
           element: <CreateSituationRoute />,

@@ -1,10 +1,10 @@
 // Define a union type for the different message structures
-import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarImage } from '@/components/ui/avatar.tsx';
 import React from 'react';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils.ts';
 import { Sparkles } from 'lucide-react';
-import { HistoricalMessage, LiveMessage } from '../../types/message';
+import { HistoricalMessage, LiveMessage } from '../types/message.ts';
 
 type Message = HistoricalMessage | LiveMessage;
 
