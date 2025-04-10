@@ -9,30 +9,33 @@ import {
   User,
   X,
 } from 'lucide-react';
-import { useState } from 'react';
-
-const mockSessionContext = {
-  title: 'Coffee Shop Order Practice',
-  difficulty: 'Intermediate', // or maybe numerical 1-5
-  requests:
-    'Speak naturally, like a real barista. Be friendly but professional.',
-  place: 'A busy downtown coffee shop',
-  aiRole: 'Experienced Barista named Ringo',
-  userRole: 'Customer trying to order a specific drink',
-  goal: 'Successfully order a customized latte and ask about loyalty programs.',
-};
+import { useConversationUIStore } from '../store/use-conversation-ui-store';
+import { useParams } from 'react-router-dom';
+import useGetConversationInfo from '../api/get-conversation-info';
 
 // --- NEW: Session Info Panel Component ---
-export const SessionInfoPanel = ({ isOpen, onClose }) => {
-  const [sessionContext, setSessionContext] = useState(mockSessionContext); // Hold sessionContext data
+export const SessionInfoPanel = () => {
+  const { conversationId } = useParams();
 
-  if (!sessionContext) return null;
+  const { data: conversationInfo } = useGetConversationInfo(
+    conversationId as string
+  );
+  const isInfoPanelOpen = useConversationUIStore(
+    (state) => state.isInfoPanelOpen
+  );
+
+  const toggleInfoPanel = useConversationUIStore(
+    (state) => state.toggleInfoPanel
+  );
+  const situationInfo = conversationInfo?.situation; // Hold situationInfo data
+
+  if (!situationInfo) return null;
 
   return (
     <div
       className={cn(
         'fixed inset-y-0 right-0 z-30 flex w-full max-w-sm transform flex-col border-l border-gray-200 bg-gradient-to-b from-white via-orange-50 to-red-50 shadow-2xl transition-transform duration-300 ease-in-out',
-        isOpen ? 'translate-x-0' : 'translate-x-full'
+        isInfoPanelOpen ? 'translate-x-0' : 'translate-x-full'
       )}
     >
       {/* Panel Header */}
@@ -41,7 +44,7 @@ export const SessionInfoPanel = ({ isOpen, onClose }) => {
           <Info size={20} className="mr-2 text-orange-500" /> Session Info
         </h2>
         <button
-          onClick={onClose}
+          onClick={toggleInfoPanel}
           className="rounded-full p-1 text-gray-500 transition-colors hover:bg-gray-200"
           aria-label="Close session info"
         >
@@ -64,7 +67,7 @@ export const SessionInfoPanel = ({ isOpen, onClose }) => {
               />
               <div>
                 <span className="font-medium text-gray-600">Place:</span>{' '}
-                {sessionContext.place}
+                {situationInfo.place}
               </div>
             </div>
             <div className="flex items-start">
@@ -74,7 +77,7 @@ export const SessionInfoPanel = ({ isOpen, onClose }) => {
               />
               <div>
                 <span className="font-medium text-gray-600">AI Role:</span>{' '}
-                {sessionContext.aiRole}
+                {situationInfo.aiRole}
               </div>
             </div>
             <div className="flex items-start">
@@ -84,7 +87,7 @@ export const SessionInfoPanel = ({ isOpen, onClose }) => {
               />
               <div>
                 <span className="font-medium text-gray-600">Your Role:</span>{' '}
-                {sessionContext.userRole}
+                {situationInfo.userRole}
               </div>
             </div>
             <div className="flex items-start">
@@ -94,7 +97,7 @@ export const SessionInfoPanel = ({ isOpen, onClose }) => {
               />
               <div>
                 <span className="font-medium text-gray-600">Goal:</span>{' '}
-                {sessionContext.goal}
+                {situationInfo.goal}
               </div>
             </div>
           </div>
@@ -111,10 +114,10 @@ export const SessionInfoPanel = ({ isOpen, onClose }) => {
                 size={16}
                 className="mr-2 flex-shrink-0 text-gray-500"
               />
-              <span className="mr-2 font-medium text-gray-600">
-                Difficulty:
-              </span>
-              <Badge variant={'outline'}>Intermediate</Badge>
+              <span className="mr-2 font-medium text-gray-600">난이도:</span>
+              <Badge variant={'outline'}>
+                {conversationInfo?.level || 'none'}
+              </Badge>
             </div>
             <div className="flex items-start">
               <ClipboardList
@@ -122,8 +125,8 @@ export const SessionInfoPanel = ({ isOpen, onClose }) => {
                 className="mr-2 mt-0.5 flex-shrink-0 text-purple-600"
               />
               <div>
-                <span className="font-medium text-gray-600">AI Requests:</span>{' '}
-                {sessionContext.requests}
+                <span className="font-medium text-gray-600">요청 사항:</span>{' '}
+                {conversationInfo?.requests || 'No specific requests'}
               </div>
             </div>
           </div>

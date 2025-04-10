@@ -2,6 +2,8 @@ import { ChevronLeft, Info, MessageSquare, Sparkles, X } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { FeedbackMessageCard } from './feedback-message-card.tsx';
 import { FeedbackDetailItem } from './feedback-detail-item.tsx';
+import { cn } from '@/lib/utils.ts';
+import { useConversationUIStore } from '../store/use-conversation-ui-store.ts';
 
 const initialMessages = [
   {
@@ -165,11 +167,28 @@ const initialFeedback = {
   },
 };
 
-export const FeedbackPanel = ({
-  selectedFeedbackId, // ID of the message whose details are shown
-  onSelectMessage, // Function to set the selectedFeedbackId
-  onClose, // Function to close the panel
-}) => {
+export const FeedbackPanel = () => {
+  // const isDesktop = useMediaQuery('(min-width: 768px)');
+
+  const isFeedbackPanelOpen = useConversationUIStore(
+    (state) => state.isFeedbackPanelOpen
+  );
+
+  const selectedFeedbackId = useConversationUIStore(
+    (state) => state.selectedFeedbackId
+  );
+
+  const toggleFeedbackPanel = useConversationUIStore(
+    (state) => state.toggleFeedbackPanel
+  );
+  const setSelectedFeedbackId = useConversationUIStore(
+    (state) => state.setSelectedFeedbackId
+  );
+
+  const handleSelectMessageFromSidebar = (feedbackId) => {
+    setSelectedFeedbackId(feedbackId);
+  };
+
   const [messages, setMessages] = useState(initialMessages);
   const [feedbackData, setFeedbackData] = useState(initialFeedback);
 
@@ -195,7 +214,7 @@ export const FeedbackPanel = ({
           Feedback History
         </h2>
         <button
-          onClick={onClose}
+          onClick={toggleFeedbackPanel}
           className="rounded-full p-1 text-gray-500 transition-colors hover:bg-gray-200"
           aria-label="Close feedback panel"
         >
@@ -210,7 +229,7 @@ export const FeedbackPanel = ({
               key={msg.id}
               message={msg}
               isSelected={msg.feedbackId === selectedFeedbackId}
-              onClick={() => onSelectMessage(msg.feedbackId)}
+              onClick={() => handleSelectMessageFromSidebar(msg.feedbackId)}
             />
           ))
         ) : (
@@ -233,7 +252,7 @@ export const FeedbackPanel = ({
     <>
       <div className="sticky top-0 z-10 flex items-center justify-between border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white p-4">
         <button
-          onClick={() => onSelectMessage(null)}
+          onClick={() => handleSelectMessageFromSidebar(null)}
           className="-ml-1 flex items-center p-1 text-sm text-gray-600 transition-colors hover:text-gray-900"
         >
           <ChevronLeft size={18} className="mr-1" /> Back to List
@@ -276,11 +295,20 @@ export const FeedbackPanel = ({
   );
 
   return (
-    <div
-      ref={panelRef}
-      className="flex h-full flex-col overflow-hidden bg-white shadow-lg"
+    <aside
+      className={cn(
+        'absolute inset-y-0 right-0 z-20 w-full transform border-l border-gray-200/50 bg-white transition-transform duration-300 ease-in-out', // Added bg-white for overlay effect
+        isFeedbackPanelOpen
+          ? 'translate-x-0 md:relative md:z-auto md:w-1/3 lg:w-2/5 xl:w-1/3'
+          : 'translate-x-full'
+      )}
     >
-      {selectedFeedbackId ? renderDetailView() : renderMessageListView()}
-    </div>
+      <div
+        ref={panelRef}
+        className="flex h-full flex-col overflow-hidden bg-white shadow-lg"
+      >
+        {selectedFeedbackId ? renderDetailView() : renderMessageListView()}
+      </div>
+    </aside>
   );
 };
