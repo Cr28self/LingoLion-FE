@@ -4,6 +4,7 @@ import { FeedbackMessageCard } from './feedback-message-card.tsx';
 import { FeedbackDetailItem } from './feedback-detail-item.tsx';
 import { cn } from '@/lib/utils.ts';
 import { useConversationUIStore } from '../store/use-conversation-ui-store.ts';
+import useMediaQuery from '@/hooks/use-media-query.ts';
 
 const initialMessages = [
   {
@@ -168,7 +169,7 @@ const initialFeedback = {
 };
 
 export const FeedbackPanel = () => {
-  // const isDesktop = useMediaQuery('(min-width: 768px)');
+  const isDesktop = useMediaQuery('(min-width: 768px)');
 
   const isFeedbackPanelOpen = useConversationUIStore(
     (state) => state.isFeedbackPanelOpen
