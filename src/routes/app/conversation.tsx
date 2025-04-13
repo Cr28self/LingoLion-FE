@@ -54,7 +54,9 @@ const ConversationRoute = () => {
         </main>
         {/* Feedback Panel (Absolute positioning on mobile, relative on desktop) */}
 
-        <FeedbackPanel />
+        <Suspense fallback={<div>FeedbackPanelLoading...</div>}>
+          <FeedbackPanel />
+        </Suspense>
 
         {/* Session Info Panel (New) */}
         <SessionInfoPanel

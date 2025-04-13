@@ -1,11 +1,25 @@
-import { cn } from '@/lib/utils.ts';
-import { Sparkles } from 'lucide-react';
+// src/components/FeedbackPanel/FeedbackMessageCard.tsx
 
-// NEW: Card for listing messages in the sidebar
-export const FeedbackMessageCard = ({ message, onClick, isSelected }) => {
+import React from 'react';
+import { Sparkles } from 'lucide-react';
+import { cn } from '@/lib/utils'; // Adjust path if needed
+
+interface FeedbackMessageCardProps {
+  feedbackId: string;
+  messageText: string;
+  isSelected: boolean;
+  onClick: (feedbackId: string) => void;
+}
+
+export const FeedbackMessageCard: React.FC<FeedbackMessageCardProps> = ({
+  feedbackId,
+  messageText,
+  isSelected,
+  onClick,
+}) => {
   return (
     <button
-      onClick={onClick}
+      onClick={() => onClick(feedbackId)}
       className={cn(
         'group mb-2 w-full rounded-lg border p-3 text-left transition-colors duration-200',
         isSelected
@@ -21,11 +35,11 @@ export const FeedbackMessageCard = ({ message, onClick, isSelected }) => {
           )}
           style={{ maxWidth: 'calc(100% - 30px)' }}
         >
-          {' '}
-          {/* Ensure text doesn't overlap icon */}"{message.text}"
+          "{messageText}"
         </p>
         <Sparkles
           size={16}
+          aria-hidden="true"
           className={cn(
             'ml-2 flex-shrink-0',
             isSelected

@@ -42,7 +42,7 @@ export const ConversationMessageList = ({
   userRole,
   aiRole,
 }: ConversationMessageListProps) => {
-  const chatEndRef = useRef(null);
+  const chatEndRef = useRef<HTMLDivElement | null>(null);
 
   const pageLimit = 7;
 
@@ -94,7 +94,7 @@ export const ConversationMessageList = ({
 
       {/* start of reversedMessages */}
       {flatMessages.length > 0 &&
-        flatMessages.map((flatMessage, order, arr) => {
+        flatMessages.map((_, order, arr) => {
           // Target the second message (index 1) for triggering load of older messages
 
           const index = arr.length - 1 - order;
@@ -124,10 +124,13 @@ export const ConversationMessageList = ({
       {liveMessages.map((message) => {
         const elemKey = `${message.order}-${message.role}`; // Ensure unique
 
-        // const isLastMessage = index === liveMessages.length - 1;
-
         return (
-          <ConversationMessageBox message={message} key={elemKey} ref={null} />
+          <ConversationMessageBox
+            message={message}
+            role={{ userRole, aiRole }}
+            key={elemKey}
+            ref={null}
+          />
         );
       })}
 
