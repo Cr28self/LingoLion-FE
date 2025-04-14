@@ -1,7 +1,7 @@
 import { useAuthenticatedApiClient } from '@/lib/auth/use-authenticated-api-client';
-import { TGetUsersMyResponse } from '@/types/api';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { AxiosInstance } from 'axios';
+import { TGetUsersMyResponse } from '../types/dashboard-common-types';
 
 export const getUsersMy = async (
   apiClient: AxiosInstance
@@ -14,7 +14,7 @@ export const getUsersMy = async (
 export const useGetUsersMy = () => {
   const authApi = useAuthenticatedApiClient();
 
-  return useSuspenseQuery({
+  return useQuery({
     queryKey: ['usersMy'],
     queryFn: () => getUsersMy(authApi),
     staleTime: Infinity,

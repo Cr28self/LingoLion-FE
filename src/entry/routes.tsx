@@ -12,6 +12,12 @@ import PrivateLayout from '@/components/layout/PrivateLayout';
 import { GlobalRouteErrorFallback } from '@/components/errors/global';
 import { useMemo } from 'react';
 import CreateSituationRoute from '@/routes/app/situation/create.tsx';
+import DashboardPage from '@/routes/app/test/dashboard-page';
+import ExploreScenariosPage from '@/routes/app/test/explore-scenario-page';
+import NewConversationSetupPage from '@/routes/app/test/new-conversation-page';
+import MyScenariosPage from '@/routes/app/test/my-scenarios-page';
+import HistoryListPage from '@/routes/app/test/history-list-page';
+import TestAppLayout from '@/routes/app/test/test-app-layout';
 
 // 원래는 lazy 컴포넌트 불러올때 Suspense로 감싸야함내부적으로 Suspense를 자동으로 처리하므로 <Suspense>를 수동으로 감쌀 필요가 없습니다.
 // ! 페이지에서 발생하는 에러 --> react-route의 errorElement로 처리
@@ -79,6 +85,19 @@ export const createAppRouter = () =>
         {
           path: 'situation/create',
           element: <CreateSituationRoute />,
+        },
+        {
+          path: 'test',
+          element: <TestAppLayout />,
+
+          children: [
+            { path: 'explore', element: <ExploreScenariosPage /> },
+            { path: 'new-conversation', element: <NewConversationSetupPage /> },
+            { path: 'scenarios', element: <MyScenariosPage /> },
+            { path: 'history', element: <HistoryListPage /> },
+
+            { index: true, path: '', element: <DashboardPage /> },
+          ],
         },
       ],
     },

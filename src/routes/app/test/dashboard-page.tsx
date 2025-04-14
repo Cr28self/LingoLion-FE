@@ -1,15 +1,19 @@
-import DashboardLayout from '@/components/layout/dashboard-layout';
+// src/pages/DashboardPage.jsx
+import React from 'react';
+import { Link } from 'react-router-dom';
+// lucide-react 아이콘 임포트
 import {
   ArrowRight,
-  BarChartBig,
+  FilePenLine,
   BookOpen,
   Clock,
-  FilePenLine,
-  FolderKanban,
+  BarChartBig,
+  Sparkles,
   Search,
+  PlusCircle,
   Wand2,
+  FolderKanban,
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 // 가상 데이터
 const recentConversations = [
@@ -17,15 +21,18 @@ const recentConversations = [
   { id: 2, title: '호텔 체크인 문의', date: '2023-10-26' },
   { id: 3, title: '친구와 주말 계획 세우기', date: '2023-10-25' },
 ];
+const userName = '지수'; // 예시 사용자 이름
 
-const DashboardOverviewRoute = () => {
+function DashboardPage() {
   return (
-    <DashboardLayout>
-      <div className="mx-auto max-w-7xl p-6 md:p-10">
-        <div className="mb-8">
+    // 배경 그라데이션을 테마 색상(오렌지-레드 계열)에 맞게 조정
+    <div className="p-6 md:p-10">
+      <div className="mx-auto max-w-7xl">
+        {/* 환영 메시지 (이전과 동일) */}
+        <div className="mb-10">
           <h1 className="mb-2 text-3xl font-bold md:text-4xl">
             <span className="bg-gradient-to-r from-primary via-orange-600 to-red-600 bg-clip-text text-transparent">
-              상현님
+              {userName}님
             </span>
             , 안녕하세요! 👋
           </h1>
@@ -33,8 +40,9 @@ const DashboardOverviewRoute = () => {
             오늘도 즐겁게 영어 실력을 향상시켜 보세요!
           </p>
         </div>
-
+        {/* 핵심 기능 바로가기 - 3개 카드 레이아웃 */}
         <div className="mb-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+          {/* 상황 탐색 카드 - Primary 그라데이션 배경 */}
           <Link
             to="/app/test/explore"
             className="group relative block transform overflow-hidden rounded-xl bg-gradient-to-br from-primary via-orange-600 to-red-600 p-8 text-primary-foreground shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl"
@@ -54,7 +62,6 @@ const DashboardOverviewRoute = () => {
               바로 가기 <ArrowRight className="ml-1 h-5 w-5" />
             </span>
           </Link>
-
           {/* 나만의 상황 만들기 카드 - Secondary 배경에 Primary 포인트 */}
           <Link
             to="/app/test/new-conversation"
@@ -98,6 +105,7 @@ const DashboardOverviewRoute = () => {
         </div>
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+          {/* 최근 활동 */}
           <div className="lg:col-span-2">
             <h2 className="mb-5 flex items-center text-2xl font-semibold text-foreground">
               <BookOpen className="mr-2 h-6 w-6 text-primary" strokeWidth={2} />{' '}
@@ -144,6 +152,7 @@ const DashboardOverviewRoute = () => {
               </div>
             )}
           </div>
+
           {/* 학습 통계 */}
           <div className="rounded-lg border border-border bg-card p-6 shadow-md">
             <h2 className="mb-5 flex items-center text-2xl font-semibold text-foreground">
@@ -196,8 +205,8 @@ const DashboardOverviewRoute = () => {
           </div>
         </div>
       </div>
-    </DashboardLayout>
+    </div>
   );
-};
+}
 
-export default DashboardOverviewRoute;
+export default DashboardPage;
