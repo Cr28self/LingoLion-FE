@@ -1,9 +1,9 @@
-import CreateSituationLayout from '@/components/layout/ccreate-situation-layout.tsx';
-import RecommendationModal from '@/domains/situation-create/components/recommendation-modal.tsx';
+import CreateSituationLayout from '@/app/layouts/create-situation-layout.tsx';
+import RecommendationModal from '@/features/situation-create/components/recommendation-modal.tsx';
 import { useLocation } from 'react-router-dom';
-import CreateSituationForm from '@/domains/situation-create/components/create-situation-form.tsx';
+import CreateSituationForm from '@/features/situation-create/components/create-situation-form.tsx';
 import { useEffect } from 'react';
-import useCreateSituationRouteStore from '@/domains/situation-create/store/use-create-situation-route-store.ts';
+import useCreateSituationRouteStore from '@/features/situation-create/store/use-create-situation-route-store.ts';
 
 // ! SituationCreatePage에서 전체 추천 --> 결과가 RecommendationModal에 들어감
 // ! 전체 추천 렌더링 결과물, 재추천 mutate함수, isOpen, 항목 선택시 formInputState 수정되는 함수

@@ -3,9 +3,9 @@ import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { TSituation, TSituationMode } from '@/entities/situation/types.ts';
 import { useNavigate } from 'react-router-dom';
-import { useDeleteSituation } from '@/features/dashboard-situations/api/delete-situations.ts';
-import { useUpdateSituation } from '@/features/dashboard-situations/api/update-situation.ts';
-import { useMakeConversation } from '@/features/dashboard-situations/api/make-conversation.ts'; // Import useNavigate
+import { useDeleteSituation } from '@/features/situation-list/api/delete-situations.ts';
+import { useUpdateSituation } from '@/features/situation-list/api/update-situation.ts';
+import { useMakeConversation } from '@/features/situation-list/api/make-conversation.ts'; // Import useNavigate
 
 // Situation 객체의 전체 타입
 type SituationWithMeta = TSituation & { id: number; createdAt: Date };
@@ -177,7 +177,7 @@ export const useSituationActions = ({ mode }: UseSituationActionsProps) => {
       {
         onSuccess: () => {
           toast.success('대화방 생성 완료!');
-          queryClient.invalidateQueries({ queryKey: queryKeyConversations }); // Invalidate conversation list
+          queryClient.invalidateQueries({ queryKey: queryKeyConversations }); // Invalidate conversation-session list
           closeCreateDialog();
           navigate('/app/dashboard/conversations'); // Navigate to conversations page
         },

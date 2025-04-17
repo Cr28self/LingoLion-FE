@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { TSituation } from '@/types/situation.ts';
+import { TSituation } from '@/entities/situation/types.ts';
 
 type RecommendFormInputState = {
   formInputState: {

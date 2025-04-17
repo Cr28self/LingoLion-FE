@@ -5,8 +5,8 @@ import SettingPage from '../routes/app/setting-page.tsx';
 import MySituationsPage from '../routes/app/my-situations-page.tsx';
 import MyConversationsPage from '../routes/app/my-conversations-page.tsx';
 import ConversationPage from '../routes/app/conversation-page.tsx';
-import PublicLayout from '@/entry/layout/PublicLayout';
-import PrivateLayout from '@/entry/layout/PrivateLayout';
+import PublicLayout from '@/app/layouts/PublicLayout';
+import PrivateLayout from '@/app/layouts/PrivateLayout';
 import { GlobalRouteErrorFallback } from '@/components/errors/global';
 import { useMemo } from 'react';
 import CreateSituationPage from '@/routes/app/create-situation-page.tsx';
@@ -17,6 +17,7 @@ import MyScenariosPage from '@/routes/app/test/my-scenarios-page';
 import HistoryListPage from '@/routes/app/test/history-list-page';
 import TestAppLayout from '@/routes/app/test/test-app-layout';
 import ExploreSituationsPage from '@/routes/app/explore-situations-page.tsx';
+import DashboardLayout from '@/app/layouts/dashboard-layout.tsx';
 
 // 원래는 lazy 컴포넌트 불러올때 Suspense로 감싸야함내부적으로 Suspense를 자동으로 처리하므로 <Suspense>를 수동으로 감쌀 필요가 없습니다.
 // ! 페이지에서 발생하는 에러 --> react-route의 errorElement로 처리
@@ -64,15 +65,21 @@ export const createAppRouter = () =>
       element: <PrivateLayout />,
       errorElement: <GlobalRouteErrorFallback />,
       children: [
-        { index: true, path: '', element: <OverviewPage /> },
-        { path: 'overview', element: <OverviewPage /> },
-        { path: 'explore-situations', element: <ExploreSituationsPage /> },
-        { path: 'setting', element: <SettingPage /> },
-        { path: 'my-situations', element: <MySituationsPage /> },
-        { path: 'my-conversations', element: <MyConversationsPage /> },
+        {
+          path: '',
+          element: <DashboardLayout />,
+          children: [
+            { index: true, element: <OverviewPage /> },
+            { path: 'overview', element: <OverviewPage /> },
+            { path: 'explore-situations', element: <ExploreSituationsPage /> },
+            { path: 'setting', element: <SettingPage /> },
+            { path: 'my-situations', element: <MySituationsPage /> },
+            { path: 'my-conversations', element: <MyConversationsPage /> },
+          ],
+        },
 
         {
-          path: 'conversation/:conversationId',
+          path: 'conversation-session/:conversationId',
           element: <ConversationPage />,
         },
 
@@ -86,7 +93,10 @@ export const createAppRouter = () =>
 
           children: [
             { path: 'explore', element: <ExploreScenariosPage /> },
-            { path: 'new-conversation', element: <NewConversationSetupPage /> },
+            {
+              path: 'new-conversation-session',
+              element: <NewConversationSetupPage />,
+            },
             { path: 'scenarios', element: <MyScenariosPage /> },
             { path: 'history', element: <HistoryListPage /> },
 

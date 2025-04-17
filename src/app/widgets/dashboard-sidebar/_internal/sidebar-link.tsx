@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useSidebarStore } from '../../../store/sidebar-store';
+import { useSidebarStore } from '@/store/sidebar-store.ts';
 
 const SidebarLink = ({
   to,

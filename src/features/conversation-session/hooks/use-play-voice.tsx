@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { usePlayVoiceStore } from '@/features/conversation/store/use-play-voice-store.ts';
+import { usePlayVoiceStore } from '@/features/conversation-session/store/use-play-voice-store.ts';
 
 export default function usePlayVoice() {
   // 스토어에서 직접 triggerSpeak 함수를 가져옴

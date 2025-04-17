@@ -4,12 +4,12 @@ import useInfiniteScroll from '@/hooks/use-infinite-scroll';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Suspense, useState } from 'react';
-import { SkeletonCardSitu } from '../../dashboard-common/components/contents-skeleton-loading.tsx';
 import { TSituation, TSituationMode } from '@/entities/situation/types.ts'; // Ensure TSituation is imported
-import { SituationCard } from './situation-card';
-import { ConfirmActionDialog } from '@/features/dashboard-common/components/confirm-action-dialog.tsx';
-import { ResourceFormSheet } from '@/features/dashboard-common/components/resource-form-sheet.tsx';
-import { CreateConversationDialog } from '@/features/dashboard-situations/components/modal/create-conversation-dialog.tsx';
+import { SituationCard } from '@/entities/situation/components/situation-card.tsx';
+import { ConfirmActionDialog } from '@/features/situation-list/components/modal/confirm-action-dialog.tsx';
+import { ResourceFormSheet } from '@/features/situation-list/components/modal/resource-form-sheet.tsx';
+import { CreateConversationDialog } from '@/features/situation-list/components/modal/create-conversation-dialog.tsx';
+import { SkeletonCardSituations } from '@/features/situation-list/components/skeleton-card-situations.tsx';
 
 type SituationGridContentsProps = {
   // Renamed from SituationGridProps
@@ -67,8 +67,6 @@ const SituationGridContents = ({ mode }: SituationGridContentsProps) => {
     setCreateDifficulty,
     createRequest,
     setCreateRequest,
-
-    getIconForSituation,
   } = useSituationActions({ mode });
   // --- Infinite Scroll Hook ---
   // Props now come directly from useGetInfiniteSituations result
@@ -88,14 +86,12 @@ const SituationGridContents = ({ mode }: SituationGridContentsProps) => {
         {situations.map((situation, situationIndex) => {
           const isLastItem = situationIndex === situations.length - 1;
           // Call getIconForSituation obtained from useSituationActions
-          const icon = getIconForSituation(situation);
 
           return (
             // ✨ Remove the wrapper, render Card directly
             <SituationCard
               key={situation.id} // Key on the card itself
               situation={situation}
-              icon={icon}
               onEdit={openEditSheet}
               onDelete={openDeleteDialog}
               onCreateConversation={openCreateDialog} // ✨ Pass the open function from hook
@@ -104,6 +100,7 @@ const SituationGridContents = ({ mode }: SituationGridContentsProps) => {
               isEditing={
                 isUpdatePending && currentEditingSituation?.id === situation.id
               }
+              mode={'all'}
             />
           );
         })}
@@ -224,7 +221,7 @@ const SituationGrid = () => {
   const [mode, setMode] = useState<TSituationMode>('all');
 
   return (
-    <Suspense fallback={<SkeletonCardSitu />}>
+    <Suspense fallback={<SkeletonCardSituations />}>
       {/* Pass mode down to Contents */}
       <SituationGridContents mode={mode} />
     </Suspense>

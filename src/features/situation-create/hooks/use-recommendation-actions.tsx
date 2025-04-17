@@ -1,7 +1,7 @@
 import { useRecommendSituations } from '../api/recommend-situations';
 import useRecommendationListStore from '../store/use-recommendation-list-store';
 import { toast } from 'sonner';
-import { TSituationFieldKey } from '@/types/situation.ts';
+import { TSituationFieldKey } from '@/entities/situation/types.ts';
 import useRecommendFormInputStore from '../store/use-recommend-form-input-store';
 import { useMakeSituation } from '../api/make-situation';
 import { useQueryClient } from '@tanstack/react-query';

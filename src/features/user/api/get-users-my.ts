@@ -1,7 +1,7 @@
-import { useAuthenticatedApiClient } from '@/lib/auth/use-authenticated-api-client';
+import { useAuthenticatedApiClient } from '@/lib/auth/use-authenticated-api-client.tsx';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosInstance } from 'axios';
-import { TGetUsersMyResponse } from '../types/dashboard-common-types';
+import { TGetUsersMyResponse } from '@/entities/user/types.ts';
 
 export const getUsersMy = async (
   apiClient: AxiosInstance

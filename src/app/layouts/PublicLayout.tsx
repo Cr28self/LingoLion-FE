@@ -10,7 +10,7 @@ const PublicLayout = () => {
     return <Loading />; // ✅ refreshToken이 완료될 때까지 UI 변경 X
   }
 
-  if (isLoggedIn) return <Navigate to="/app/dashboard" replace />;
+  if (isLoggedIn) return <Navigate to="/app" replace />;
   return <Outlet />;
 };
 

@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/button.tsx';
 import {
   Dialog,
   DialogContent,
@@ -7,9 +7,9 @@ import {
   DialogTitle,
   DialogDescription,
   DialogClose,
-} from '@/components/ui/dialog';
+} from '@/components/ui/dialog.tsx';
 import { Loader2 } from 'lucide-react';
-import { ButtonProps } from '@/components/ui/button'; // Import ButtonProps type
+import { ButtonProps } from '@/components/ui/button.tsx'; // Import ButtonProps type
 
 type ConfirmActionDialogProps = {
   isOpen: boolean;

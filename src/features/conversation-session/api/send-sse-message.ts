@@ -2,7 +2,7 @@ import { useAuthStore } from '@/lib/auth/use-auth-store';
 import { useState } from 'react';
 
 import { useLiveMessagesStore } from '../store/use-live-messages-store';
-import usePlayVoice from '@/features/conversation/hooks/use-play-voice.tsx';
+import usePlayVoice from '@/features/conversation-session/hooks/use-play-voice.tsx';
 import { baseURL } from '@/lib/api-client';
 
 async function fetchSSEStream({

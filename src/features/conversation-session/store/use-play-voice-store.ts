@@ -1,6 +1,6 @@
 import { create } from 'zustand/index';
 import { devtools } from 'zustand/middleware';
-import { useConversationSettingStore } from '@/features/conversation/store/use-conversation-setting-store.ts';
+import { useConversationSettingStore } from '@/features/conversation-session/store/use-conversation-setting-store.ts';
 
 type PlayVoiceState = {
   allVoices: SpeechSynthesisVoice[];

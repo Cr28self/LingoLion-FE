@@ -1,3 +1,3 @@
-import DashboardSidebar from './dashboard-sidebar';
+import DashboardSidebar from './dashboard-sidebar.tsx';
 
 export default DashboardSidebar;

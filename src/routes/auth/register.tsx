@@ -1,5 +1,5 @@
-import AuthLayout from '@/components/layout/auth-layout';
-import RegisterForm from '@/domains/auth/components/register-form';
+import AuthLayout from '@/app/layouts/auth-layout';
+import RegisterForm from '@/features/auth/components/register-form';
 import { useNavigate } from 'react-router-dom';
 
 export const RegisterRoute = () => {

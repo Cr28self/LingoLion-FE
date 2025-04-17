@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { useSendSSEMessage } from '../api/send-sse-message';
-import { useConversationSettingStore } from '@/features/conversation/store/use-conversation-setting-store.ts';
+import { useConversationSettingStore } from '@/features/conversation-session/store/use-conversation-setting-store.ts';
 
 export default function useRecordVoice(convId: string) {
   const { handleSend } = useSendSSEMessage(convId);

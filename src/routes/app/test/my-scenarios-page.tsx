@@ -55,10 +55,10 @@ function MyScenariosPage() {
 
   // 대화 시작 핸들러 (모달 띄우거나 바로 이동)
   const handleStartConversation = (scenario) => {
-    console.log('Starting conversation with scenario:', scenario);
+    console.log('Starting conversation-session with scenario:', scenario);
     // TODO: 여기서 설정 확인 모달(난이도 등)을 띄우고,
     // 백엔드에 scenario 정보를 보내 대화 세션을 생성한 후
-    // navigate(`/app/conversation/${newSessionId}`); 로 이동
+    // navigate(`/app/conversation-session/${newSessionId}`); 로 이동
     alert(
       `'${scenario.topic}' 상황으로 대화 시작 준비!\n(실제로는 난이도 등 설정 모달 후 대화 페이지로 이동합니다.)`
     );

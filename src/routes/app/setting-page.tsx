@@ -1,10 +1,8 @@
-import DashboardLayout from '@/components/layout/dashboard-layout';
-
-import SettingContents from '@/domains/dashboard-setting/components/SettingContents';
+import SettingContents from '@/features/user/components/SettingContents.tsx';
 
 const SettingPage = () => {
   return (
-    <DashboardLayout>
+    <>
       <header className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-800">
@@ -16,7 +14,7 @@ const SettingPage = () => {
 
       {/* Settings Content */}
       <SettingContents />
-    </DashboardLayout>
+    </>
   );
 };
 

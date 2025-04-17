@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import {
   FolderKanban,
   History,
@@ -7,13 +6,10 @@ import {
   Search,
   Settings,
 } from 'lucide-react';
-import DashboardSidebar from '@/domains/dashboard-common/components/dashboard-sidebar';
+import DashboardSidebar from '@/app/widgets/dashboard-sidebar';
+import { Outlet } from 'react-router-dom';
 
-type DashboardLayoutProps = {
-  children: ReactNode;
-};
-
-const DashboardLayout = ({ children }: DashboardLayoutProps) => {
+const DashboardLayout = () => {
   return (
     <div className="flex h-screen overflow-hidden bg-background">
       {/* Sidebar */}
@@ -54,7 +50,9 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
       {/* Main Content */}
       <main className="relative z-10 flex-1 overflow-y-auto">
-        <div className="mx-auto mt-12 max-w-7xl p-8 md:mt-0">{children}</div>
+        <div className="mx-auto mt-12 max-w-7xl p-8 md:mt-0">
+          <Outlet />
+        </div>
       </main>
     </div>
   );

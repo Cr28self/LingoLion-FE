@@ -7,7 +7,7 @@ import {
   TSituationUserRoleField,
   TSituationFieldKey,
   TSituationFieldCollections,
-} from '@/types/situation.ts';
+} from '@/entities/situation/types.ts';
 import { devtools } from 'zustand/middleware';
 
 // 4. Mapped Type을 사용하여 각 키(K)를 해당 액션 객체 타입으로 변환하는 객체 생성

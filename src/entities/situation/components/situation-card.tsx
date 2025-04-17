@@ -2,19 +2,19 @@ import React from 'react';
 import { ArrowRight, Clock, Pencil, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button.tsx';
 import { getDaysAgo } from '@/lib/utils.ts'; // Assuming getDaysAgo is correctly typed and works
-import { TSituation } from '@/entities/situation/types.ts'; // Use the correct Situation type
+import { TSituation, TSituationMode } from '@/entities/situation/types.ts'; // Use the correct Situation type
 
 // Define the full type expected for a situation in the card
 type SituationWithMeta = TSituation & { id: number; createdAt: Date };
 
 type SituationCardProps = {
   situation: SituationWithMeta;
-  icon: string; // Pass icon explicitly
   onEdit: (situation: SituationWithMeta) => void;
   onDelete: (id: number) => void;
   onCreateConversation: (situation: SituationWithMeta) => void; // ✨ Add prop for create action
   isDeleting?: boolean;
   isEditing?: boolean;
+  mode: TSituationMode;
   // No onCreateConversation needed here, as the trigger wraps the card
 };
 
@@ -26,12 +26,13 @@ export const SituationCard = React.forwardRef<
   (
     {
       situation,
-      icon,
+
       onEdit,
       onDelete,
       onCreateConversation,
       isDeleting,
       isEditing,
+      mode,
     }, // ✨ Destructure new prop
     targetRef // Ref from forwardRef
   ) => {
@@ -113,32 +114,34 @@ export const SituationCard = React.forwardRef<
           </div>
         </div>
 
-        {/* Action Buttons - Positioned absolutely */}
-        <div className="absolute right-3 top-3 z-20 flex translate-y-1 transform space-x-1 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-          {/* Edit Button */}
-          <Button
-            variant="outline" // Using Button component
-            size="icon" // Make it icon sized
-            className="h-8 w-8 rounded-full bg-white p-0 shadow-sm transition-colors hover:bg-blue-50" // Adjusted styles
-            onClick={handleEditClick}
-            aria-label="편집"
-            disabled={isEditing || isDeleting} // Disable if editing or deleting
-          >
-            <Pencil className="h-4 w-4 text-blue-500" />
-          </Button>
+        {mode === 'my' && (
+          <div className="absolute right-3 top-3 z-20 flex translate-y-1 transform space-x-1 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+            {/* Edit Button */}
+            <Button
+              variant="outline" // Using Button component
+              size="icon" // Make it icon sized
+              className="h-8 w-8 rounded-full bg-white p-0 shadow-sm transition-colors hover:bg-blue-50" // Adjusted styles
+              onClick={handleEditClick}
+              aria-label="편집"
+              disabled={isEditing || isDeleting} // Disable if editing or deleting
+            >
+              <Pencil className="h-4 w-4 text-blue-500" />
+            </Button>
 
-          {/* Delete Button */}
-          <Button
-            variant="outline" // Using Button component
-            size="icon" // Make it icon sized
-            className="h-8 w-8 rounded-full bg-white p-0 shadow-sm transition-colors hover:bg-red-50" // Adjusted styles
-            onClick={handleDeleteClick}
-            aria-label="삭제"
-            disabled={isDeleting || isEditing} // Disable if editing or deleting
-          >
-            <Trash2 className="h-4 w-4 text-red-500" />
-          </Button>
-        </div>
+            {/* Delete Button */}
+            <Button
+              variant="outline" // Using Button component
+              size="icon" // Make it icon sized
+              className="h-8 w-8 rounded-full bg-white p-0 shadow-sm transition-colors hover:bg-red-50" // Adjusted styles
+              onClick={handleDeleteClick}
+              aria-label="삭제"
+              disabled={isDeleting || isEditing} // Disable if editing or deleting
+            >
+              <Trash2 className="h-4 w-4 text-red-500" />
+            </Button>
+          </div>
+        )}
+        {/* Action Buttons - Positioned absolutely */}
       </div>
     );
   }

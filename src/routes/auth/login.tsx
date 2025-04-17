@@ -1,5 +1,5 @@
-import AuthLayout from '@/components/layout/auth-layout';
-import LoginForm from '@/domains/auth/components/login-form';
+import AuthLayout from '@/app/layouts/auth-layout';
+import LoginForm from '@/features/auth/components/login-form';
 import { useNavigate } from 'react-router-dom';
 
 export const LoginRoute = () => {

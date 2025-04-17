@@ -7,7 +7,7 @@ import {
   TSituationGoalField,
   TSituationPlaceField,
   TSituationUserRoleField,
-} from '@/types/situation.ts';
+} from '@/entities/situation/types.ts';
 
 type TRecommendationScope = 'all' | TSituationFieldKey;
 

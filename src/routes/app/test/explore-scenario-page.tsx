@@ -74,7 +74,7 @@ const handleStartConversation = (scenarioId, scenarioTitle) => {
     `'${scenarioTitle}' 상황 시작 준비! (난이도 등 설정 모달 필요)\nID: ${scenarioId}`
   );
   // 실제 구현: 모달 라이브러리 사용 및 상태 관리
-  // navigate(`/app/conversation/${newSessionId}`);
+  // navigate(`/app/conversation-session/${newSessionId}`);
 };
 
 // 난이도별 스타일 반환 함수 (테마 색상과 조화롭게)

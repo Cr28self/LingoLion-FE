@@ -1,16 +1,16 @@
 import { Suspense, useEffect } from 'react';
-import { SessionInfoPanel } from '@/domains/conversation/components/session-info-panel.tsx';
-import { FeedbackPanel } from '@/domains/conversation/components/feedback-panel.tsx';
-import { ConversationMessageList } from '@/domains/conversation/components/conversation-messge-list.tsx';
-import { ConversationInputForm } from '@/domains/conversation/components/conversation-input-form.tsx';
+import { SessionInfoPanel } from '@/features/conversation-session/components/session-info-panel.tsx';
+import { FeedbackPanel } from '@/features/conversation-session/components/feedback-panel.tsx';
+import { ConversationMessageList } from '@/features/conversation-session/components/conversation-messge-list.tsx';
+import { ConversationInputForm } from '@/features/conversation-session/components/conversation-input-form.tsx';
 import { useParams } from 'react-router-dom';
-import { usePlayVoiceStore } from '@/domains/conversation/store/use-play-voice-store.ts';
-import ConversationLayout from '@/components/layout/conversation-layout';
-import ConversationMainHeader from '@/domains/conversation/components/conversation-main-header';
-import useGetConversationInfo from '@/domains/conversation/api/get-conversation-info';
+import { usePlayVoiceStore } from '@/features/conversation-session/store/use-play-voice-store.ts';
+import ConversationLayout from '@/app/layouts/conversation-layout';
+import ConversationMainHeader from '@/features/conversation-session/components/conversation-main-header';
+import useGetConversationInfo from '@/features/conversation-session/api/get-conversation-info';
 
 // UPDATED: Main Chat Page Component
-const ConversationRoute = () => {
+const ConversationPage = () => {
   const { conversationId } = useParams();
 
   const { data: conversationInfo } = useGetConversationInfo(
@@ -69,4 +69,4 @@ const ConversationRoute = () => {
   );
 };
 
-export default ConversationRoute;
+export default ConversationPage;

@@ -3,7 +3,7 @@ import useRecommendFormStore from '../store/use-recommend-form-store';
 import { Sparkles } from 'lucide-react';
 import useRecommendationActions from '../hooks/use-recommendation-actions';
 import useRecommendFormInputStore from '../store/use-recommend-form-input-store';
-import { TSituation } from '../../../types/situation.ts';
+import { TSituation } from '../../../entities/situation/types.ts';
 import ReRecommendButton from './button/re-recommend-button.tsx';
 import { toast } from 'sonner';
 

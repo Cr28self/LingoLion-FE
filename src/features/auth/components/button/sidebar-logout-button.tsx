@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button.tsx';
-import { useSidebarStore } from '@/domains/dashboard-common/store/sidebar-store.ts';
+import { useSidebarStore } from '@/store/sidebar-store.ts';
 
 type LogoutButtonProps = {
   onLogout: () => void;

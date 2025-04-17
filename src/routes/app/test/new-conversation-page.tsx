@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 // lucide-react 아이콘 임포트
 import {
   ArrowLeft,
-  Check,
   ChevronRight,
   Info,
   Sparkles,
@@ -13,7 +12,6 @@ import {
   MapPin,
   Target,
   Edit3,
-  RotateCcw,
   Loader2,
   Wand,
   ThumbsUp,
@@ -226,7 +224,7 @@ function NewConversationSetupPage() {
     alert(
       `최종 설정 완료!\n${JSON.stringify(finalSetup, null, 2)}\n\n(실제로는 대화 설정 모달 후 대화 페이지로 이동합니다.)`
     );
-    // navigate(`/app/conversation/${newSessionId}`);
+    // navigate(`/app/conversation-session/${newSessionId}`);
   };
 
   // 진행 버튼 활성화 조건

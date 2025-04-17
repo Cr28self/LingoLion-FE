@@ -1,5 +1,5 @@
-import { useSidebarStore } from '@/domains/dashboard-common/store/sidebar-store';
-import { TGetUsersMyResponse } from '@/domains/dashboard-common/types/dashboard-common-types';
+import { useSidebarStore } from '@/store/sidebar-store.ts';
+import { TGetUsersMyResponse } from '@/entities/user/types.ts';
 
 type SidebarUserInfoProps = {
   userData: TGetUsersMyResponse;

@@ -1,4 +1,4 @@
-// src/components/layout/TestAppLayout.jsx
+// src/components/layouts/TestAppLayout.jsx
 import React, { useState } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';

@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
-import { useSidebarStore } from '../../store/sidebar-store';
+import { useSidebarStore } from '@/store/sidebar-store.ts';
 
-import SidebarLink from './_internal/sidebar-link';
-import SidebarUserInfo from './_internal/sidebar-user-info';
-import { SkeletonUserProfile } from '../contents-skeleton-loading';
-import { useLogout } from '@/lib/auth/use-logout';
-import LogoutButton from './_internal/logout-button';
-import { useGetUsersMy } from '../../api/get-users-my';
+import SidebarLink from './_internal/sidebar-link.tsx';
+import SidebarUserInfo from './_internal/sidebar-user-info.tsx';
+import { useLogout } from '@/lib/auth/use-logout.ts';
+import SidebarLogoutButton from '@/features/auth/components/button/sidebar-logout-button.tsx';
+import { useGetUsersMy } from '@/features/user/api/get-users-my.ts';
 import {
   DesktopToggleButton,
   MobileToggleButton,
-} from './_internal/sidebar-toggle-button';
+} from './_internal/sidebar-toggle-button.tsx';
+import { SkeletonUserProfile } from '@/app/widgets/dashboard-sidebar/_internal/skeleton-user-profile.tsx';
 
 type DashboardSidebarProps = {
   links: { to: string; icon: React.ReactNode; name: string }[];
@@ -110,7 +110,10 @@ const DashboardSidebar = ({ links }: DashboardSidebarProps) => {
 
             {/* <SkeletonUserProfile /> */}
 
-            <LogoutButton onLogout={logout} isLoggingOut={isLoggingOut} />
+            <SidebarLogoutButton
+              onLogout={logout}
+              isLoggingOut={isLoggingOut}
+            />
 
             <MobileToggleButton />
           </div>

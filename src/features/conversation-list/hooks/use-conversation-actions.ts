@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { useDeleteConversation } from '@/features/dashboard-conversations/api/delete-conversation';
-import { useUpdateConversation } from '@/features/dashboard-conversations/api/update-conversation';
+import { useDeleteConversation } from '@/features/conversation-list/api/delete-conversation';
+import { useUpdateConversation } from '@/features/conversation-list/api/update-conversation';
 import { toast } from 'sonner';
 import { TConversation } from '@/entities/conversation/types.ts';
 

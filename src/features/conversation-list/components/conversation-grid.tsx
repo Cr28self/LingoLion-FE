@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import useInfiniteScroll from '@/hooks/use-infinite-scroll'; // 실제 경로
-import { useGetAllInfiniteConversations } from '@/features/dashboard-conversations/api/get-all-conversations'; // 실제 경로
+import { useGetAllInfiniteConversations } from '@/features/conversation-list/api/get-all-conversations'; // 실제 경로
 import DeleteConversationDialog from './modal/delete-conversation-dialog'; // 실제 경로
-import { EditConversationSheet } from '@/features/dashboard-conversations/components/modal/edit-conversation-sheet'; // 실제 경로
+import { EditConversationSheet } from '@/features/conversation-list/components/modal/edit-conversation-sheet'; // 실제 경로
 import { Input } from '@/components/ui/input';
-import { useConversationActions } from '@/features/dashboard-conversations/hooks/use-conversation-actions.ts';
+import { useConversationActions } from '@/features/conversation-list/hooks/use-conversation-actions.ts';
 import { useCallback } from 'react';
 import { TConversation } from '@/entities/conversation/types.ts';
-import { ConversationCard } from '@/features/dashboard-conversations/components/conversation-card.tsx'; // 실제 경로
+import { ConversationCard } from '@/entities/conversation/components/conversation-card.tsx'; // 실제 경로
 
 const ConversationGrid = () => {
   const navigate = useNavigate();

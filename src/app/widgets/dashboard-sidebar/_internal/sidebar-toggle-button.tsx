@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button';
-import { useSidebarStore } from '@/domains/dashboard-common/store/sidebar-store';
+import { Button } from '@/components/ui/button.tsx';
+import { useSidebarStore } from '@/store/sidebar-store.ts';
 import { ChevronLeft, ChevronRight, Menu } from 'lucide-react';
 
 const useToggle = () => useSidebarStore((state) => state.toggle);

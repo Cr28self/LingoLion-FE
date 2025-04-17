@@ -7,7 +7,7 @@ import useRecordVoice from '../hooks/use-record-voice.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { useParams } from 'react-router-dom';
 import { useConversationUIStore } from '../store/use-conversation-ui-store.ts';
-import { ConversationQuickHelper } from '@/features/conversation/components/conversation-quick-helper.tsx';
+import { ConversationQuickHelper } from '@/features/conversation-session/components/conversation-quick-helper.tsx';
 
 export const ConversationInputForm = () => {
   // !Quick Helper
