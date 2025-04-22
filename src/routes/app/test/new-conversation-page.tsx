@@ -1,5 +1,5 @@
 // src/pages/NewConversationSetupPage.jsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // lucide-react 아이콘 임포트
 import {

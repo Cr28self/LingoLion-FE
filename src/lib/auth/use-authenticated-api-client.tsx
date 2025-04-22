@@ -1,9 +1,10 @@
 import { useMemo } from 'react';
 import axios, { AxiosError, AxiosInstance } from 'axios';
 import { apiClient } from '../api-client';
-import { UnAuthorizedResponse } from './types';
-import { refreshTokenFn } from './api';
-import { useAuthStore } from './use-auth-store';
+
+import { useAuthStore } from '@/features/auth/store/use-auth-store.ts';
+import { UnAuthorizedResponse } from '@/features/auth/types/error-types.ts';
+import { refreshTokenFn } from '@/features/auth/api/refresh-token-api.ts';
 
 // accessToken을 AuthContext에서 불러와, 요청 header에 담아주는 hook / 토큰이 만료될 경우, refreshToken을 호출하여 새롭게 갱신
 export function useAuthenticatedApiClient(): AxiosInstance {

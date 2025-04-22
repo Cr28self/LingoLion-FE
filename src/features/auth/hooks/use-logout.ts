@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { logoutFn } from './api';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { useAuthenticatedApiClient } from './use-authenticated-api-client';
+import { useAuthenticatedApiClient } from '@/lib/auth/use-authenticated-api-client.tsx';
 import { useAuthStore } from '@/features/auth/store/use-auth-store.ts';
+import { logoutFn } from '@/features/auth/api/logout-api.ts';
 
 export const useLogout = () => {
   const queryClient = useQueryClient();

@@ -10,3 +10,10 @@ export type RegisterErrorResponse = {
   message: string;
   statusCode: number;
 };
+
+// 인증 에러 타입
+export type UnAuthorizedResponse = {
+  message: string;
+  error?: string;
+  statusCode: number;
+};

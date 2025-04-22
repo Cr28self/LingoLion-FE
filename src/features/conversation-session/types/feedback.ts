@@ -1,5 +1,3 @@
-// src/components/FeedbackPanel/Feedback.types.ts
-
 /** Defines the possible severity levels for feedback items. */
 export type FeedbackSeverity = 'info' | 'warning' | 'error';
 

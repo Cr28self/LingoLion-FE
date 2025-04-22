@@ -4,8 +4,10 @@ import useInfiniteScroll from '@/hooks/use-infinite-scroll.ts';
 import { ConversationCard } from '@/entities/conversation/components/conversation-card.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { SkeletonCardConversations } from '@/features/conversation-list/components/skeleton-card-conversations.tsx';
+import { useNavigate } from 'react-router-dom';
 
 const MyConversationsPage = () => {
+  const navigate = useNavigate();
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading } =
     useGetAllInfiniteConversations();
   const conversations = data?.pages.flatMap((page) => page.data) || [];
@@ -57,12 +59,13 @@ const MyConversationsPage = () => {
             {/* 그리드 패딩 추가 고려 */}
             {conversations.map((conversation, conversationIndex) => {
               const isLastItem = conversationIndex === conversations.length - 1;
-              console.log('conv', conversation);
               return (
                 <ConversationCard
                   key={conversation.id}
                   conversation={conversation}
-                  onContinue={() => {}}
+                  onContinue={(conversationId) => {
+                    navigate(`/app/conversation-session/${conversationId}`);
+                  }}
                   onEdit={() => {}}
                   onDelete={() => {}}
                   ref={isLastItem ? targetRef : null} // ref는 카드 자체보다 감싸는 div에 적용하는 것이 더 안정적일 수 있음

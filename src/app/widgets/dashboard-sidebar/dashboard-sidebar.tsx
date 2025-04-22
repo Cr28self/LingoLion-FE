@@ -3,7 +3,7 @@ import { useSidebarStore } from '@/store/sidebar-store.ts';
 
 import SidebarLink from './_internal/sidebar-link.tsx';
 import SidebarUserInfo from './_internal/sidebar-user-info.tsx';
-import { useLogout } from '@/lib/auth/use-logout.ts';
+import { useLogout } from '@/features/auth/hooks/use-logout.ts';
 import SidebarLogoutButton from '@/features/auth/components/button/sidebar-logout-button.tsx';
 import { useGetUsersMy } from '@/features/user/api/get-users-my.ts';
 import {

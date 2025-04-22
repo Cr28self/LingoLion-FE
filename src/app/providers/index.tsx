@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AuthProvider } from '@/lib/auth/auth-provider.tsx';
+import { AuthProvider } from '@/app/providers/auth-provider.tsx';
 import { queryConfig } from '@/lib/react-query.ts';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from 'react-error-boundary';

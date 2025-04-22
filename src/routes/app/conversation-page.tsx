@@ -33,7 +33,7 @@ const ConversationPage = () => {
       <ConversationMainHeader
         convId={conversationId as string}
         title={conversationInfo?.title as string}
-        backUrl="/app/dashboard/conversations"
+        backUrl="/app/my-conversations"
         level={conversationInfo?.level as string}
       />
       {/* Main Content Area */}

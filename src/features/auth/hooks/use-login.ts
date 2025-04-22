@@ -1,4 +1,4 @@
-import { useAuthStore } from '@/lib/auth/use-auth-store';
+import { useAuthStore } from '@/features/auth/store/use-auth-store.ts';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
