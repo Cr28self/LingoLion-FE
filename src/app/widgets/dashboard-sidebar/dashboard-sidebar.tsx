@@ -74,7 +74,9 @@ const DashboardSidebar = ({ links }: DashboardSidebarProps) => {
 
         <DesktopToggleButton />
 
-        <div className="flex flex-1 flex-col overflow-y-auto px-3 py-4">
+        <div
+          className={`flex flex-1 flex-col overflow-y-auto py-4 ${isOpen ? 'px-4' : 'px-0'}`}
+        >
           <nav className="flex-1 space-y-1">
             {links.map((link) => {
               const { icon, name, to } = link;

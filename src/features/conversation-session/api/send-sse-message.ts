@@ -115,13 +115,10 @@ export const useSendSSEMessage = (convId: string) => {
         onDone: () => {
           // Optional: 전송 완료 처리
           const { liveMessages } = useLiveMessagesStore.getState();
-          console.log('NEW liveMessages', liveMessages);
 
           if (liveMessages[liveMessages.length - 1].role == 'assistant') {
             triggerSpeak(liveMessages[liveMessages.length - 1].content);
           }
-
-          console.log('DDDDDDOOOOOOONNNNNNNNNNNN');
         },
       });
     } catch (err) {

@@ -218,7 +218,7 @@ const SituationGridContents = ({ mode }: SituationGridContentsProps) => {
 
 // Main SituationGrid component (Structure remains the same)
 const SituationGrid = () => {
-  const [mode, setMode] = useState<TSituationMode>('all');
+  const [mode] = useState<TSituationMode>('all');
 
   return (
     <Suspense fallback={<SkeletonCardSituations />}>

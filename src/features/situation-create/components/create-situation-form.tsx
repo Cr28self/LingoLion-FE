@@ -1,16 +1,11 @@
-import { toast } from 'sonner';
 import useRecommendFormInputStore from '../store/use-recommend-form-input-store';
 import useRecommendationListStore from '../store/use-recommendation-list-store';
-import AllRecommendButton from './button/all-recommend-button.tsx';
 import CreateSituationButton from './button/create-situation-button.tsx';
 import SituationInputField from './situation-input-field';
-import useRecommendFormStore from '../store/use-recommend-form-store';
 import useRecommendationActions from '../hooks/use-recommendation-actions';
+import { Bot, MapPin, Target, User, Wand2 } from 'lucide-react';
 
 export default function CreateSituationForm() {
-  // ! 모달 on/off
-  const setIsModalOpen = useRecommendFormStore((state) => state.setIsModalOpen);
-
   // ! 렌더링에 사용되는 Input 요소
   const { aiRole, goal, place, userRole } = useRecommendFormInputStore(
     (state) => state.formInputState
@@ -19,11 +14,6 @@ export default function CreateSituationForm() {
   // ! Input 요소 변경
   const setFormInputState = useRecommendFormInputStore(
     (state) => state.setFormInputState
-  );
-
-  // ! 단순히 길이만 받아올건데 이렇게 정의하는게 맞나???
-  const allRecCategoryList = useRecommendationListStore(
-    (state) => state.allRecCategoryList
   );
 
   const recAiRoleList = useRecommendationListStore(
@@ -37,13 +27,7 @@ export default function CreateSituationForm() {
     (state) => state.recUserRoleList
   );
 
-  // ! 전체 리스트 저장
-  const setAllRecList = useRecommendationListStore(
-    (state) => state.setAllRecList
-  );
-
   const {
-    handleAllRecommend,
     handleIndividualRecommend,
     isPending,
     isSubmittingPending,
@@ -56,8 +40,9 @@ export default function CreateSituationForm() {
     <form onSubmit={handleCreateSituationSubmit}>
       <div className="space-y-6">
         <SituationInputField
+          icon={MapPin}
           name={'place'}
-          label={'장소 (Place)'}
+          label={'📍 장소 (Place)'}
           value={place}
           placeholder={'예: 활기찬 시장, 조용한 도서관'}
           onValueChange={(value) => setFormInputState('place', value)}
@@ -67,7 +52,8 @@ export default function CreateSituationForm() {
         />
         <SituationInputField
           name={'aiRole'}
-          label={'AI 역할 (Assistant)'}
+          icon={Bot}
+          label={'🤖 AI 역할 (AI Role)'}
           value={aiRole}
           placeholder={'예: 경험 많은 상인, 지식인 사서'}
           onValueChange={(value) => setFormInputState('aiRole', value)}
@@ -77,7 +63,8 @@ export default function CreateSituationForm() {
         />
         <SituationInputField
           name={'userRole'}
-          label={'사용자 역할 (User)'}
+          icon={User}
+          label={'👤 내 역할 (Your Role)'}
           value={userRole}
           placeholder={'예: 물건 값을 깎는 손님, 정보 찾는 방문객'}
           onValueChange={(value) => setFormInputState('userRole', value)}
@@ -87,7 +74,8 @@ export default function CreateSituationForm() {
         />
         <SituationInputField
           name={'goal'}
-          label={'대화 목표 (Goal)'}
+          icon={Target}
+          label={'🎯 대화 목표 (Goal)'}
           value={goal}
           placeholder={'예: 원하는 가격에 물건 구매하기, 특정 주제의 책 찾기'}
           onValueChange={(value) => setFormInputState('goal', value)}
@@ -97,43 +85,25 @@ export default function CreateSituationForm() {
         />
       </div>
 
-      {/* 전체 추천 버튼 */}
-      <div className="mt-10 text-center">
-        <AllRecommendButton
-          isPending={isPending}
-          allRecCategoryListLength={allRecCategoryList.length}
-          onNotYetAllRecommended={() =>
-            handleAllRecommend({
-              onSuccessCallback: (result) => {
-                setAllRecList(result.data);
-                const { allRecCategoryList } =
-                  useRecommendationListStore.getState();
-                if (allRecCategoryList.length < 5) {
-                  // 모달 최초로 open
-                  setIsModalOpen(true);
-                }
-
-                toast.success('전체 추천이 완료되었습니다.');
-              },
-
-              onErrorCallback: () => {
-                toast.error('전체 추천 중 에러 발생');
-              },
-            })
-          }
-          onAlreadyAllRecommended={() => setIsModalOpen(true)}
-        />
-      </div>
+      <p className="mt-6 flex items-center justify-center text-center text-xs text-muted-foreground">
+        <Wand2 className="mr-1 h-3 w-3" /> 버튼으로 추천받거나, 텍스트 클릭하여
+        직접 수정하세요.
+      </p>
 
       {/* 구분선 */}
-      <div className="mt-12 border-t border-gray-200 pt-8"></div>
+      <div className="mt-6 border-t border-gray-200 pt-8"></div>
 
       {/* 상황 생성 버튼 */}
 
-      <CreateSituationButton
-        isFormFilled={!!(place && aiRole && userRole && goal)}
-        isCreating={isSubmittingPending}
-      />
+      <div className="text-center">
+        <CreateSituationButton
+          isFormFilled={!!(place && aiRole && userRole && goal)}
+          isCreating={isSubmittingPending}
+        />
+        <p className="mt-2 text-xs text-muted-foreground">
+          모든 항목이 채워져야 대화를 시작할 수 있습니다.
+        </p>
+      </div>
     </form>
   );
 }

@@ -22,10 +22,6 @@ const useLiveMsgAutoscroll = (
         container.scrollHeight - container.scrollTop - container.clientHeight >
         scrollThreshold;
 
-      console.log('useLayoutEffect - scrollIntoView');
-      console.log('isScrolledUp:', isScrolledUp);
-      console.log('isUserScrollingUpRef:', isUserScrollingUpRef.current);
-      console.log('lastMessageRef:', lastMessageRef.current);
       // Check if the last message exists and the user isn't scrolled up
 
       if (

@@ -25,7 +25,8 @@ export default function CreateSituationButton({
         </>
       ) : (
         <>
-          <CheckCircle2 size={22} className="mr-2" />이 상황으로 시작하기
+          <CheckCircle2 size={22} className="mr-2" />
+          설정 완료! 대화 시작 준비
         </>
       )}
     </button>

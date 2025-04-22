@@ -1,4 +1,6 @@
+import { Skeleton } from '@/components/ui/skeleton';
 import { useGetAllInfiniteConversations } from '@/features/conversation-list/api/get-all-conversations';
+import { getDaysAgo } from '@/lib/utils';
 import {
   ArrowRight,
   BookOpen,
@@ -9,20 +11,29 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+const SkeletonRecentConversations = () => {
+  return (
+    <div className={'mb-2 flex items-baseline space-x-3 space-y-3 px-3'}>
+      <div className="shrink-0">
+        <Skeleton className="h-10 w-10 rounded-full bg-[#e68a4f]" />
+      </div>
+
+      <div className="w-full space-y-2">
+        <Skeleton className="h-4 w-full bg-[#e68a4f]" />
+        <Skeleton className="h-4 w-3/4 bg-[#e68a4f]" />
+      </div>
+    </div>
+  );
+};
+
 const OverviewPage = () => {
-  const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading } =
-    useGetAllInfiniteConversations();
+  const { data, isLoading } = useGetAllInfiniteConversations();
   const conversations = data?.pages.flatMap((page) => page.data) || [];
 
   return (
     <div className="mx-auto max-w-7xl p-6 md:p-10">
       <div className="mb-8">
-        <h1 className="mb-2 text-3xl font-bold md:text-4xl">
-          <span className="bg-gradient-to-r from-primary via-orange-600 to-red-600 bg-clip-text text-transparent">
-            상현님
-          </span>
-          , 안녕하세요! 👋
-        </h1>
+        <h1 className="mb-2 text-3xl font-bold md:text-4xl">안녕하세요! 👋</h1>
         <p className="text-lg text-muted-foreground md:text-xl">
           오늘도 즐겁게 영어 실력을 향상시켜 보세요!
         </p>
@@ -95,7 +106,14 @@ const OverviewPage = () => {
             <BookOpen className="mr-2 h-6 w-6 text-primary" strokeWidth={2} />{' '}
             최근 진행한 회화
           </h2>
-          {conversations.length > 0 ? (
+
+          {isLoading ? (
+            <>
+              <SkeletonRecentConversations />
+              <SkeletonRecentConversations />
+              <SkeletonRecentConversations />
+            </>
+          ) : conversations.length > 0 ? (
             <div className="space-y-4">
               {conversations.slice(0, 3).map((conv) => (
                 <Link
@@ -108,7 +126,8 @@ const OverviewPage = () => {
                       {conv.title}
                     </span>
                     <div className="flex items-center text-sm text-muted-foreground">
-                      <Clock className="mr-1 h-4 w-4" /> {conv.createdAt}
+                      <Clock className="mr-1 h-4 w-4" />{' '}
+                      {getDaysAgo(conv.createdAt)}
                     </div>
                   </div>
                 </Link>

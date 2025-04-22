@@ -36,7 +36,7 @@ const SettingContents = () => {
         <div className="space-y-6">
           <div className="flex items-center">
             <div className="flex h-20 w-20 items-center justify-center rounded-full bg-orange-100 text-2xl font-bold text-orange-500">
-              {userData.name.slice(0, 2)}
+              {userData!.name.slice(0, 2)}
             </div>
             <div className="ml-6">
               <button className="rounded-md bg-orange-500 px-4 py-2 text-sm text-white transition-colors hover:bg-orange-600">
@@ -53,7 +53,7 @@ const SettingContents = () => {
               <input
                 type="text"
                 className="w-full rounded-md border border-gray-300 px-3 py-2"
-                defaultValue={userData.name}
+                defaultValue={userData!.name}
               />
             </div>
             <div>
@@ -63,7 +63,7 @@ const SettingContents = () => {
               <input
                 type="email"
                 className="w-full rounded-md border border-gray-300 px-3 py-2"
-                defaultValue={userData.email}
+                defaultValue={userData!.email}
                 disabled
               />
             </div>

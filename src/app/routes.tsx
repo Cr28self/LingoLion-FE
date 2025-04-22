@@ -10,12 +10,6 @@ import PrivateLayout from '@/app/layouts/PrivateLayout';
 import { GlobalRouteErrorFallback } from '@/components/errors/global';
 import { useMemo } from 'react';
 import CreateSituationPage from '@/routes/app/create-situation-page.tsx';
-import DashboardPage from '@/routes/app/test/dashboard-page';
-import ExploreScenariosPage from '@/routes/app/test/explore-scenario-page';
-import NewConversationSetupPage from '@/routes/app/test/new-conversation-page';
-import MyScenariosPage from '@/routes/app/test/my-scenarios-page';
-import HistoryListPage from '@/routes/app/test/history-list-page';
-import TestAppLayout from '@/routes/app/test/test-app-layout';
 import ExploreSituationsPage from '@/routes/app/explore-situations-page.tsx';
 import DashboardLayout from '@/app/layouts/dashboard-layout.tsx';
 
@@ -86,22 +80,6 @@ export const createAppRouter = () =>
         {
           path: 'create-situation',
           element: <CreateSituationPage />,
-        },
-        {
-          path: 'test',
-          element: <TestAppLayout />,
-
-          children: [
-            { path: 'explore', element: <ExploreScenariosPage /> },
-            {
-              path: 'new-conversation-session',
-              element: <NewConversationSetupPage />,
-            },
-            { path: 'scenarios', element: <MyScenariosPage /> },
-            { path: 'history', element: <HistoryListPage /> },
-
-            { index: true, path: '', element: <DashboardPage /> },
-          ],
         },
       ],
     },

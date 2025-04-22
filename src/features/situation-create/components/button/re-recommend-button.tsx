@@ -1,4 +1,3 @@
-import { cn } from '@/lib/utils.ts';
 import { Loader2, Sparkles } from 'lucide-react';
 
 type ReRecommendButtonProps = {
@@ -15,11 +14,7 @@ export default function ReRecommendButton({
       type="button"
       onClick={onReRecommend}
       disabled={isPending}
-      className={cn(
-        'inline-flex transform items-center rounded-lg bg-gradient-to-r from-orange-400 to-red-400 px-8 py-3 font-bold text-white shadow-md transition duration-300 ease-in-out hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2',
-        isPending && 'cursor-not-allowed bg-gray-300 text-gray-500 opacity-70',
-        !isPending && 'hover:from-orange-500 hover:to-red-500 hover:shadow-lg'
-      )}
+      className="inline-flex items-center rounded-md border border-primary/50 bg-primary/10 px-4 py-2 text-sm font-medium text-primary transition-colors duration-200 hover:bg-primary/20 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
     >
       {isPending ? (
         <>
@@ -29,7 +24,7 @@ export default function ReRecommendButton({
       ) : (
         <>
           <Sparkles size={20} className="mr-2" />
-          "재추천"
+          재추천
         </>
       )}
     </button>

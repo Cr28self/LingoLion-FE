@@ -34,7 +34,6 @@ export const usePlayVoiceStore = create<PlayVoiceState>()(
         const updateVoices = () => {
           const fetchedVoices = window.speechSynthesis.getVoices();
           if (Array.isArray(fetchedVoices)) {
-            console.log('All voices fetched:', fetchedVoices.length);
             set({ allVoices: fetchedVoices });
             get()._updateActiveVoice(); // 목소리 목록 업데이트 후 활성 목소리 재계산
           }
@@ -58,7 +57,6 @@ export const usePlayVoiceStore = create<PlayVoiceState>()(
         const unsubscribe = useConversationSettingStore.subscribe(
           (state, prevState) => {
             if (state.language !== prevState.language) {
-              console.log('Language changed, updating active voice...');
               get()._updateActiveVoice(); // 언어 변경 시 활성 목소리 재계산
             }
           }
@@ -73,8 +71,6 @@ export const usePlayVoiceStore = create<PlayVoiceState>()(
         const { allVoices } = get();
         const language = useConversationSettingStore.getState().language; // 다른 스토어 상태 직접 접근
 
-        console.log('올보이스', allVoices);
-
         const availableVoices = allVoices.filter(
           ({ lang }) => lang === language
         );
@@ -84,17 +80,12 @@ export const usePlayVoiceStore = create<PlayVoiceState>()(
           availableVoices[0] || // 첫 번째 사용 가능한 목소리
           null; // 사용 가능한 목소리가 없으면 null
 
-        console.log(
-          `Active voice updated for language ${language}:`,
-          newActiveVoice?.name || 'None'
-        );
         set({ activeVoice: newActiveVoice });
       },
 
       // 3. 음성 출력 트리거 함수
       triggerSpeak: (text: string) => {
         const { activeVoice } = get();
-        console.log('Triggering speak with active voice:', activeVoice?.name);
 
         if (!activeVoice) {
           const language = useConversationSettingStore.getState().language;
@@ -128,16 +119,13 @@ export const usePlayVoiceStore = create<PlayVoiceState>()(
 
       // --- Cleanup 액션 정의 ---
       cleanup: () => {
-        console.log('Running voice store cleanup...');
         const unsubscribe = get().unsubscribeSettings;
         if (unsubscribe) {
-          console.log('Unsubscribing from settings store.');
           unsubscribe(); // 저장된 구독 해제 함수 호출
         }
         // onvoiceschanged 리스너도 여기서 제거하는 것이 안전함
         if (typeof window !== 'undefined' && window.speechSynthesis) {
           window.speechSynthesis.onvoiceschanged = null;
-          console.log('onvoiceschanged listener removed.');
         }
         // 상태 초기화 (선택 사항: 필요에 따라 isInitialized 등 다른 상태도 초기화 가능)
         set({
@@ -146,7 +134,6 @@ export const usePlayVoiceStore = create<PlayVoiceState>()(
           allVoices: [],
           activeVoice: null,
         });
-        console.log('Voice store state reset.');
       },
     }),
     { name: 'voice-Setting' }

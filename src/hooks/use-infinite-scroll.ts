@@ -20,9 +20,7 @@ const useInfiniteScroll = ({
   const handleIntersect = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
-        console.log('infinite scrollㄴㄴㄴㄴㄴㄴㄴㄴㄴ - fetchNextPage', entry);
         if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
-          console.log('infinite scroll - fetchNextPage', entry);
           fetchNextPage();
         }
       });

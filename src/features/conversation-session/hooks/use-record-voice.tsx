@@ -40,7 +40,6 @@ export default function useRecordVoice(convId: string) {
     recognitionRef.current.lang = language; // 한국어 설정 예시 (필요에 따라 변경)
 
     recognitionRef.current.onstart = function () {
-      console.log('record 시작!');
       setIsActive(true);
     };
 
@@ -56,8 +55,6 @@ export default function useRecordVoice(convId: string) {
       }
 
       if (latestFinalTranscript) {
-        console.log('Final MSG', latestFinalTranscript);
-
         // 여러 번의 onresult에서 final transcript가 나올 수 있으므로 공백 추가
         transcriptRef.current += latestFinalTranscript + ' ';
       }
@@ -75,7 +72,6 @@ export default function useRecordVoice(convId: string) {
 
         // --- triggerSpeak 호출 전에 짧은 지연 추가 ---
       } else {
-        console.log('No final transcript was accumulated.');
         // 아무 말도 인식되지 않았거나 결과가 없는 경우 처리
         setText(''); // 텍스트 초기화 등
       }
