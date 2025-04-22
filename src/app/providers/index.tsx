@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { AuthProvider } from '@/lib/auth/auth-provider';
-import { queryConfig } from '@/lib/react-query';
+import { AuthProvider } from '@/lib/auth/auth-provider.tsx';
+import { queryConfig } from '@/lib/react-query.ts';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Toaster } from 'sonner';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { GlobalAppErrorFallback } from '@/components/errors/global';
+import { GlobalAppErrorFallback } from '@/components/errors/global.tsx';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const AppProvider = ({ children }: { children: React.ReactNode }) => {

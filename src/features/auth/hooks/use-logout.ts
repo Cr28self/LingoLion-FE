@@ -4,7 +4,7 @@ import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useAuthenticatedApiClient } from './use-authenticated-api-client';
-import { useAuthStore } from './use-auth-store';
+import { useAuthStore } from '@/features/auth/store/use-auth-store.ts';
 
 export const useLogout = () => {
   const queryClient = useQueryClient();
