@@ -11,6 +11,7 @@ import {
   MobileToggleButton,
 } from './_internal/sidebar-toggle-button.tsx';
 import { SkeletonUserProfile } from '@/app/widgets/dashboard-sidebar/_internal/skeleton-user-profile.tsx';
+import { Button } from '@/components/ui/button.tsx';
 
 type DashboardSidebarProps = {
   links: { to: string; icon: React.ReactNode; name: string }[];
@@ -77,6 +78,9 @@ const DashboardSidebar = ({ links }: DashboardSidebarProps) => {
         <div
           className={`flex flex-1 flex-col overflow-y-auto py-4 ${isOpen ? 'px-4' : 'px-0'}`}
         >
+          <Button className="mb-4 w-full bg-gradient-to-r from-orange-500 to-destructive py-6 text-lg font-bold text-white hover:from-orange-600 hover:to-red-700">
+            대화 시작
+          </Button>
           <nav className="flex-1 space-y-1">
             {links.map((link) => {
               const { icon, name, to } = link;

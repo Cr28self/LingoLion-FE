@@ -1,11 +1,4 @@
-import {
-  FolderKanban,
-  History,
-  LayoutDashboard,
-  PlusCircle,
-  Search,
-  Settings,
-} from 'lucide-react';
+import { History, LayoutDashboard, Settings } from 'lucide-react';
 import DashboardSidebar from '@/app/widgets/dashboard-sidebar';
 import { Outlet } from 'react-router-dom';
 
@@ -20,25 +13,25 @@ const DashboardLayout = () => {
             icon: <LayoutDashboard />,
             name: '대시보드',
           },
-          {
-            to: '/app/explore-situations',
-            icon: <Search />,
-            name: '상황 탐색',
-          },
-          {
-            to: '/app/create-situation',
-            icon: <PlusCircle />,
-            name: '상황 생성',
-          },
-          {
-            to: '/app/my-situations',
-            icon: <FolderKanban />,
-            name: '내 상황 목록',
-          },
+          // {
+          //   to: '/app/explore-situations',
+          //   icon: <Search />,
+          //   name: '상황 탐색',
+          // },
+          // {
+          //   to: '/app/create-situation',
+          //   icon: <PlusCircle />,
+          //   name: '상황 생성',
+          // },
+          // {
+          //   to: '/app/my-situations',
+          //   icon: <FolderKanban />,
+          //   name: '내 상황 목록',
+          // },
           {
             to: '/app/my-conversations',
             icon: <History />,
-            name: '내 대화 기록',
+            name: '내 대화 목록',
           },
           {
             to: '/app/setting',

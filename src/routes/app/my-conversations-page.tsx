@@ -2,9 +2,8 @@ import { History, PlusCircle } from 'lucide-react';
 import { useGetAllInfiniteConversations } from '@/features/conversation-list/api/get-all-conversations.ts';
 import useInfiniteScroll from '@/hooks/use-infinite-scroll.ts';
 import { ConversationCard } from '@/entities/conversation/components/conversation-card.tsx';
-import { Button } from '@/components/ui/button.tsx';
 import { SkeletonCardConversations } from '@/features/conversation-list/components/skeleton-card-conversations.tsx';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const MyConversationsPage = () => {
   const navigate = useNavigate();
@@ -31,18 +30,13 @@ const MyConversationsPage = () => {
           </p>
         </div>
 
-        <Button
-          variant={'outline'}
-          onClick={() =>
-            alert(
-              '기존의 있는 상황 선택해서 대화 생성 or 새로운 상황 생성 페이지로 ㄱㄱ'
-            )
-          }
+        <Link
+          to="/app/explore-situations"
           className="mt-4 inline-flex items-center justify-center rounded-lg border border-transparent bg-primary px-6 py-3 text-base font-medium text-primary-foreground shadow-sm transition duration-300 hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 md:mt-0"
         >
           <PlusCircle className="mr-2 h-5 w-5" strokeWidth={2.5} />
-          나만의 대화 만들기
-        </Button>
+          대화 생성
+        </Link>
       </div>
 
       {/* 검색 및 필터 - 카드 스타일 적용 */}
