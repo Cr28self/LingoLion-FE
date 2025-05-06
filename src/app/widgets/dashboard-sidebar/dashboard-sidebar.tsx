@@ -25,6 +25,7 @@ const DashboardSidebar = ({ links }: DashboardSidebarProps) => {
   // 화면 크기가 md 이하일 때 사이드바 자동으로 닫기
   useEffect(() => {
     const handleResize = () => {
+      console.log('handleResize');
       if (window.innerWidth < 768) {
         close();
       } else {

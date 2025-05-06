@@ -31,22 +31,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   });
 
   useEffect(() => {
-    if (import.meta.env.DEV) {
-      // sessionStorage에서 토큰 확인
-      const storedToken = sessionStorage.getItem(ACCESS_TOKEN_KEY);
+    // sessionStorage에서 토큰 확인
+    const storedToken = sessionStorage.getItem(ACCESS_TOKEN_KEY);
 
-      if (storedToken) {
-        // sessionStorage에 토큰이 있으면 사용
-        updateAccessToken(storedToken);
-        // 토큰을 사용한 후 sessionStorage에서 제거
-        sessionStorage.removeItem(ACCESS_TOKEN_KEY);
-        finishCheckingAuth();
-      } else {
-        // sessionStorage에 토큰이 없으면 mutate 실행
-        mutate();
-      }
+    if (storedToken) {
+      // sessionStorage에 토큰이 있으면 사용
+      updateAccessToken(storedToken);
+      // 토큰을 사용한 후 sessionStorage에서 제거
+      sessionStorage.removeItem(ACCESS_TOKEN_KEY);
+      finishCheckingAuth();
     } else {
-      // production
+      // sessionStorage에 토큰이 없으면 mutate 실행
       mutate();
     }
   }, [mutate]);
@@ -54,7 +49,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // 페이지 언로드(새로고침 또는 페이지 이동) 전에 토큰 저장
   useEffect(() => {
     const handleBeforeUnload = () => {
-      if (import.meta.env.DEV && getAccessToken()) {
+      if (getAccessToken()) {
         sessionStorage.setItem(ACCESS_TOKEN_KEY, getAccessToken() as string);
       }
     };
