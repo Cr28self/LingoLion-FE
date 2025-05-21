@@ -8,6 +8,7 @@ import { usePlayVoiceStore } from '@/features/conversation-session/store/use-pla
 import ConversationLayout from '@/app/layouts/conversation-layout';
 import ConversationMainHeader from '@/features/conversation-session/components/conversation-main-header';
 import useGetConversationInfo from '@/features/conversation-session/api/get-conversation-info';
+import { SkeletonChatConv } from '@/features/conversation-session/components/conversation-skeleton-loading';
 
 // UPDATED: Main Chat Page Component
 const ConversationPage = () => {
@@ -41,7 +42,7 @@ const ConversationPage = () => {
         {/* Chat Area */}
         <main className="mx-auto flex flex-1 flex-col overflow-hidden bg-transparent transition-all duration-300 ease-in-out lg:max-w-4xl">
           {/* Let main area handle width */}
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<SkeletonChatConv />}>
             <ConversationMessageList
               userRole={situationInfo?.userRole as string}
               aiRole={situationInfo?.aiRole as string}

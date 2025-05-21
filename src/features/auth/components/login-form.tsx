@@ -17,6 +17,12 @@ import SubmitButton from './button/submit-button.tsx';
 import useLogin from '../hooks/use-login';
 import { loginSchema, TLoginSchema } from '../schema/login-schema';
 import CustomGoogleLoginButton from './button/custom-google-login-button.tsx';
+import { Button } from '@/components/ui/button.tsx';
+import { Loader2 } from 'lucide-react';
+
+// login-form.tsx 상단 또는 별도의 설정 파일
+const TEST_USER_EMAIL = 'testuser@example.com'; // 실제 테스트 계정 이메일로 변경
+const TEST_USER_PASSWORD = '!Qwerty1234'; // 실제 테스트 계정 비밀번호로 변경
 
 type LoginFormProps = {
   onSuccessNavigate: () => void;
@@ -24,6 +30,10 @@ type LoginFormProps = {
 
 export default function LoginForm({ onSuccessNavigate }: LoginFormProps) {
   const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
+
+  // isGoogleLoggingIn: 구글 로그인 시 사용 (CustomGoogleLoginButton과 상태 공유 필요)
+  const [isGoogleLoggingIn] = useState<boolean>(false);
+
   const { mutate: login } = useLogin({ onSuccessNavigate, setIsLoggingIn });
 
   const form = useForm<TLoginSchema>({
@@ -38,7 +48,15 @@ export default function LoginForm({ onSuccessNavigate }: LoginFormProps) {
     login({ email, password });
   };
 
-  const isGoogleLoading = false;
+  // 테스트 계정으로 로그인 핸들러
+  const handleTestLogin = () => {
+    // 만약 useLogin 훅이 뮤테이션 시작 시 setIsLoggingIn(true)를 호출하지 않는다면, 여기서 직접 호출합니다.
+    if (!isLoggingIn) setIsLoggingIn(true);
+    login({ email: TEST_USER_EMAIL, password: TEST_USER_PASSWORD });
+  };
+
+  // 어떤 형태의 로그인이든 진행 중인지 확인하는 플래그
+  const anyLoginInProgress = isLoggingIn || isGoogleLoggingIn;
 
   return (
     <>
@@ -87,9 +105,9 @@ export default function LoginForm({ onSuccessNavigate }: LoginFormProps) {
           />
 
           <div className="flex items-center justify-end">
-            <Link to="#" className="text-sm text-orange-600 hover:underline">
+            {/* <Link to="#" className="text-sm text-orange-600 hover:underline">
               비밀번호 찾기
-            </Link>
+            </Link> */}
           </div>
           <SubmitButton
             type="submit"
@@ -114,9 +132,22 @@ export default function LoginForm({ onSuccessNavigate }: LoginFormProps) {
           </div>
         </div>
 
+        <Button
+          type="button"
+          variant="outline" // 기본 버튼과 다른 스타일 적용
+          onClick={handleTestLogin}
+          disabled={anyLoginInProgress} // 어떤 로그인이든 진행 중이면 비활성화
+          className="w-full"
+        >
+          {isLoggingIn ? ( // isLoggingIn 상태를 사용하여 로딩 표시
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : null}
+          {isLoggingIn ? '로그인 중...' : '테스트 계정으로 로그인'}
+        </Button>
+
         <CustomGoogleLoginButton
-          isLoading={isGoogleLoading}
-          disabled={isLoggingIn || !isGoogleLoading} // Disable if either is loading
+          isLoading={isGoogleLoggingIn}
+          disabled={isLoggingIn || !isGoogleLoggingIn} // Disable if either is loading
           // className="w-full" // Already set to w-full inside the component, but can override if needed
         />
 

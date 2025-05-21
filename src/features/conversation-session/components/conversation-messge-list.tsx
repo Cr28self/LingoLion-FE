@@ -86,11 +86,11 @@ export const ConversationMessageList = ({
       {/* ... message mapping ... */}
 
       {/* Loading Indicator at the top */}
-      {isFetchingNextPage && (
+      {/* {isFetchingNextPage && (
         <div className="py-2 text-center text-gray-500">
-          Loading older messages...
+          <SkeletonChatConv />
         </div>
-      )}
+      )} */}
 
       {/* start of reversedMessages */}
       {flatMessages.length > 0 &&

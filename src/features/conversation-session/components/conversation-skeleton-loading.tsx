@@ -15,7 +15,9 @@ const SkeletonCard = ({ className }: { className?: string }) => {
 
 export const SkeletonChatConv = () => {
   return (
-    <div className="flex-1 space-y-6 overflow-y-auto p-6">
+    <div className="flex-1 space-y-8 overflow-y-auto p-6">
+      <SkeletonCard />
+      <SkeletonCard />
       <SkeletonCard />
       <SkeletonCard />
       <SkeletonCard />
