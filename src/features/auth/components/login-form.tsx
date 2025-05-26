@@ -137,7 +137,7 @@ export default function LoginForm({ onSuccessNavigate }: LoginFormProps) {
           variant="outline" // 기본 버튼과 다른 스타일 적용
           onClick={handleTestLogin}
           disabled={anyLoginInProgress} // 어떤 로그인이든 진행 중이면 비활성화
-          className="w-full"
+          className="w-full bg-gradient-to-r from-orange-300 to-destructive font-bold text-white transition-colors hover:from-orange-200 hover:to-red-400 hover:text-white"
         >
           {isLoggingIn ? ( // isLoggingIn 상태를 사용하여 로딩 표시
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
