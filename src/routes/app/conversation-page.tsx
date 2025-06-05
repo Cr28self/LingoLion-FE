@@ -40,7 +40,7 @@ const ConversationPage = () => {
       {/* Main Content Area */}
       <div className="relative flex flex-1 overflow-hidden">
         {/* Chat Area */}
-        <main className="mx-auto flex flex-1 flex-col overflow-hidden rounded-xl bg-transparent transition-all duration-300 ease-in-out dark:bg-gray-700/80 lg:max-w-4xl">
+        <main className="mx-auto flex flex-1 flex-col overflow-hidden rounded-b-xl bg-card transition-all duration-300 ease-in-out dark:bg-gray-700/80 lg:max-w-4xl">
           {/* Let main area handle width */}
           <Suspense fallback={<SkeletonChatConv />}>
             <ConversationMessageList
@@ -49,7 +49,7 @@ const ConversationPage = () => {
             />
           </Suspense>
           {/* Input Area */}
-          <div className="shadow-up sticky bottom-0 z-10 border-t border-gray-200/80 bg-white/90 p-3 backdrop-blur-md">
+          <div className="shadow-up sticky bottom-0 z-10 border-t border-gray-200/80 bg-white/90 p-3 backdrop-blur-md dark:border-gray-700 dark:bg-gray-800">
             <ConversationInputForm />
           </div>
         </main>

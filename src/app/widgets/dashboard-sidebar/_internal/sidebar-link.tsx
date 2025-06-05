@@ -17,8 +17,10 @@ const SidebarLink = ({
   return (
     <Link
       to={to}
-      className={`group flex items-center rounded-lg px-3 py-2 transition-colors duration-200 hover:bg-muted hover:text-foreground ${
-        location.pathname === to ? 'bg-primary/10 text-primary' : ''
+      className={`group flex items-center rounded-lg px-3 py-2 transition-colors duration-200 hover:bg-muted hover:text-foreground dark:hover:bg-slate-700 ${
+        location.pathname === to
+          ? 'bg-primary/10 text-primary dark:bg-primary/95 dark:text-white'
+          : ''
       }`}
     >
       <span className={`${isOpen ? 'mr-3' : 'mx-auto'}`}>{icon}</span>

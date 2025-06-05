@@ -26,7 +26,6 @@ export const SituationCard = React.forwardRef<
   (
     {
       situation,
-
       onEdit,
       onDelete,
       onCreateConversation,
@@ -62,7 +61,8 @@ export const SituationCard = React.forwardRef<
       >
         {/* Card Content - This will be the trigger for MakeConversationSetupModal */}
         <div
-          className="relative flex h-full w-full cursor-pointer flex-col overflow-hidden rounded-xl border border-border bg-card p-5 text-left shadow-lg transition-all duration-300 ease-in-out hover:-translate-y-1.5 hover:border-primary/30 hover:shadow-2xl"
+          // [스타일 대상 1] 카드 컨테이너
+          className={`relative flex h-full w-full cursor-pointer flex-col overflow-hidden rounded-xl border border-border bg-card p-5 text-left shadow-lg transition-all duration-300 ease-in-out hover:-translate-y-1.5 hover:border-primary/30 hover:shadow-2xl dark:shadow-lg dark:shadow-primary/10 dark:hover:shadow-xl dark:hover:shadow-primary/15`}
           onClick={handleCardClick} // ✨ Use the new handler
         >
           {/* Content */}
@@ -70,46 +70,63 @@ export const SituationCard = React.forwardRef<
             {/* Top section: Icon, Title, Date */}
             <div className="mb-3 flex items-start">
               <div className="flex-1">
+                {/* [스타일 대상 2] 제목 - CSS 변수 기반으로 자동 적용 */}
                 <h3 className="line-clamp-2 text-lg font-semibold text-foreground transition-colors duration-300 group-hover:text-primary">
                   {situation.goal}
                 </h3>
-                <div className="mt-1 flex items-center text-xs text-gray-500">
-                  <Clock className="mr-1 h-3 w-3" />
+                {/* [스타일 대상 3] 날짜 텍스트 */}
+                <div className="mt-1 flex items-center text-xs text-gray-500 dark:text-muted-foreground">
+                  <Clock className="mr-1 h-3 w-3" />{' '}
+                  {/* 아이콘 색상은 부모 텍스트 색상 상속 */}
                   {getDaysAgo(situation.createdAt)}
                 </div>
               </div>
             </div>
 
-            {/* Divider */}
-            <div className="my-3 h-px bg-gradient-to-r from-transparent via-orange-200 to-transparent opacity-50 transition-opacity duration-300 group-hover:opacity-100"></div>
+            {/* [스타일 대상 4] 구분선 */}
+            <div className="my-3 h-px bg-gradient-to-r from-transparent via-orange-200 to-transparent opacity-50 transition-opacity duration-300 group-hover:opacity-100 dark:via-primary/20"></div>
 
             {/* Middle section: Roles, Goal */}
             <div className="flex-1">
               <div className="mb-2 transition-transform duration-300 group-hover:translate-x-1">
-                <span className="text-sm font-medium text-gray-600">역할:</span>
-                <span className="ml-1 text-sm text-gray-800">
+                {/* [스타일 대상 5] "역할:" 라벨 */}
+                <span className="text-sm font-medium text-gray-600 dark:text-muted-foreground">
+                  역할:
+                </span>
+                {/* [스타일 대상 6] 역할 내용 텍스트 */}
+                <span className="ml-1 text-sm text-gray-800 dark:text-foreground/90">
                   {situation.userRole}
                 </span>
               </div>
               <div className="mb-3 transition-transform duration-300 group-hover:translate-x-1">
-                <span className="text-sm font-medium text-gray-600">AI:</span>
-                <span className="ml-1 text-sm text-gray-800">
+                {/* [스타일 대상 5] "AI:" 라벨 */}
+                <span className="text-sm font-medium text-gray-600 dark:text-muted-foreground">
+                  AI:
+                </span>
+                {/* [스타일 대상 6] AI 내용 텍스트 */}
+                <span className="ml-1 text-sm text-gray-800 dark:text-foreground/90">
                   {situation.aiRole}
                 </span>
               </div>
               <div className="origin-left transform transition-transform duration-300 group-hover:scale-[1.02]">
-                <p className="line-clamp-2 rounded-md bg-orange-50 p-2 text-sm italic text-gray-700 shadow-sm transition-colors duration-300 group-hover:bg-orange-100/70">
+                {/* [스타일 대상 7] 목표 설명 영역 */}
+                <p
+                  className={`line-clamp-2 rounded-md bg-orange-50 p-2 text-sm italic text-gray-700 shadow-sm transition-colors duration-300 group-hover:bg-orange-100/70 dark:bg-secondary/50 dark:text-foreground/80 dark:shadow-none dark:group-hover:bg-secondary/70`}
+                >
                   {situation.place || '목표가 설정되지 않았습니다.'}
                 </p>
               </div>
             </div>
 
-            {/* Bottom section: "Create Conversation" visual cue */}
+            {/* [스타일 대상 8] "대화 시작" 버튼 - CSS 변수 기반으로 자동 적용 */}
             <Button
               className={`mt-3 inline-flex w-full transform items-center justify-center rounded-md border border-transparent bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground opacity-0 shadow-sm transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 group-hover:bg-primary/90 group-hover:opacity-100`}
+              // dark:bg-primary, dark:text-primary-foreground, dark:group-hover:bg-primary/90 등은
+              // CSS 변수를 통해 자동으로 적용됩니다.
             >
               대화 시작
-              <ArrowRight className="h-4 w-4 transform transition-transform duration-300 group-hover:translate-x-1" />
+              <ArrowRight className="h-4 w-4 transform transition-transform duration-300 group-hover:translate-x-1" />{' '}
+              {/* 아이콘 색상은 부모 텍스트 색상 상속 */}
             </Button>
           </div>
         </div>
@@ -118,34 +135,36 @@ export const SituationCard = React.forwardRef<
           <div className="absolute right-3 top-3 z-20 flex translate-y-1 transform space-x-1 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
             {/* Edit Button */}
             <Button
-              variant="outline" // Using Button component
-              size="icon" // Make it icon sized
-              className="h-8 w-8 rounded-full bg-white p-0 shadow-sm transition-colors hover:bg-blue-50" // Adjusted styles
+              variant="outline"
+              size="icon"
+              // [스타일 대상 9-1] 편집 버튼 배경
+              className={`h-8 w-8 rounded-full bg-white p-0 shadow-sm transition-colors hover:bg-blue-50 dark:bg-secondary dark:hover:bg-blue-500/20`}
               onClick={handleEditClick}
               aria-label="편집"
-              disabled={isEditing || isDeleting} // Disable if editing or deleting
+              disabled={isEditing || isDeleting}
             >
-              <Pencil className="h-4 w-4 text-blue-500" />
+              {/* [스타일 대상 9-2] 편집 버튼 아이콘 */}
+              <Pencil className="h-4 w-4 text-blue-500 dark:text-blue-400" />
             </Button>
 
             {/* Delete Button */}
             <Button
-              variant="outline" // Using Button component
-              size="icon" // Make it icon sized
-              className="h-8 w-8 rounded-full bg-white p-0 shadow-sm transition-colors hover:bg-red-50" // Adjusted styles
+              variant="outline"
+              size="icon"
+              // [스타일 대상 10-1] 삭제 버튼 배경
+              className={`h-8 w-8 rounded-full bg-white p-0 shadow-sm transition-colors hover:bg-red-50 dark:bg-secondary dark:hover:bg-destructive/20`}
               onClick={handleDeleteClick}
               aria-label="삭제"
-              disabled={isDeleting || isEditing} // Disable if editing or deleting
+              disabled={isDeleting || isEditing}
             >
-              <Trash2 className="h-4 w-4 text-red-500" />
+              {/* [스타일 대상 10-2] 삭제 버튼 아이콘 */}
+              <Trash2 className="h-4 w-4 text-red-500 dark:text-destructive" />
             </Button>
           </div>
         )}
-        {/* Action Buttons - Positioned absolutely */}
       </div>
     );
   }
 );
 
-// Add display name for React DevTools
 SituationCard.displayName = 'SituationCard';

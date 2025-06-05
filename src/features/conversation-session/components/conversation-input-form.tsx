@@ -51,6 +51,7 @@ export const ConversationInputForm = () => {
         // --- Voice Recording UI ---
         <div className="flex h-[66px] items-center justify-center rounded-xl border border-red-200 bg-gradient-to-r from-orange-100 to-red-100 p-4 shadow-inner">
           {/* Optional: Add a visualizer or recording indicator */}
+
           <span className="mr-4 text-sm text-red-700">Recording...</span>
           <button
             onClick={handleOnRecord}
@@ -64,7 +65,8 @@ export const ConversationInputForm = () => {
         // --- Text Input UI ---
         <form
           className={cn(
-            'flex items-center rounded-xl border border-gray-300 bg-white px-2 py-1 shadow-sm transition-all focus-within:border-transparent focus-within:ring-2 focus-within:ring-orange-400',
+            'flex items-center rounded-xl border border-gray-300 bg-white px-2 py-1 dark:border-none dark:bg-transparent',
+            'shadow-sm transition-all focus-within:border-transparent focus-within:ring-2 focus-within:ring-orange-400',
             isStreaming ? 'opacity-70' : ''
           )}
           onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
@@ -82,7 +84,6 @@ export const ConversationInputForm = () => {
           >
             <ListChecks size={18} /> {/* 예시 아이콘 */}
           </Button>
-
           <Textarea
             value={inputValue}
             onChange={(e) => {
@@ -103,11 +104,11 @@ export const ConversationInputForm = () => {
                 setInputValue('');
               }
             }}
+            id="conversation-input"
             ref={textAreaRef}
-            className="flex-grow resize-none bg-transparent p-2 text-sm text-gray-800 placeholder-gray-500 outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 disabled:opacity-50"
+            className="flex-grow resize-none bg-transparent p-2 text-sm text-gray-800 placeholder-gray-500 outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-300"
             style={{ maxHeight: '80px', overflowY: 'auto' }}
           />
-
           {/* --- 새로운 질문하기 버튼 --- */}
           <Button
             type="button"
@@ -119,7 +120,6 @@ export const ConversationInputForm = () => {
           >
             <HelpCircle size={18} /> {/* 또는 다른 아이콘 */}
           </Button>
-
           {/* Mic Button */}
           <Button
             type="button"
