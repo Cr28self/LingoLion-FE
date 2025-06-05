@@ -28,8 +28,10 @@ export const AIMessage = React.forwardRef<
         <AvatarImage src="/lingo-lion-logo.jpeg" />
       </Avatar>
       <div className="flex max-w-[80%] flex-col gap-1">
-        <div className="ml-1 text-xs font-medium text-gray-500">{role}</div>
-        <div className="relative min-h-[3rem] w-full rounded-2xl rounded-tl-sm border bg-gray-100 px-4 py-3 text-sm text-gray-800 shadow-sm">
+        <div className="ml-1 text-xs font-medium text-gray-500 dark:text-gray-200">
+          {role}
+        </div>
+        <div className="relative min-h-[3rem] w-full rounded-2xl rounded-tl-sm border bg-gray-100 px-4 py-3 text-sm text-gray-800 shadow-sm dark:bg-gray-800 dark:text-gray-200">
           <p className="whitespace-pre-wrap font-medium leading-relaxed">
             {text}
           </p>
@@ -55,7 +57,9 @@ export const UserMessage = React.forwardRef<HTMLDivElement, UserMessageProps>(
 
     return (
       <div ref={ref} className="flex animate-fadeIn flex-col items-end gap-1">
-        <div className="mr-1 text-xs font-medium text-gray-500">{role}</div>
+        <div className="mr-1 text-xs font-medium text-gray-500 dark:text-gray-200">
+          {role}
+        </div>
         <div
           className={cn(
             'relative w-max max-w-[85%] rounded-2xl rounded-tr-sm bg-primary px-4 py-3 text-sm text-white shadow-md',

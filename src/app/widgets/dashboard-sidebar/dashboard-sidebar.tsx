@@ -56,7 +56,7 @@ const DashboardSidebar = ({ links }: DashboardSidebarProps) => {
 
       {/* 사이드바 */}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 flex h-full flex-col border-r bg-card shadow-xl transition-all duration-300 ease-in-out md:relative ${isOpen ? 'w-64' : 'w-0 md:w-20'} ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'} `}
+        className={`fixed inset-y-0 left-0 z-40 flex h-full flex-col border-r bg-card shadow-xl transition-all duration-300 ease-in-out md:relative ${isOpen ? 'w-64' : 'w-0 md:w-20'} ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'} dark:bg-slate-800`}
       >
         <div className="flex h-16 items-center justify-between p-4">
           <div className="flex items-center overflow-hidden">

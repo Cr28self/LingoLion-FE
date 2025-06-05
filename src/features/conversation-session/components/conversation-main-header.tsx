@@ -76,7 +76,7 @@ const ConversationMainHeader = ({
   };
 
   return (
-    <header className="sticky top-0 z-20 flex flex-shrink-0 items-center justify-between bg-gray-50 p-3 shadow-lg">
+    <header className="sticky top-0 z-20 flex flex-shrink-0 items-center justify-between bg-gray-50 p-3 shadow-lg dark:bg-gray-800">
       <div className="flex min-w-0 items-center space-x-2">
         {/* Added min-w-0 for truncation */}
         <Button

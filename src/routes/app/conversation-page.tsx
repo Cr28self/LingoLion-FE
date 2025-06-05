@@ -40,7 +40,7 @@ const ConversationPage = () => {
       {/* Main Content Area */}
       <div className="relative flex flex-1 overflow-hidden">
         {/* Chat Area */}
-        <main className="mx-auto flex flex-1 flex-col overflow-hidden bg-transparent transition-all duration-300 ease-in-out lg:max-w-4xl">
+        <main className="mx-auto flex flex-1 flex-col overflow-hidden rounded-xl bg-transparent transition-all duration-300 ease-in-out dark:bg-gray-700/80 lg:max-w-4xl">
           {/* Let main area handle width */}
           <Suspense fallback={<SkeletonChatConv />}>
             <ConversationMessageList
