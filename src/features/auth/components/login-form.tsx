@@ -10,8 +10,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-
 import { useState } from 'react';
 import SubmitButton from './button/submit-button.tsx';
 import useLogin from '../hooks/use-login';
@@ -19,6 +17,7 @@ import { loginSchema, TLoginSchema } from '../schema/login-schema';
 import CustomGoogleLoginButton from './button/custom-google-login-button.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { Loader2 } from 'lucide-react';
+import { ThemedInput } from '@/components/ui/themed-input.tsx';
 
 // login-form.tsx 상단 또는 별도의 설정 파일
 const TEST_USER_EMAIL = 'testuser@example.com'; // 실제 테스트 계정 이메일로 변경
@@ -73,7 +72,7 @@ export default function LoginForm({ onSuccessNavigate }: LoginFormProps) {
               <FormItem>
                 <FormLabel>이메일</FormLabel>
                 <FormControl>
-                  <Input
+                  <ThemedInput
                     placeholder="abcde@example.com"
                     type="email"
                     className="h-10"
@@ -91,7 +90,7 @@ export default function LoginForm({ onSuccessNavigate }: LoginFormProps) {
               <FormItem>
                 <FormLabel>비밀번호</FormLabel>
                 <FormControl>
-                  <Input
+                  <ThemedInput
                     placeholder="Password"
                     type="password"
                     {...field}

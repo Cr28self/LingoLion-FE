@@ -6,7 +6,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
@@ -15,6 +14,7 @@ import SubmitButton from './button/submit-button.tsx';
 import { useState } from 'react';
 import { useRegister } from '../hooks/use-register';
 import { registerSchema, TRegisterSchema } from '../schema/register-schema';
+import { ThemedInput } from '@/components/ui/themed-input.tsx';
 type RegisterFormProps = {
   onSuccessNavigate: () => void;
 };
@@ -53,7 +53,7 @@ export default function RegisterForm({ onSuccessNavigate }: RegisterFormProps) {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input
+                  <ThemedInput
                     placeholder="abcde@example.com"
                     type="email"
                     className="h-10"
@@ -73,7 +73,7 @@ export default function RegisterForm({ onSuccessNavigate }: RegisterFormProps) {
               <FormItem>
                 <FormLabel>비밀번호</FormLabel>
                 <FormControl>
-                  <Input
+                  <ThemedInput
                     placeholder="Password"
                     type="password"
                     className="h-10"
@@ -94,7 +94,7 @@ export default function RegisterForm({ onSuccessNavigate }: RegisterFormProps) {
               <FormItem>
                 <FormLabel>비밀번호 확인</FormLabel>
                 <FormControl>
-                  <Input
+                  <ThemedInput
                     placeholder="비밀번호 확인"
                     type="password"
                     className="h-10"
@@ -115,8 +115,8 @@ export default function RegisterForm({ onSuccessNavigate }: RegisterFormProps) {
               <FormItem>
                 <FormLabel>이름</FormLabel>
                 <FormControl>
-                  <Input
-                    className="h-10 w-full rounded-lg border border-orange-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  <ThemedInput
+                    className="h-10"
                     placeholder="이름"
                     type="text"
                     required
