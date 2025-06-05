@@ -63,7 +63,7 @@ const AuthLayout = ({ title, children }: AuthLayoutProps) => {
 
       {/* 브랜딩 이미지 섹션 */}
       <div className="hidden flex-1 items-end justify-center p-8 md:flex">
-        <div className="relative aspect-square w-full max-w-3xl">
+        <div className="relative aspect-square w-full max-w-2xl">
           <img
             src="/lingo-lion-branding-img.png"
             alt="교육 브랜딩 이미지"
