@@ -12,6 +12,8 @@ import {
 } from './_internal/sidebar-toggle-button.tsx';
 import { SkeletonUserProfile } from '@/app/widgets/dashboard-sidebar/_internal/skeleton-user-profile.tsx';
 import { Button } from '@/components/ui/button.tsx';
+import { useThemeStore } from '@/store/theme-store.ts';
+import { MoonIcon, SunIcon } from 'lucide-react';
 
 type DashboardSidebarProps = {
   links: { to: string; icon: React.ReactNode; name: string }[];
@@ -21,6 +23,7 @@ const DashboardSidebar = ({ links }: DashboardSidebarProps) => {
   const { data: userData, isLoading, error } = useGetUsersMy();
   const { logout, isLoggingOut } = useLogout();
   const { isOpen, close, open } = useSidebarStore();
+  const { theme, toggleTheme } = useThemeStore();
 
   // 화면 크기가 md 이하일 때 사이드바 자동으로 닫기
   useEffect(() => {
@@ -98,6 +101,18 @@ const DashboardSidebar = ({ links }: DashboardSidebarProps) => {
               isOpen ? '' : 'text-center'
             }`}
           >
+            <Button
+              className="mb-4 w-full py-3 text-base font-bold"
+              variant={'ghost'}
+              onClick={toggleTheme}
+            >
+              {theme === 'light' ? (
+                <MoonIcon className="h-5 w-5" />
+              ) : (
+                <SunIcon className="h-5 w-5" />
+              )}
+              <span>{theme === 'light' ? '다크 모드' : '라이트 모드'}</span>
+            </Button>
             {isLoading ? (
               // 로딩 중이면 스켈레톤 UI 표시
               <SkeletonUserProfile /> // isOpen prop 추가 (스켈레톤도 상태따라 달라질 수 있으므로)

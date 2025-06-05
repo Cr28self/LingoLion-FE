@@ -35,6 +35,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const storedToken = sessionStorage.getItem(ACCESS_TOKEN_KEY);
 
     if (storedToken) {
+      console.log('token', storedToken);
       // sessionStorage에 토큰이 있으면 사용
       updateAccessToken(storedToken);
       // 토큰을 사용한 후 sessionStorage에서 제거
