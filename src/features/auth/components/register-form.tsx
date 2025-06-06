@@ -142,7 +142,9 @@ export default function RegisterForm({ onSuccessNavigate }: RegisterFormProps) {
 
       {/* 로그인 링크 */}
       <div className="mt-4 text-center">
-        <span className="text-gray-600">이미 계정이 있으신가요? </span>
+        <span className="text-gray-600 dark:text-gray-400">
+          이미 계정이 있으신가요?{' '}
+        </span>
         <Link
           to="/auth/login"
           className="font-semibold text-orange-500 transition-colors hover:text-orange-400"

@@ -152,7 +152,9 @@ export default function LoginForm({ onSuccessNavigate }: LoginFormProps) {
 
         {/* 회원가입 링크 */}
         <div className="mt-4 text-center">
-          <span className="text-gray-600">계정이 없으신가요? </span>
+          <span className="text-gray-600 dark:text-gray-400">
+            계정이 없으신가요?{' '}
+          </span>
           <Link
             to="/auth/register"
             className="font-semibold text-orange-500 transition-colors hover:text-orange-400"
