@@ -87,23 +87,23 @@ export default function RecommendationModal() {
                 >
                   <p className="mb-2">
                     <span className="font-semibold text-orange-600">장소:</span>{' '}
-                    {rec.place}
+                    <span className="text-gray-700">{rec.place}</span>
                   </p>
                   <p className="mb-2">
                     <span className="font-semibold text-orange-600">
                       AI 역할:
                     </span>{' '}
-                    {rec.aiRole}
+                    <span className="text-gray-700">{rec.aiRole}</span>
                   </p>
                   <p className="mb-2">
                     <span className="font-semibold text-orange-600">
                       사용자 역할:
                     </span>{' '}
-                    {rec.userRole}
+                    <span className="text-gray-700">{rec.userRole}</span>
                   </p>
                   <p>
                     <span className="font-semibold text-orange-600">목표:</span>{' '}
-                    {rec.goal}
+                    <span className="text-gray-700">{rec.goal}</span>
                   </p>
                 </div>
               );

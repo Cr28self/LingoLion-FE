@@ -82,6 +82,10 @@ export default function useRecommendationActions() {
             queryKey: ['getSituationsInfinite'],
           });
 
+          useCreateSituationRouteStore
+            .getState()
+            .setIsRedirectToCreateSituation(true);
+
           navigate(
             useCreateSituationRouteStore.getState().completeRedirectLink!
           );

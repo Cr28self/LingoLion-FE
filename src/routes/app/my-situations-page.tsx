@@ -5,6 +5,10 @@ import { useGetInfiniteSituations } from '@/features/situation-list/api/get-situ
 import useInfiniteScroll from '@/hooks/use-infinite-scroll.ts';
 import { TSituation } from '@/entities/situation/types.ts';
 import { SkeletonCardSituations } from '@/features/situation-list/components/skeleton-card-situations.tsx';
+import { CreateConversationDialog } from '@/features/situation-list/components/modal/create-conversation-dialog';
+import { useSituationActions } from '@/features/situation-list/hooks/use-situation-actions';
+import useCreateSituationRouteStore from '@/features/situation-create/store/use-create-situation-route-store';
+import { useEffect, useMemo } from 'react';
 
 type SituationWithMeta = TSituation & { id: number; createdAt: Date };
 
@@ -14,8 +18,32 @@ const MySituationsPage = () => {
     useGetInfiniteSituations('my'); // Call data fetching hook directly
 
   // Derive situations array from fetched data
-  const situations =
-    data?.pages.flatMap((page) => page.data as SituationWithMeta[]) || [];
+  const situations = useMemo(() => {
+    return (
+      data?.pages.flatMap((page) => page.data as SituationWithMeta[]) || []
+    );
+  }, [data]);
+
+  const {
+    // ... (delete/edit states and functions)
+    openDeleteDialog,
+    openEditSheet,
+    // ✨ Create Conversation states and functions from hook
+    isCreateDialogOpen,
+    isCreatePending,
+    openCreateDialog,
+    closeCreateDialog,
+    handleConfirmCreateConversation,
+    currentSituationToCreateFrom,
+    createTitle,
+    setCreateTitle,
+    createIcon,
+    setCreateIcon,
+    createDifficulty,
+    setCreateDifficulty,
+    createRequest,
+    setCreateRequest,
+  } = useSituationActions({ mode: 'my' });
 
   // --- Infinite Scroll Hook ---
   // Props now come directly from useGetInfiniteSituations result
@@ -24,6 +52,28 @@ const MySituationsPage = () => {
     hasNextPage,
     isFetchingNextPage,
   });
+
+  // ✨ useEffect를 사용하여 렌더링과 부수 효과를 분리합니다.
+  useEffect(() => {
+    // Zustand 스토어에서 리다이렉트 여부를 가져옵니다.
+    const isRedirect =
+      useCreateSituationRouteStore.getState().isRedirectToCreateSituation;
+
+    if (!isRedirect) return; // 리다이렉트가 필요하지 않으면 아무것도 하지 않습니다.
+
+    // 1. 리다이렉트 플래그가 true이고,
+    // 2. situations 데이터가 최소 1개 이상 로드되었는지 확인합니다.
+    if (isRedirect && situations.length > 0) {
+      // 모달을 엽니다.
+      openCreateDialog(situations[0]);
+
+      // 🔥 중요: 모달을 연 후에는 플래그를 다시 false로 바꿔서
+      // 다른 이유로 컴포넌트가 재렌더링 되어도 모달이 다시 열리는 것을 방지합니다.
+      useCreateSituationRouteStore.setState({
+        isRedirectToCreateSituation: false,
+      });
+    }
+  }, [situations, openCreateDialog]); // situations 데이터가 변경될 때마다 이 effect를 재실행하여 조건을 확인합니다.
 
   return (
     <div className="mx-auto max-w-7xl p-6 md:p-10">
@@ -67,9 +117,9 @@ const MySituationsPage = () => {
                 <SituationCard
                   key={situation.id} // Key on the card itself
                   situation={situation}
-                  onEdit={() => {}}
-                  onDelete={() => {}}
-                  onCreateConversation={() => {}} // ✨ Pass the open function from hook
+                  onEdit={openEditSheet}
+                  onDelete={openDeleteDialog}
+                  onCreateConversation={openCreateDialog} // ✨ Pass the open function from hook
                   ref={isLastItem ? targetRef : null}
                   isDeleting={false}
                   isEditing={false}
@@ -94,6 +144,23 @@ const MySituationsPage = () => {
           </div>
         </div>
       )}
+
+      <CreateConversationDialog
+        isOpen={isCreateDialogOpen}
+        onOpenChange={(open) => !open && closeCreateDialog()} // Close handler
+        onSubmit={handleConfirmCreateConversation} // Submit handler
+        isPending={isCreatePending} // Loading state
+        situation={currentSituationToCreateFrom} // Pass the selected situation
+        // Pass form state and setters
+        title={createTitle}
+        setTitle={setCreateTitle}
+        icon={createIcon}
+        setIcon={setCreateIcon}
+        difficulty={createDifficulty}
+        setDifficulty={setCreateDifficulty}
+        request={createRequest}
+        setRequest={setCreateRequest}
+      />
     </div>
   );
 };

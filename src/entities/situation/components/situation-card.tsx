@@ -49,10 +49,10 @@ export const SituationCard = React.forwardRef<
     // ✨ Handle card click to trigger conversation-session creation
     const handleCreateConversation = () => {
       // Prevent triggering if edit/delete is pending? (Optional)
-      console.log('hi');
+
       if (isEditing || isDeleting) return;
       console.log('Creating conversation for situation:', situation);
-      console.log('onCreateConversation prop function:', onCreateConversation);
+
       onCreateConversation(situation);
     };
 

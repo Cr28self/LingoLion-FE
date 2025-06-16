@@ -4,6 +4,7 @@ import { devtools } from 'zustand/middleware';
 type CreateSituationRouteState = {
   metaData: string | undefined;
   completeRedirectLink: string | null;
+  isRedirectToCreateSituation: boolean;
 
   setCreateSituationRouteData: ({
     metaData,
@@ -12,11 +13,14 @@ type CreateSituationRouteState = {
     metaData: string | undefined;
     completeRedirectLink: string | null;
   }) => void;
+
+  setIsRedirectToCreateSituation: (value: boolean) => void;
 };
 
 const initialState = {
   metaData: undefined,
   completeRedirectLink: null,
+  isRedirectToCreateSituation: false,
 };
 
 const useCreateSituationRouteStore = create<CreateSituationRouteState>()(
@@ -26,6 +30,10 @@ const useCreateSituationRouteStore = create<CreateSituationRouteState>()(
 
       setCreateSituationRouteData: ({ metaData, completeRedirectLink }) => {
         set({ metaData, completeRedirectLink });
+      },
+
+      setIsRedirectToCreateSituation: (value) => {
+        set({ isRedirectToCreateSituation: value });
       },
     }),
     { name: 'Create-Situation-Route' }

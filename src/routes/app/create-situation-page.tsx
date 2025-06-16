@@ -1,6 +1,6 @@
 import CreateSituationLayout from '@/app/layouts/create-situation-layout.tsx';
 import RecommendationModal from '@/features/situation-create/components/recommendation-modal.tsx';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CreateSituationForm from '@/features/situation-create/components/create-situation-form.tsx';
 import { useState } from 'react';
 import useCreateSituationRouteStore from '@/features/situation-create/store/use-create-situation-route-store.ts';
@@ -25,8 +25,6 @@ export default function CreateSituationPage() {
   const [currentStep, setCurrentStep] = useState(1); // 1: 주제 입력, 2: 세부 설정
 
   const [topicInput, setTopicInput] = useState('');
-  const location = useLocation();
-  const { metaData } = location.state || {}; // state에서 데이터 가져오기
 
   const setCreateSituationRouteData = useCreateSituationRouteStore(
     (state) => state.setCreateSituationRouteData
@@ -54,7 +52,7 @@ export default function CreateSituationPage() {
     }
 
     setCreateSituationRouteData({
-      metaData,
+      metaData: topicInput,
       completeRedirectLink: '/app/my-situations',
     });
     setCurrentStep(2);
