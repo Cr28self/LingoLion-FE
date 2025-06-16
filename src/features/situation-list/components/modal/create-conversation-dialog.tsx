@@ -69,32 +69,24 @@ export const CreateConversationDialog = ({
           </DialogDescription>
         </DialogHeader>
 
-        {/* Situation Summary */}
-        <details className="mb-4 rounded-lg bg-orange-50 p-3">
-          <summary className="cursor-pointer text-sm font-medium">
-            선택된 상황 정보 보기 ({situation.place})
-          </summary>
-          <div className="mt-2 space-y-1 pl-2 text-xs">
-            <div>
-              <span className="font-semibold text-gray-700">장소:</span>
-              <span className="ml-2 text-gray-800">{situation.place}</span>
-            </div>
-            <div>
-              <span className="font-semibold text-gray-700">사용자 역할:</span>
-              <span className="ml-2 text-gray-800">{situation.userRole}</span>
-            </div>
-            <div>
-              <span className="font-semibold text-gray-700">AI 역할:</span>
-              <span className="ml-2 text-gray-800">{situation.aiRole}</span>
-            </div>
-            <div>
-              <span className="font-semibold text-gray-700">목표:</span>
-              <span className="ml-2 text-gray-800">
-                {situation.goal || '-'}
-              </span>
-            </div>
+        <div className="mt-2 space-y-1 rounded-lg bg-orange-50 p-3 text-xs">
+          <div>
+            <span className="font-semibold text-gray-700">장소:</span>
+            <span className="ml-2 text-gray-800">{situation.place}</span>
           </div>
-        </details>
+          <div>
+            <span className="font-semibold text-gray-700">사용자 역할:</span>
+            <span className="ml-2 text-gray-800">{situation.userRole}</span>
+          </div>
+          <div>
+            <span className="font-semibold text-gray-700">AI 역할:</span>
+            <span className="ml-2 text-gray-800">{situation.aiRole}</span>
+          </div>
+          <div>
+            <span className="font-semibold text-gray-700">목표:</span>
+            <span className="ml-2 text-gray-800">{situation.goal || '-'}</span>
+          </div>
+        </div>
 
         {/* Form Fields */}
         <div className="grid gap-4 py-4">

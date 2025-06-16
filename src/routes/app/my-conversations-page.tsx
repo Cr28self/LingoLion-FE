@@ -23,7 +23,7 @@ const MyConversationsPage = () => {
       <div className="mb-8 md:flex md:items-center md:justify-between">
         <div>
           <h1 className="mb-2 flex items-center text-3xl font-bold md:text-4xl">
-            <History className={'mr-3 h-8 w-8 text-primary'} /> 나의 대화 목록
+            <History className={'mr-3 h-8 w-8 text-primary'} /> 나의 대화 기록
           </h1>
           <p className="text-lg text-muted-foreground md:text-xl">
             모든 대화 기록을 확인하고 관리하세요

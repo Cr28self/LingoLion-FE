@@ -12,7 +12,7 @@ const SidebarLogoutButton = ({ onLogout, isLoggingOut }: LogoutButtonProps) => {
     <Button
       className={`${
         isOpen ? 'mt-4 w-full' : 'mx-auto mt-3 h-10 w-10 p-0'
-      } rounded-lg bg-primary/80 px-3 py-2 text-sm font-medium shadow-sm backdrop-blur-sm transition-colors duration-200 hover:bg-muted-foreground hover:shadow`}
+      } rounded-lg bg-primary/80 px-3 py-2 text-sm font-medium text-white shadow-sm backdrop-blur-sm transition-colors duration-200 hover:bg-muted-foreground hover:shadow`}
       onClick={onLogout}
       disabled={isLoggingOut}
       title={isOpen ? '' : '로그아웃'}

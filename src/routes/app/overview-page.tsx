@@ -97,7 +97,7 @@ const OverviewPage = () => {
           </Link>
           {/* 3. 내 상황 목록 보기 카드 */}
           <Link
-            to="/app/my-conversations" // '/app/scenarios' 경로로 연결
+            to="/app/my-situations" // '/app/scenarios' 경로로 연결
             className="group relative block transform overflow-hidden rounded-xl border border-l-8 border-yellow-400 bg-card p-6 shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:border-primary/50 hover:shadow-2xl md:p-8"
           >
             <FolderKanban

@@ -31,7 +31,7 @@ const DashboardLayout = () => {
           {
             to: '/app/my-conversations',
             icon: <History />,
-            name: '내 대화 목록',
+            name: '내 대화 기록',
           },
           {
             to: '/app/setting',

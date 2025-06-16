@@ -14,6 +14,7 @@ import { SkeletonUserProfile } from '@/app/widgets/dashboard-sidebar/_internal/s
 import { Button } from '@/components/ui/button.tsx';
 import { useThemeStore } from '@/store/theme-store.ts';
 import { MoonIcon, SunIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 type DashboardSidebarProps = {
   links: { to: string; icon: React.ReactNode; name: string }[];
@@ -58,7 +59,10 @@ const DashboardSidebar = ({ links }: DashboardSidebarProps) => {
       <aside
         className={`fixed inset-y-0 left-0 z-40 flex h-full flex-col border-r bg-card shadow-xl transition-all duration-300 ease-in-out md:relative ${isOpen ? 'w-64' : 'w-0 md:w-20'} ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'} dark:bg-slate-800`}
       >
-        <div className="flex h-16 items-center justify-between p-4">
+        <Link
+          to="/app/overview"
+          className="flex h-16 items-center justify-between p-4"
+        >
           <div className="flex items-center overflow-hidden">
             <div className="mr-2 flex-shrink-0">
               <img
@@ -73,7 +77,7 @@ const DashboardSidebar = ({ links }: DashboardSidebarProps) => {
               </h2>
             )}
           </div>
-        </div>
+        </Link>
 
         {/* 데스크톱에서 사이드바 토글 버튼 */}
 
@@ -82,9 +86,9 @@ const DashboardSidebar = ({ links }: DashboardSidebarProps) => {
         <div
           className={`flex flex-1 flex-col overflow-y-auto py-4 ${isOpen ? 'px-4' : 'px-0'}`}
         >
-          <Button className="mb-4 w-full bg-gradient-to-r from-orange-500 to-destructive py-6 text-lg font-bold text-white hover:from-orange-600 hover:to-red-700">
+          {/* <Button className="mb-4 w-full bg-gradient-to-r from-orange-500 to-destructive py-6 text-lg font-bold text-white hover:from-orange-600 hover:to-red-700">
             대화 시작
-          </Button>
+          </Button> */}
           <nav className="flex-1 space-y-1">
             {links.map((link) => {
               const { icon, name, to } = link;

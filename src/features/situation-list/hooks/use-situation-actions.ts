@@ -175,11 +175,15 @@ export const useSituationActions = ({ mode }: UseSituationActionsProps) => {
         },
       },
       {
-        onSuccess: () => {
+        onSuccess: (data) => {
+          // id 25
+          console.log('Conversation created:', data);
           toast.success('대화방 생성 완료!');
           queryClient.invalidateQueries({ queryKey: queryKeyConversations }); // Invalidate conversation-session list
           closeCreateDialog();
-          navigate('/app/dashboard/conversations'); // Navigate to conversations page
+          navigate('/app/conversation-session/' + data.id); // Navigate to conversations page
+
+          // /app/conversation-session/25
         },
         onError: (error) => {
           console.error('Conversation creation error:', error);

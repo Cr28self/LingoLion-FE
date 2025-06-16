@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { AxiosInstance } from 'axios';
 
 const getFeedback = async (apiClient: AxiosInstance) => {
-  const response = await apiClient.get('/feedback/my');
+  const response = await apiClient.get('/feedback/conversation/18');
 
   return response.data;
 };

@@ -6,6 +6,8 @@ import { useGetInfiniteSituations } from '@/features/situation-list/api/get-situ
 import { TSituation } from '@/entities/situation/types.ts';
 
 import { SkeletonCardSituations } from '@/features/situation-list/components/skeleton-card-situations.tsx';
+import { useSituationActions } from '@/features/situation-list/hooks/use-situation-actions';
+import { CreateConversationDialog } from '@/features/situation-list/components/modal/create-conversation-dialog';
 
 type SituationWithMeta = TSituation & { id: number; createdAt: Date };
 
@@ -13,6 +15,32 @@ const ExploreSituationsPage = () => {
   // --- Data Fetching (Moved from useSituationGrid) ---
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading } =
     useGetInfiniteSituations('all'); // Call data fetching hook directly
+
+  // --- Action Handling Hook (Now includes getIconForSituation) ---
+  const {
+    // ... (delete/edit states and functions)
+
+    isDeletePending,
+    openDeleteDialog,
+    isUpdatePending,
+    openEditSheet,
+    currentEditingSituation,
+    // ✨ Create Conversation states and functions from hook
+    isCreateDialogOpen,
+    isCreatePending,
+    openCreateDialog,
+    closeCreateDialog,
+    handleConfirmCreateConversation,
+    currentSituationToCreateFrom,
+    createTitle,
+    setCreateTitle,
+    createIcon,
+    setCreateIcon,
+    createDifficulty,
+    setCreateDifficulty,
+    createRequest,
+    setCreateRequest,
+  } = useSituationActions({ mode: 'all' });
 
   // Derive situations array from fetched data
   const situations =
@@ -65,12 +93,15 @@ const ExploreSituationsPage = () => {
                 <SituationCard
                   key={situation.id} // Key on the card itself
                   situation={situation}
-                  onEdit={() => {}}
-                  onDelete={() => {}}
-                  onCreateConversation={() => {}} // ✨ Pass the open function from hook
+                  onEdit={openEditSheet}
+                  onDelete={openDeleteDialog}
+                  onCreateConversation={openCreateDialog} // ✨ Pass the open function from hook
                   ref={isLastItem ? targetRef : null}
-                  isDeleting={false}
-                  isEditing={false}
+                  isDeleting={isDeletePending}
+                  isEditing={
+                    isUpdatePending &&
+                    currentEditingSituation?.id === situation.id
+                  }
                   mode={'all'}
                 />
               );
@@ -92,6 +123,23 @@ const ExploreSituationsPage = () => {
           </div>
         </div>
       )}
+
+      <CreateConversationDialog
+        isOpen={isCreateDialogOpen}
+        onOpenChange={(open) => !open && closeCreateDialog()} // Close handler
+        onSubmit={handleConfirmCreateConversation} // Submit handler
+        isPending={isCreatePending} // Loading state
+        situation={currentSituationToCreateFrom} // Pass the selected situation
+        // Pass form state and setters
+        title={createTitle}
+        setTitle={setCreateTitle}
+        icon={createIcon}
+        setIcon={setCreateIcon}
+        difficulty={createDifficulty}
+        setDifficulty={setCreateDifficulty}
+        request={createRequest}
+        setRequest={setCreateRequest}
+      />
     </div>
   );
 };

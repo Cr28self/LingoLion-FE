@@ -60,6 +60,7 @@ export const ConversationMessageList = ({
   const flatMessages = useMemo(() => {
     return data?.pages.flatMap((page) => page.data) || [];
   }, [data]);
+  console.log('flatMessages', flatMessages);
 
   const { rootRef, targetRef } = useInfiniteScroll({
     fetchNextPage,

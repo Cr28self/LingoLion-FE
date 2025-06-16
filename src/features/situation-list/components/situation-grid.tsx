@@ -104,14 +104,12 @@ const SituationGridContents = ({ mode }: SituationGridContentsProps) => {
             />
           );
         })}
-
         {/* Loading Indicator */}
         {isFetchingNextPage && (
           <div className="col-span-1 flex items-center justify-center p-4 md:col-span-2 lg:col-span-3">
             <span>Loading more...</span>
           </div>
         )}
-
         {/* No Data Indicator */}
         {!isFetchingNextPage && situations.length === 0 && (
           <div className="col-span-1 flex items-center justify-center p-10 text-gray-500 md:col-span-2 lg:col-span-3">
@@ -119,7 +117,6 @@ const SituationGridContents = ({ mode }: SituationGridContentsProps) => {
           </div>
         )}
       </div>
-
       {/* Generic Delete Confirmation Dialog */}
       <ConfirmActionDialog
         isOpen={isDeleteDialogOpen}
@@ -131,7 +128,6 @@ const SituationGridContents = ({ mode }: SituationGridContentsProps) => {
         onConfirm={handleConfirmDelete}
         isPending={isDeletePending}
       />
-
       {/* Generic Edit Resource Sheet */}
       <ResourceFormSheet
         isOpen={isEditSheetOpen}
@@ -195,7 +191,6 @@ const SituationGridContents = ({ mode }: SituationGridContentsProps) => {
           </div>
         </div>
       </ResourceFormSheet>
-
       <CreateConversationDialog
         isOpen={isCreateDialogOpen}
         onOpenChange={(open) => !open && closeCreateDialog()} // Close handler
